@@ -92,7 +92,7 @@ songs = {
     'Unbelievable': {'artist': 'Diamond Rio', 'bpm': 78, 'tags': ['country'], 'spotify': 'https://open.spotify.com/track/2zNuaa0jBttcqSeURO6Odt?si=FHesNgKcQVyjKCahVQdyXA', 'URI': 'spotify:track:2zNuaa0jBttcqSeURO6Odt'},
     'Greased Lightning': {'artist': 'John Travolta', 'bpm': 80, 'tags': ['høy energi'], 'spotify': 'https://open.spotify.com/track/4S9RHp3Ge0xepqcixPQ6Fc?si=TpFbo8dTQHGMCUB-lei-QA', 'URI': 'spotify:track:4S9RHp3Ge0xepqcixPQ6Fc'},
     'Bienvenue dans ma vie': {'artist': 'Nikki Yanofsky', 'bpm': 72, 'tags': ['koselig'], 'spotify': 'https://open.spotify.com/track/0K4sxJf1SSnoGPmEWjGDnA?si=Q3sghi9ESJ2bNB2sgqlbdg', 'URI': 'spotify:track:0K4sxJf1SSnoGPmEWjGDnA'},
-    'Solitude City': {'artist': 'Les Forbans', 'bpm': xxx, 'tags': ['name'], 'spotify': 'xxx', 'URI': 'xxx'},
+    'Solitude City': {'artist': 'Les Forbans', 'bpm': 60, 'tags': [], 'spotify': 'https://open.spotify.com/track/4pNetJzdTdjSN5hXUmhpZ3?si=naJM8zGESLSiDvr0gtQwRg', 'URI': 'spotify:track:4pNetJzdTdjSN5hXUmhpZ3'},
     #'Title': {'artist': 'xxx', 'bpm': xxx, 'tags': ['name'], 'spotify': 'xxx', 'URI': 'xxx'},
 
 }
