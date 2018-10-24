@@ -1,0 +1,94 @@
+{% extends 'songs/base.html' %}
+{% block title %}BPM Calc{% endblock %}
+
+{% block head %}
+    <style media="screen">
+
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'songs:bpm_calc' %}">BPM Calc</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1>BPM Calculator</h1>
+    <div class="container">
+        <form>
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label" for="avg">Average BPM</label>
+                <div class="col-sm-4">
+                    <input id="avg" class="form-control" readonly type="text" name="T_AVG">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label" for="whole">Nearest whole</label>
+                <div class="col-sm-4">
+                    <input id="whole" class="form-control" readonly type="text" name="T_WHOLE">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label" for="tap">Timing laps</label>
+                <div class="col-sm-4">
+                    <input id="tap" class="form-control" readonly type="text" name="T_TAP">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label" for="timeout">Timeout</label>
+                <div class="col-sm-4">
+                    <select id="timeout" class="form-control">
+                        <option>1</option>
+                        <option selected>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <small>Tap any button on keyboard to start</small>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+
+        var count = 0;
+        var msecsFirst = 0;
+        var msecsPrevious = 0;
+
+        function TapForBPM(e) {
+            timeSeconds = new Date;
+            msecs = timeSeconds.getTime();
+            console.log($('#timeout').val());
+            if ((msecs - msecsPrevious) > 1000 * $('#timeout').val()) {
+                count = 0;
+            }
+
+            if (count == 0) {
+                $('#avg').val("First Beat")
+                $('#whole').val("First Beat")
+                $('#tap').val("First Beat")
+                msecsFirst = msecs;
+                count = 1;
+            }
+            else {
+                bpmAvg = 60000 * count / (msecs - msecsFirst);
+                $('#avg').val(Math.round(bpmAvg * 100) / 100)
+                $('#whole').val(Math.round(bpmAvg))
+                count++;
+                $('#tap').val(count)
+
+            }
+            msecsPrevious = msecs;
+            return true;
+        }
+
+        document.onkeypress = TapForBPM;
+
+        $('document').ready(function() {
+
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'songs/base.html' %}
+{% block title %}Tag{% endblock %}
+{% block head %}
+    <style>
+        .btn {
+            margin-left: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'songs:add_tag' %}">Add tag</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1>Tag</h1>
+
+    <form class="form-inline" method="post">
+        {% csrf_token %}
+
+        {{ form.name }}
+        {{ form.name.errors }}
+        <button class="btn btn-dark" type="submit">Save</button>
+        <button class="btn btn-danger" type="submit">Delete</button>
+
+
+
+    </form>
+{% endblock %}

@@ -1,0 +1,39 @@
+
+html {
+    height: 100vh !important; /* Document renders as 100% */
+}
+
+body {
+    position: relative !important; /* Needed for natural element flow */
+    min-height: 100vh !important; /* Document renders as 100% */
+    padding-top: 4em !important; /* Because of navbar (fixed) */
+    padding-bottom: 15em !important; /* Because of footer (absolute) */
+    color: white;
+    background-color: #0d0d0d;
+}
+
+a:hover {
+    color: lightblue;
+    text-decoration: none;
+}
+
+#navbar {
+
+}
+
+#breadcrumbs {
+    background-color: transparent;
+}
+
+#content-wrapper {
+
+}
+
+#footer {
+    position: absolute !important; /* Taken out of DOM */
+    bottom: 0 !important; /* Absolute position at bottom of page */
+    background-color: #0d0d0d;
+    width: 100%;
+    border-top: 1px solid white;
+    left: 0;
+}

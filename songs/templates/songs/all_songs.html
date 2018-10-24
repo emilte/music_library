@@ -1,0 +1,167 @@
+{% extends 'songs/base.html' %}
+{% block title %}Add song{% endblock %}
+{% block head %}
+    <style media="screen">
+        #search-label {
+            visibility: hidden;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'songs:all_songs' %}">All songs</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1>All songs:</h1>
+
+    <form id="filters" action="{% url 'songs:all_songs' %}" method="post">
+        {% csrf_token %}
+        <div class="row form-group">
+            <!-- Search (input) -->
+            <div class="col-md-5">
+                <label id="search-label" for="search">No label</label>
+                <div class="input-group">
+                    {{ form.search }}
+                    <button id="btn-search" class="btn btn-dark" type="button" name="button">Search</button>
+                </div>
+            </div> <!-- End: Search (input) -->
+
+            <!-- xxx -->
+            <!-- Tag (select) -->
+            <div class="col-md-3">
+                <label for="select-tag">Tag</label>
+                {{ form.tag }}
+            </div> <!-- End: Tag (select) -->
+
+            <!-- BPM interval -->
+            <div class="col-md-4">
+                <label for="bpm-interval">BPM interval</label>
+                <div class="input-group">
+                    <!-- BPM min -->
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ form.check_min }}
+                        </div>
+                    </div>
+                    {{ form.min_bpm }}
+                    <!-- End: BPM min -->
+
+                    <!-- BPM max -->
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            {{ form.check_max }}
+                        </div>
+                    </div>
+                    {{ form.max_bpm }}
+                    <!-- End: BPM max -->
+                </div>
+            </div> <!-- End: BPM interval -->
+        </div>
+    </form>
+
+    {% comment %}
+    <form id="filters" action="{% url 'songs:all_songs' %}" method="post">
+        {% csrf_token %}
+        <div class="row form-group">
+            <!-- Search (input) -->
+            <div class="col-md-5">
+                <label id="search-label" for="search">No label</label>
+                <div class="input-group">
+                    <input id="search" class="filter-option form-control" type="text" name="search" placeholder="Search...">
+                    <button id="btn-search" class="btn btn-dark" type="button" name="button">Search</button>
+                </div>
+            </div> <!-- End: Search (input) -->
+
+            <!-- xxx -->
+            <!-- Tag (select) -->
+            <div class="col-md-3">
+                <label for="select-tag">Tag</label>
+                <select id="select-tag" class="form-control filter-option" name="select-tag">
+                    <option value="-1" selected>-----</option>
+                    {% for tag in tags %}
+                        <option value="{{ tag.id }}">{{ tag }}</option>
+                    {% endfor %}
+                </select>
+            </div> <!-- End: Tag (select) -->
+
+            <!-- BPM interval -->
+            <div class="col-md-4">
+                <label for="bpm-interval">BPM</label>
+                <div class="input-group">
+                    <!-- BPM min -->
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input id="check-bpm-min" class="filter-option check-bpm" type="checkbox">
+                        </div>
+                    </div>
+                    <input id="bpm-min" class="form-control filter-option" type="number" placeholder="From">
+                    <!-- End: BPM min -->
+
+                    <!-- BPM max -->
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input id="check-bpm-max" class="filter-option" type="checkbox">
+                        </div>
+                    </div>
+                    <input id="bpm-max" class="form-control filter-option" type="number" placeholder="To">
+                    <!-- End: BPM max -->
+                </div>
+            </div> <!-- End: BPM interval -->
+        </div>
+    </form>
+    {% endcomment %}
+
+    <ol id="all-songs">
+        {% for song in songs %}
+            <li><a href="{% url 'songs:edit_song' song.id %}">{{ song }}</a></li>
+        {% endfor %}
+    </ol>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            function filterRequest() {
+                var search = $('#search').val();
+                var tag = $('#select-tag').val();
+                var min = ($('#check-bpm-min').prop('checked')) ? $('#bpm-min').val() : "";
+                var max = ($('#check-bpm-max').prop('checked')) ? $('#bpm-max').val() : "";
+                var data = {'search': search, 'tag': tag, 'min': min, 'max': max};
+                console.log(data);
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'songs:filter_songs' %}",
+                    data: data,
+                    // success (fired if HTTP response was 200 OK)
+                    success: function(data) {
+                        console.log(data);
+                        // data.forEach(function(e) {
+                        //
+                        //     //$('all-songs').add('li').add('a').html('test')
+                        // })
+                    }, // End: Success
+                }); // End: Ajax
+            }
+
+            $('#btn-search').click(function() {
+                $('form').submit();
+                //filterRequest();
+            })
+
+            $('.search-option').change(function() {
+                $('form').submit();
+                //filterRequest();
+            });
+
+            $('#bpm-min').change(function() {
+                $('#chdeck-min').prop('checked', true)
+            })
+            $('#bpm-max').change(function() {
+                $('#chdeck-max').prop('checked', true)
+            })
+        });
+    </script>
+{% endblock %}
