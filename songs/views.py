@@ -36,12 +36,11 @@ def edit_song(request, songID):
     return render(request, 'songs/song_form.html', {'form': form})
 
 def all_songs(request):
-    form = SearchForm()
+    form = SearchForm(initial={'check_min': True, 'check_max': True})
     songs = Song.objects.all()
     if request.method == "POST":
         form = SearchForm(data=request.POST)
         if form.is_valid():
-            print(request.POST)
             search = form.cleaned_data['search']
             tag = form.cleaned_data['tag']
             check_min = form.cleaned_data['check_min']
