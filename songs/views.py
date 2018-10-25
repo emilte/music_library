@@ -46,14 +46,13 @@ def add_song(request):
 
 def edit_song(request, songID):
     song = Song.objects.get(id=songID)
+    form = SongForm(instance=song)
     if request.method == 'POST':
         form = SongForm(request.POST, instance=song)
         if form.is_valid():
             form.save()
             return redirect('home')
     # GET or form failed
-    else:
-        form = SongForm(instance=song)
     return render(request, 'songs/song_form.html', {'form': form})
 
 def all_songs(request):
@@ -87,7 +86,7 @@ def edit_tag(request, tagID):
         if form.is_valid():
             form.save()
             return redirect('home')
-    # GET or form failed    
+    # GET or form failed
     return render(request, 'songs/tag_form.html', {'form': form})
 
 def bpm_calc(request):

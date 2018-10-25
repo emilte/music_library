@@ -33,6 +33,7 @@ class SongForm(forms.ModelForm):
         fields = [
             'title',
             'artist',
+            'bpm',
             'tags',
             'spotify',
             'URI',

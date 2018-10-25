@@ -17,8 +17,8 @@ class Song(models.Model):
     artist = models.CharField(max_length=150, null=False, blank=False)
     title = models.CharField(max_length=150, null=False, blank=False)
     bpm = models.SmallIntegerField(blank=True, null=True)
-    spotify = models.CharField(max_length=200, null=False, blank=False)
-    URI = models.URLField(null=True, blank=True)
+    spotify = models.URLField(null=False, blank=False)
+    URI = models.CharField(max_length=300, null=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
