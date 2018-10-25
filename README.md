@@ -7,5 +7,5 @@ Steps:
 3. Run: pip install pipenv
 4. Run: pipenv install
 5. Run: py manage.py populate_db
-6: Run: py manage.py runserver
+6. Run: py manage.py runserver
 7. Open browser at http://localhost:8000/
