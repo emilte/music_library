@@ -1,0 +1,37 @@
+{% extends 'songs/base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block head %}
+    <style>
+
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'accounts:signup' %}">Sign up</a></li>
+{% endblock %}
+
+{% block body %}
+    <h2>Create account</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <p>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="text-secondary">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Sign up</button>
+    </form>
+    <br>
+
+    <span>Already have an account?</span>
+    <a class="btn btn-sm btn-outline-primary" href="{% url 'accounts:login' %}">Login</a>
+
+{% endblock %}

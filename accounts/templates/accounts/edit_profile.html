@@ -1,0 +1,86 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+{% block title %}{{ user.get_full_name }}{% endblock title %}
+
+{% block head %}
+    <style media="screen">
+        .modal {
+            color: black;
+        }
+    </style>
+{% endblock head %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'accounts:profile' %}">Profile</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:edit_profile' %}">Edit</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1>Edit profile:</h1>
+    <!-- Edit user (form) -->
+    <form method="POST"> <!-- Bootstrap -->
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group"> <!-- Bootstrap -->
+            {{ field.label_tag }}
+            {{ field }}
+            {% for error in field.errors %}
+                <div class="error">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button id="btn_submit" type="submit" class="btn btn-primary btn-block">Save</button>
+    </form> <!-- End: Edit user (form) -->
+    <br>
+    <!-- Delete account (button) -->
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAccount">
+        Delete account
+    </button>
+
+    <!-- Delete user (modal) -->
+    <div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure you want to delete your account?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        This action will delete your account and
+                        everything else you have saved on this website.
+                        (Yes, the application too)
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <!-- Delete user confirmed (button) -->
+                    <form action="{% url 'accounts:delete_user' %}" method="get">
+                        <button class="btn btn-danger" type="submit" name="button">Delete account</button>
+                    </form>
+                    <!-- Cancel (button) -->
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End: Delete user (modal) -->
+
+    <br><br><br> <!-- Quickfix footer -->
+{% endblock %}
+
+{% block scriptblock %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Vars:
+
+            // -----------------------------------------------------------------
+            // Functions:
+
+            // -----------------------------------------------------------------
+            // Event listeners:
+
+            // -----------------------------------------------------------------
+        })
+    </script>
+{% endblock %}
