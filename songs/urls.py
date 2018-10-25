@@ -12,5 +12,4 @@ urlpatterns = [
     path('edit/<int:tagID>', views.edit_tag, name="edit_tag"),
     path('all/', views.all_songs, name="all_songs"),
     path('bpm_calc/', views.bpm_calc, name="bpm_calc"),
-    path('filter_songs/', views.filter_songs, name="filter_songs"),
 ]

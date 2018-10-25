@@ -31,17 +31,16 @@ class SongForm(forms.ModelForm):
     class Meta:
         model = Song
         fields = [
-            'artist',
             'title',
-            'bpm',
-            'spotify',
+            'artist',
             'tags',
-        ]
+            'spotify',
+            'URI',
+            ]
 
     class Media:
         css = {
-            'all': ['admin/css/widgets.css',
-                   'css/uid-manage-form.css'],
+            'all': ['admin/css/widgets.css'], # 'css/uid-manage-form.css'
         }
         # Adding this javascript is crucial
         js = ['/admin/jsi18n/']

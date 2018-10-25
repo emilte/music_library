@@ -4,6 +4,8 @@ html {
 }
 
 body {
+    background-image: url('background.png');
+    background-size: cover auto;
     position: relative !important; /* Needed for natural element flow */
     min-height: 100vh !important; /* Document renders as 100% */
     padding-top: 4em !important; /* Because of navbar (fixed) */
@@ -17,8 +19,16 @@ a:hover {
     text-decoration: none;
 }
 
-#navbar {
+.error {
+    color: red;
+}
 
+#navbar {
+    padding-right: 5em;
+}
+
+#navbar-user {
+    padding-left: 1em;
 }
 
 #breadcrumbs {

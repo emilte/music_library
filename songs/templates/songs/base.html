@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    
+
 
     <link rel="stylesheet" type="text/css" href="{% static 'songs/base.css' %}"/>
 
@@ -20,38 +20,38 @@
 <body>
     <!-- Navbar -->
     <nav id="navbar" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top border1">
-        <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Music Library</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbar">
+
+        <div id="navbar" class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'home' %}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
+                        Songs
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="{% url 'songs:all_songs' %}">All Songs</a>
+                        <a class="dropdown-item" href="{% url 'songs:bpm_calc' %}">BPM Calculator</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="{% url 'songs:add_song' %}">Add Song</a>
+                        <a class="dropdown-item" href="{% url 'songs:add_tag' %}">Add Tag</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
+                    <a class="nav-link disabled" href="#">Memes</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            {% if user.is_authenticated %}
+                <div class="text-muted">Logged in as:</div>
+                <a id="navbar-user" class="text-success" href="{% url 'accounts:profile' %}">{{ user.get_full_name }}</a>
+            {% endif %}
+
         </div>
     </nav> <!-- End: navbar -->
 
@@ -80,7 +80,7 @@
                 <!-- Grid column -->
                 <div class="col-md-3 mx-auto">
                     <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Songs</h5>
 
                     <ul class="list-unstyled">
                         <li>
@@ -106,20 +106,20 @@
                 <div class="col-md-3 mx-auto">
 
                     <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
+                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Account</h5>
 
                     <ul class="list-unstyled">
                         <li>
-                            <a href="{% url 'songs:add_song' %}">Add song</a>
+                            <a href="{% url 'accounts:profile' %}">Profile</a>
                         </li>
                         <li>
-                            <a href="#!">Link 2</a>
+                            <a href="{% url 'accounts:signup' %}">Sign up</a>
                         </li>
                         <li>
-                            <a href="#!">Link 3</a>
+                            <a href="{% url 'accounts:login' %}">Login</a>
                         </li>
                         <li>
-                            <a href="#!">Link 4</a>
+                            <a href="{% url 'accounts:logout' %}">Logout</a>
                         </li>
                     </ul>
 
