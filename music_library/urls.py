@@ -19,14 +19,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from songs import views
 
+from django.views.i18n import JavaScriptCatalog
+
 app_name = 'root'
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name="home"),
     path('songs/', include('songs.urls')),
     path('account/', include('accounts.urls')),
-    
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

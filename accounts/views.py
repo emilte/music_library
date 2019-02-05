@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required, user_passes_test
 from django.db.models import Q
 from django.urls import reverse
-from accounts.forms import * # EmailForm, SignUpForm, StatusForm, RestrictedStatusForm, WidgetsForm, CustomAuthenticationForm, EditUserForm, CustomPasswordChangeForm
+from accounts.forms import * # EmailForm, SignUpForm, CustomAuthenticationForm, EditUserForm, CustomPasswordChangeForm
 from accounts.models import User
 # End: imports -----------------------------------------------------------------
 

@@ -3,7 +3,6 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from songs.models import *
 
-
 # End: imports -----------------------------------------------------------------
 
 class SearchForm(forms.Form):

@@ -1,15 +1,15 @@
 
 html {
-    height: 100vh !important; /* Document renders as 100% */
+    /* Document renders as 100% */
+    /* height: 50vh !important;  */
 }
 
 body {
     background-image: url('background.png');
     background-size: cover auto;
     position: relative !important; /* Needed for natural element flow */
-    min-height: 100vh !important; /* Document renders as 100% */
-    padding-top: 4em !important; /* Because of navbar (fixed) */
-    padding-bottom: 15em !important; /* Because of footer (absolute) */
+    margin-top: 4em !important; /* Because of navbar (fixed) */
+
     color: white;
     background-color: #0d0d0d;
 }
@@ -36,10 +36,15 @@ a:hover {
 }
 
 #content-wrapper {
-
+    min-height: 67vh !important;
 }
 
 #footer {
+    /* Space between content and footer */
+    margin-top: 2em;
+}
+
+#footer_NOT_IN_USE {
     position: absolute !important; /* Taken out of DOM */
     bottom: 0 !important; /* Absolute position at bottom of page */
     background-color: #0d0d0d;
