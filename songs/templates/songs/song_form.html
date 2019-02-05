@@ -1,7 +1,10 @@
 {% extends 'songs/base.html' %}
 {% block title %}Add song{% endblock %}
 {% load static %}
+
 {% block head %}
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+
     {{ form.media }}
     <style media="screen">
 
