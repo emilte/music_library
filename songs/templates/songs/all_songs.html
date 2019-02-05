@@ -2,7 +2,11 @@
 {% block title %}All songs{% endblock %}
 {% block head %}
     <style media="screen">
-
+        #table-songs {
+            background: rgba(50,70,60,0.2);
+            border-radius: 1em;
+            padding: 1em 1em 1em 1em;
+        }
     </style>
 {% endblock %}
 
@@ -59,7 +63,7 @@
             </div>
         </form>
 
-        <div class="bg-dark">
+        <div id="table-songs">
             <ol id="all-songs">
                 {% for song in songs %}
                     <li><a class="text-success" href="{% url 'songs:edit_song' song.id %}">{{ song }}</a></li>
