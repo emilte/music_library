@@ -24,12 +24,10 @@
 
     {% include "songs/navbar.html" %}
 
-    {% comment %}
-    {% endcomment %}
-    <div id="content-wrapper" class="container border">
+    <div id="content-wrapper" class="container">
         <!-- breadcrumbs -->
         <nav aria-label="breadcrumb">
-            <ol id="breadcrumbs" class="breadcrumb border">
+            <ol id="breadcrumbs" class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
                 {% block breadcrumbs %}
                 {% endblock %}
@@ -42,10 +40,7 @@
     </div>
 
 
-
     {% include "songs/footer.html" %}
-    {% comment %}
-    {% endcomment %}
 
 
     <!-- JQuery first, then Popper.js, then Bootstrap JS -->
@@ -57,10 +52,7 @@
     {% block script %}{% endblock %}
 
     <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
+
     </script>
 </body>
 </html>
