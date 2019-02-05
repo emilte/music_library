@@ -9,6 +9,9 @@
 
 
     <link rel="stylesheet" type="text/css" href="{% static 'songs/base.css' %}"/>
+    <!-- Custom styles for this template
+    <link href="{% static 'songs/sidebar.css' %}" rel="stylesheet">
+    -->
 
     <link rel="shortcut icon" type="image/png" href="https://png.icons8.com/metro/16/006F30/musical-notes.png"/>
 
@@ -18,48 +21,15 @@
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav id="navbar" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top border1">
-        <a class="navbar-brand" href="{% url 'home' %}">Music Library</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
+    {% include "songs/navbar.html" %}
 
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Songs
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'songs:all_songs' %}">All Songs</a>
-                        <a class="dropdown-item" href="{% url 'songs:bpm_calc' %}">BPM Calculator</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'songs:add_song' %}">Add Song</a>
-                        <a class="dropdown-item" href="{% url 'songs:add_tag' %}">Add Tag</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Memes</a>
-                </li>
-            </ul>
-            {% if user.is_authenticated %}
-                <div class="text-muted">Logged in as:</div>
-                <a id="navbar-user" class="text-success" href="{% url 'accounts:profile' %}">{{ user.get_full_name }}</a>
-            {% endif %}
-
-        </div>
-    </nav> <!-- End: navbar -->
-
-
-    <div id="content-wrapper" class="container border1">
+    {% comment %}
+    {% endcomment %}
+    <div id="content-wrapper" class="container border">
         <!-- breadcrumbs -->
         <nav aria-label="breadcrumb">
-            <ol id="breadcrumbs" class="breadcrumb border1">
+            <ol id="breadcrumbs" class="breadcrumb border">
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
                 {% block breadcrumbs %}
                 {% endblock %}
@@ -71,127 +41,12 @@
         {% endblock %}
     </div>
 
-    <!-- Footer -->
-    <footer id="footer" class="footer border1">
-        <!-- Footer Links -->
-        <div class="container text-center text-md-left">
-            <!-- Grid row -->
-            <div class="row">
-                <!-- Grid column -->
-                <div class="col-md-3 mx-auto">
-                    <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Songs</h5>
 
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="{% url 'songs:all_songs' %}">All songs</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'songs:add_song' %}">Add song</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'songs:add_tag' %}">Add tag</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'songs:bpm_calc' %}">BPM Calculator</a>
-                        </li>
-                    </ul>
 
-                </div>
-                <!-- Grid column -->
+    {% include "songs/footer.html" %}
+    {% comment %}
+    {% endcomment %}
 
-                <hr class="clearfix w-100 d-md-none">
-
-                <!-- Grid column -->
-                <div class="col-md-3 mx-auto">
-
-                    <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Account</h5>
-
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="{% url 'accounts:profile' %}">Profile</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'accounts:signup' %}">Sign up</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'accounts:login' %}">Login</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'accounts:logout' %}">Logout</a>
-                        </li>
-                    </ul>
-
-                </div>
-                <!-- Grid column -->
-
-                <hr class="clearfix w-100 d-md-none">
-
-                <!-- Grid column -->
-                <div class="col-md-3 mx-auto">
-
-                    <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
-
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="#!">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 2</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 3</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 4</a>
-                        </li>
-                    </ul>
-
-                </div>
-                <!-- Grid column -->
-
-                <hr class="clearfix w-100 d-md-none">
-
-                <!-- Grid column -->
-                <div class="col-md-3 mx-auto">
-
-                    <!-- Links -->
-                    <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Links</h5>
-
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="#!">Link 1</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 2</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 3</a>
-                        </li>
-                        <li>
-                            <a href="#!">Link 4</a>
-                        </li>
-                    </ul>
-
-                </div>
-                <!-- Grid column -->
-
-            </div>
-            <!-- Grid row -->
-
-        </div>
-        <!-- Footer Links -->
-
-        <!-- Copyright -->
-        <div class="footer-copyright text-center py-3">© 2018 Copyright:
-            <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
-        </div>
-        <!-- Copyright -->
-
-    </footer>
-    <!-- End: Footer -->
 
     <!-- JQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -200,5 +55,12 @@
 
 
     {% block script %}{% endblock %}
+
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 </body>
 </html>
