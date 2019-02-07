@@ -25,7 +25,7 @@ SECRET_KEY = 'g3z9hk$&=!6n^pl-z+f4@vcllbw_!m0*s%ylw2%cs@i6eyq+u5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Static files (CSS, JavaScript, Images)
