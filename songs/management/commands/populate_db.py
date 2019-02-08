@@ -100,6 +100,10 @@ songs = {
 }
 
 tags = [
+    'jazz',
+    'west coast',
+    'lindy',
+    'boogie',
     'spin',
     'rollebytte',
     'swing',
@@ -116,6 +120,7 @@ tags = [
     'flørtetur',
     'høy energi',
     'lav energi',
+    'tydelig takt',
     'vanskelig takt',
     'styling',
 ]
