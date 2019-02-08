@@ -220,7 +220,7 @@ class Command(BaseCommand):
         self.createsu()
         self.create_staff()
         self.create_tags()
-        self.create_songs()
+        #self.create_songs()
 
         print("  ==  Dummydata inserted, REMEMBER to runserver  ==  ")
         # End of handle

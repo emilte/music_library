@@ -36,24 +36,16 @@ def update_songs_txt(song, title=None):
     song = {'title': song['title'], 'artist': song['artist'], 'bpm': song['bpm'], 'tags': tags, 'spotify': song['spotify'], 'URI': song['URI'] }
     # Add:
     if title==None:
-        print("Add")
         with open('songs/static/songs/songs.txt', mode='a', encoding="UTF-8") as songs:
-            print(json.dumps(song, ensure_ascii=False))
             songs.write(json.dumps(song, ensure_ascii=False) + "\n")
     # Update line:
     else:
-        print("Update")
         with open('songs/static/songs/songs.txt', mode='r', encoding="UTF-8") as songs:
             data = songs.readlines()
-
-        print("======== readlines")
-        print(data)
 
         for i in range(len(data)):
             if title in data[i]:
                 data[i] = json.dumps(song, ensure_ascii=False)
-
-        print(data)
 
         with open('songs/static/songs/songs.txt', mode='w', encoding="UTF-8") as songs:
             songs.write("".join(data) + '\n')
