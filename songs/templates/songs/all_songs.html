@@ -7,6 +7,10 @@
             border-radius: 1em;
             padding: 1em 1em 1em 1em;
         }
+        #btn-song-div {
+            position: sticky;
+            top: 3.6em;
+        }
     </style>
 {% endblock %}
 
@@ -17,6 +21,13 @@
 {% block body %}
 
         <h1>All songs:</h1>
+
+        <div id="btn-song-div" class="">
+            <a class="btn btn-secondary" href="{% url 'songs:add_song' %}">
+                <img src="https://img.icons8.com/material-rounded/25/22BB30/plus-math.png">
+                Add new Song
+            </a>
+        </div>
 
         <form id="filters" action="{% url 'songs:all_songs' %}" method="post">
             {% csrf_token %}
@@ -86,6 +97,8 @@
             $('.search-option').change(function() {
                 $('form').submit();
             });
+
+            $("#btn-song").sticky({topSpacing:500});
         });
     </script>
 {% endblock %}
