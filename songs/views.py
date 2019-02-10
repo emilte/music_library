@@ -116,4 +116,6 @@ def edit_tag(request, tagID):
     return render(request, 'songs/tag_form.html', {'form': form})
 
 def bpm_calc(request):
+    # https://github.com/selwin/django-user_agents
+    print(request.user_agent.is_mobile)
     return render(request, 'songs/bpm_calc.html')

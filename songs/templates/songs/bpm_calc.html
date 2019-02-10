@@ -3,7 +3,12 @@
 
 {% block head %}
     <style media="screen">
-
+        #touch {
+            outline: none;
+        }
+        #touch-div {
+            text-align: center;
+        }
     </style>
 {% endblock %}
 
@@ -13,18 +18,24 @@
 
 {% block body %}
     <h1>BPM Calculator</h1>
+    {% if request.user_agent.is_touch_capable %}
+    <div id="touch-div" class="">
+        <input id="touch" type="image" src="https://img.icons8.com/nolan/240/006F30/unchecked-circle.png" name="" value="">
+    </div>
+    {% endif %}
+
     <div class="container">
         <form>
-            <div class="row form-group">
-                <label class="col-sm-2 col-form-label" for="avg">Average BPM</label>
-                <div class="col-sm-4">
-                    <input id="avg" class="form-control" readonly type="text" name="T_AVG">
-                </div>
-            </div>
             <div class="row form-group">
                 <label class="col-sm-2 col-form-label" for="whole">Nearest whole</label>
                 <div class="col-sm-4">
                     <input id="whole" class="form-control" readonly type="text" name="T_WHOLE">
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label" for="avg">Average BPM</label>
+                <div class="col-sm-4">
+                    <input id="avg" class="form-control" readonly type="text" name="T_AVG">
                 </div>
             </div>
             <div class="row form-group">
@@ -59,6 +70,7 @@
         var msecsPrevious = 0;
 
         function TapForBPM(e) {
+            console.log("Yes");
             timeSeconds = new Date;
             msecs = timeSeconds.getTime();
             console.log($('#timeout').val());
@@ -88,6 +100,11 @@
         document.onkeypress = TapForBPM;
 
         $('document').ready(function() {
+            $('#touch').click(TapForBPM);
+            $('#touch').click(function() {
+                $('#touch').animate({height: "+=5"}, 50)
+                $('#touch').animate({height: "-=5"}, 50)
+            });
 
         })
     </script>

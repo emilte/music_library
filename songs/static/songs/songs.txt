@@ -82,5 +82,18 @@
 {"title": "Bienvenue dans ma vie", "artist": "Nikki Yanofsky", "bpm": 72, "tags": [], "spotify": "https://open.spotify.com/track/0K4sxJf1SSnoGPmEWjGDnA?si=Q3sghi9ESJ2bNB2sgqlbdg", "URI": "spotify:track:0K4sxJf1SSnoGPmEWjGDnA"}
 {"title": "Solitude City", "artist": "Les Forbans", "bpm": 60, "tags": [], "spotify": "https://open.spotify.com/track/4pNetJzdTdjSN5hXUmhpZ3?si=naJM8zGESLSiDvr0gtQwRg", "URI": "spotify:track:4pNetJzdTdjSN5hXUmhpZ3"}
 {"title": "Backbeat", "artist": "Dagny", "bpm": 70, "tags": [], "spotify": "https://vg.no", "URI": null}
-{"title": "was", "artist": "w", "bpm": 88, "tags": [], "spotify": "https://dsd.no", "URI": null}
-{"title": "wæasdasd", "artist": "w", "bpm": 8323, "tags": [], "spotify": "https://dsd.no", "URI": null}
+{"title": "Je veux", "artist": "Zaz", "bpm": 77, "tags": [], "spotify": "https://open.spotify.com/track/41CFzRHUEOdbf0bUOd3PN2?si=Ztk66X9eSKqQx8L0Yd7e_w", "URI": null}
+{"title": "Moves Like Jagger", "artist": "Maroon 5", "bpm": 64, "tags": ["pop"], "spotify": "https://open.spotify.com/track/7pYfyrMNPn3wtoCyqcTVoI?si=jyEi78YITb2SppKiWrPeZg", "URI": null}
+{"title": "Måndagsbarn", "artist": "Veronica Maggio", "bpm": 62, "tags": [], "spotify": "https://open.spotify.com/track/4MXHBiKcdqHBJ4PeHQJBHO?si=wkcVARJUTB28tCRTLCpO-Q", "URI": null}
+{"title": "Just A Gigolo", "artist": "David Lee Roth", "bpm": 63, "tags": [], "spotify": "https://open.spotify.com/track/0QcIphdyZIVgFvW7ijEiPX?si=d_JbKzkcQpOEUe2Xn29loA", "URI": null}
+{"title": "This Train", "artist": "Jools Holland", "bpm": 82, "tags": ["vanskelig takt"], "spotify": "https://open.spotify.com/track/7ddyMfmxQhkgsfJZHjcM5g?si=nebfYjaPQYSA5clmxH0Vig", "URI": null}
+{"title": "Get You Kicks On Route 66", "artist": "Asleep At The Wheel", "bpm": 86, "tags": [], "spotify": "https://open.spotify.com/track/3QXGvS1xH3ihvEWVP0ibqt?si=OMSX57sJSwWc2TnC67hzIQ", "URI": null}
+{"title": "I'm Glad I'm Not Dead", "artist": "Indigo Swing", "bpm": 63, "tags": [], "spotify": "https://open.spotify.com/track/5uznoNKnrZbreEA8wEECc8?si=j_Dqgn-sTLu0svQjNnBBAw", "URI": null}
+{"title": "Waterloo", "artist": "ABBA", "bpm": 73, "tags": [], "spotify": "https://open.spotify.com/track/1CsuK5dlnWAkWhffeteqH3?si=eYubV5SfTYy03NK2whukAg", "URI": null}
+{"title": "Be My Guest", "artist": "Fats Domino", "bpm": 73, "tags": [], "spotify": "https://open.spotify.com/track/48Qlncu96s8Bm7G1hpsxVO?si=EX9ctndBTZ6FaohnIvE_gQ", "URI": null}
+{"title": "How Lucky Can One Guy Be?", "artist": "Indigo Swing", "bpm": 64, "tags": ["swing"], "spotify": "https://open.spotify.com/track/6bAci6k3oGXkjffMHAuZAC?si=b7fzqbmwSV2_ZLIZj7NsVA", "URI": null}
+{"title": "Night Train", "artist": "Cherry Casino & The Gamblers", "bpm": 69, "tags": [], "spotify": "https://open.spotify.com/track/5AmsgLyFKzr4F3LjaMc4y5?si=h_w0uF7oQaKusFKQe2N2Bg", "URI": null}
+{"title": "Love Potion No. 9", "artist": "The Clovers", "bpm": 64, "tags": ["breaks"], "spotify": "https://open.spotify.com/track/2SmlYdTtAnQOqEpVB5yMvB?si=lrJ6QcVzTTaJFYI8exUucw", "URI": null}
+{"title": "Gummihatt - Swing", "artist": "Bjelleklang", "bpm": 98, "tags": ["swing", "høy energi"], "spotify": "https://open.spotify.com/track/4LsgdqNf0VlA0gsOpWt7nA?si=X8a2f6RSTdqxeTgOELTdyg", "URI": null}
+{"title": "Be Mine", "artist": "Ofenbach", "bpm": 63, "tags": ["swing", "breaks", "styling"], "spotify": "https://open.spotify.com/track/2KklXplRtxMsBYo474Es0w?si=LA8MSgBMTPa0UivIgrI3yQ", "URI": null}
+{"title": "My Same", "artist": "Adele", "bpm": 63, "tags": ["koselig"], "spotify": "https://open.spotify.com/track/7f0L8uhS0AMutwBnY25mT9?si=5gOjWzbiRfy1-UFAx7Oaew", "URI": null}

@@ -11,6 +11,19 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Menu
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'info:external' %}">Eksterne kurs</a>
+                    <a class="dropdown-item" href="{% url 'info:english' %}">Information in English</a>
+                    <a class="dropdown-item" href="{% url 'info:contact' %}">Kontakt oss</a>
+                    <a class="dropdown-item" href="{% url 'info:about' %}">Om oss</a>
+                    <a class="dropdown-item" href="{% url 'info:hall_times' %}">Treningstider</a>
+                    <a class="dropdown-item" href="{% url 'info:faq' %}">FAQ</a>
+                </div>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'songs:bpm_calc' %}">BPM Calculator</a>
             </li>
@@ -30,7 +43,10 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Memes</a>
+                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'courses:all_courses' %}">Courses</a>
             </li>
         </ul>
         {% if user.is_authenticated %}

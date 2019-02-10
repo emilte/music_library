@@ -32,5 +32,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.txt_to_db()
-
+        print("Done")
         # End of handle
