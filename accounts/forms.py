@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django import forms
 from accounts.models import User
+from django.forms.widgets import PasswordInput, TextInput
 
 class SignUpForm(UserCreationForm):
 
@@ -53,6 +54,14 @@ class CustomAuthenticationForm(AuthenticationForm): # Not currently in use. Can 
 
         if not user.is_authenticated:
             raise forms.ValidationError(self.error_messages['invalid_login'], code='invalid_login')
+
+class CustomAuthForm(AuthenticationForm):
+    # Inherited fields:
+    # username
+    # password
+    username = forms.CharField(widget=TextInput(attrs={'class':'form-control', 'placeholder': 'Email'}))
+    password = forms.CharField(widget=PasswordInput(attrs={'class': 'form-control', 'placeholder':'Password'}))
+
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     # Inherited fields:

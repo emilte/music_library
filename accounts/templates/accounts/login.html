@@ -1,8 +1,14 @@
 {% extends 'songs/base.html' %}
 {% load static %}
 
-{% block head %}
+{% block title %}Login{% endblock title %}
 
+{% block head %}
+    <style media="screen">
+        #form {
+            max-width: 35em;
+        }
+    </style>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -13,22 +19,27 @@
     {% if user.is_authenticated %}
         Already logged in
     {% else %}
-        <h1>Login:</h1>
+        <div id="form">
 
-        <form method="post">
-            {% csrf_token %}
-            <div class="text-danger">
-                {{ form.non_field_errors }}
+            <h1>Login:</h1>
 
-            </div>
-            {% for field in form %}
-                {{ field.label_tag }}<br>
-                {{ field }} <br>
-                {{ field.errors }}
-            {% endfor %}
-            <br>
-            <button class="btn btn-primary" type="submit">Login</button>
-        </form>
+            <form class="container" method="post">
+                {% csrf_token %}
+                <div class="text-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% for field in form %}
+                    <div class="form-group"> <!-- Bootstrap -->
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <div class="error">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">Login</button>
+            </form>
+        </div>
         <br>
         <a href="{% url 'accounts:signup' %}">Dont have a user? Sign up here!</a>
     </div>

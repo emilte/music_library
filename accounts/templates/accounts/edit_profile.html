@@ -7,6 +7,9 @@
         .modal {
             color: black;
         }
+        #form {
+            max-width: 35em;
+        }
     </style>
 {% endblock head %}
 
@@ -16,21 +19,24 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Edit profile:</h1>
-    <!-- Edit user (form) -->
-    <form method="POST"> <!-- Bootstrap -->
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group"> <!-- Bootstrap -->
-            {{ field.label_tag }}
-            {{ field }}
-            {% for error in field.errors %}
-                <div class="error">{{ error }}</div>
+    <div id="form">
+        <h1>Edit profile:</h1>
+        <!-- Edit user (form) -->
+        <form method="POST"> <!-- Bootstrap -->
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group"> <!-- Bootstrap -->
+                {{ field.label_tag }}
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
             {% endfor %}
-        </div>
-        {% endfor %}
-        <button id="btn_submit" type="submit" class="btn btn-primary btn-block">Save</button>
-    </form> <!-- End: Edit user (form) -->
+            <button id="btn_submit" type="submit" class="btn btn-primary btn-block">Save</button>
+        </form> <!-- End: Edit user (form) -->
+    </div>
+
     <br>
     <!-- Delete account (button) -->
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAccount">
@@ -49,9 +55,7 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        This action will delete your account and
-                        everything else you have saved on this website.
-                        (Yes, the application too)
+                        This action will delete your account!
                     </p>
                 </div>
                 <div class="modal-footer">
