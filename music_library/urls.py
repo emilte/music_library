@@ -25,11 +25,14 @@ app_name = 'root'
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="admin"),
     path('', views.home, name="home"),
     path('songs/', include('songs.urls')),
     path('account/', include('accounts.urls')),
+    path('courses/', include('courses.urls')),
+    path('info/', include('info.urls')),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

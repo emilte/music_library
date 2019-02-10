@@ -47,9 +47,13 @@ AUTH_USER_MODEL = 'accounts.User'
 # Application definition
 
 INSTALLED_APPS = [
+    'django_user_agents',
     'django_extensions',
     'accounts.apps.AccountsConfig',
+    'info.apps.InfoConfig',
+    'tinymce', # For HTMLField
     'songs.apps.SongsConfig',
+    'courses.apps.CoursesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware', # User agent
 ]
 
 ROOT_URLCONF = 'music_library.urls'
@@ -87,6 +92,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'music_library.wsgi.application'
+
+# Settings for user agent
+# Cache backend is optional, but recommended to speed up user agent parsing
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+# Name of cache backend to cache user agents. If it not specified default
+# cache alias will be used. Set to `None` to disable caching.
+USER_AGENTS_CACHE = 'default'
 
 
 # Database

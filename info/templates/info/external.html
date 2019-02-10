@@ -1,0 +1,15 @@
+{% extends 'songs/base.html' %}
+{% block title %}Eksterne kurs{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'info:external' %}">Eksterne kurs</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1> {{ section.title }} </h1>
+    <div class="white-box">
+        {% autoescape off %}
+            {{ section.text }}
+        {% endautoescape %}
+    </div>
+{% endblock %}
