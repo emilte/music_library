@@ -1,0 +1,91 @@
+{% extends 'courses/base.html' %}
+{% block title %}All courses{% endblock %}
+{% block head %}
+    <style media="screen">
+        #table-courses {
+            background: rgba(10,40,40,0.8);
+            border-radius: 1em;
+            padding: 1em 1em 1em 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">All courses</a></li>
+{% endblock %}
+
+{% block body %}
+
+        <h1>All courses:</h1>
+
+        <form id="filters" action="{% url 'courses:all_courses' %}" method="post">
+            {% csrf_token %}
+            <div class="row form-group">
+                <!-- Search (input) -->
+                <div class="col-md-5">
+                    <label class="invisible">This label is hidden. Used for correct spacing</label>
+                    <div class="input-group">
+                        {{ form.search }}
+                        <button id="btn-search" class="btn btn-dark" type="button" name="button">Search</button>
+                    </div>
+                </div> <!-- End: Search (input) -->
+
+                <!-- xxx -->
+                <!-- Tag (select) -->
+                <div class="col-md-3">
+                    {{ form.tag.label_tag }}
+                    {{ form.tag }}
+                </div> <!-- End: Tag (select) -->
+
+                <!-- BPM interval -->
+                <div class="col-md-4">
+                    <label for="bpm-interval">BPM interval</label>
+                    <div class="input-group">
+                        <!-- BPM min -->
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                {{ form.check_min }}
+                            </div>
+                        </div>
+                        {{ form.min_bpm }}
+                        <!-- End: BPM min -->
+
+                        <!-- BPM max -->
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                {{ form.check_max }}
+                            </div>
+                        </div>
+                        {{ form.max_bpm }}
+                        <!-- End: BPM max -->
+                    </div>
+                </div> <!-- End: BPM interval -->
+            </div>
+        </form>
+
+        <div id="table-courses">
+            <ol id="all-courses">
+                {% for course in courses %}
+                    <li>
+                        <a class="text-success" target="_blank" href="#">{{ course }}</a>
+                        <a href="{% url 'courses:edit_course' course.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/88bb88/edit.png"></a>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('#btn-search').click(function() {
+                $('form').submit();
+            })
+
+            $('.search-option').change(function() {
+                $('form').submit();
+            });
+        });
+    </script>
+{% endblock %}

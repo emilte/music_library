@@ -1,0 +1,62 @@
+{% extends 'songs/base.html' %}
+{% block title %}Add song{% endblock %}
+{% load static %}
+
+{% block head %}
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+
+    {{ form.media }}
+    <style media="screen">
+
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Add song</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1>Add song</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-5 mb-3">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
+            <div class="col-md-5 mb-3">
+                {{ form.artist.label_tag }}
+                {{ form.artist }}
+                {{ form.artist.errors }}
+            </div>
+            <div class="col-md-2 mb-5">
+                {{ form.bpm.label_tag }}
+                {{ form.bpm }}
+                {{ form.bpm.errors }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-9 mb-3">
+                {{ form.spotify.label_tag }}
+                {{ form.spotify }}
+                {{ form.spotify.errors }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-9 mb-3">
+                {{ form.URI.label_tag }}
+                {{ form.URI }}
+                <span class="error">{{ form.URI.errors }}</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12 mb-3">
+                {{ form.tags }}
+            </div>
+        </div>
+        <button class="btn btn-block btn-dark" type="submit">Save</button>
+    </form>
+
+{% endblock %}

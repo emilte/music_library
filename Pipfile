@@ -7,6 +7,12 @@ name = "pypi"
 halo = "*"
 django = "==2.0.8"
 django-extensions = "*"
+pyyaml = "*"
+ua-parser = "*"
+user-agents = "*"
+django-user-agents = "*"
+python-memcached = "*"
+django-tinymce = "*"
 
 [dev-packages]
 
