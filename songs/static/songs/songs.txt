@@ -26,7 +26,7 @@
 {"title": "Shut Up and Dance", "artist": "WALK THE MOON", "bpm": 64, "tags": [], "spotify": "https://open.spotify.com/track/4kbj5MwxO1bq9wjT5g9HaA?si=_zdM1FLtQEWPfieInC9HaA", "URI": "spotify:track:4kbj5MwxO1bq9wjT5g9HaA"}
 {"title": "Cake By The Ocean", "artist": "DNCE", "bpm": 60, "tags": [], "spotify": "https://open.spotify.com/track/7L5jgZtAyfiU7elB8DIqCx?si=-AUTWyw0SQu6_FA4bss3Lg", "URI": "spotify:track:7L5jgZtAyfiU7elB8DIqCx"}
 {"title": "Toxic", "artist": "Britney Spears", "bpm": 72, "tags": [], "spotify": "https://open.spotify.com/track/2cPJpyurXxJAZHFNSFcWCr?si=c7yLZsr0QB66z8XYIax5Dw", "URI": "spotify:track:2cPJpyurXxJAZHFNSFcWCr"}
-{"title": "I'm Gonna Be (500 Miles)", "artist": "The Proclaimers", "bpm": 66, "tags": [], "spotify": "https://open.spotify.com/track/66S14BkJDxgkYxLl5DCqOz?si=wIXCWSxOR3aERGN3ppyp0Q", "URI": "spotify:track:66S14BkJDxgkYxLl5DCqOz"}
+{"title": "I'm Gonna Be (500 Miles)", "artist": "The Proclaimers", "bpm": 66, "tags": ["gåtur"], "spotify": "https://open.spotify.com/track/66S14BkJDxgkYxLl5DCqOz?si=wIXCWSxOR3aERGN3ppyp0Q", "URI": "spotify:track:66S14BkJDxgkYxLl5DCqOz"}
 {"title": "Get My Name", "artist": "Mark Ballas", "bpm": 61, "tags": [], "spotify": "https://open.spotify.com/track/5tfJjJ5MbahIA5TDV7DJk5?si=wYgKcljoRBaNJIQ_IiHlyw", "URI": "spotify:track:5tfJjJ5MbahIA5TDV7DJk5"}
 {"title": "Little Bitty Pretty One", "artist": "Billy Gilman", "bpm": 87, "tags": [], "spotify": "https://open.spotify.com/track/5V9ezTbv9LhSpgDcGph2n3?si=eqcIWcuaQ6eNX7HI0nwCjw", "URI": "spotify:track:5V9ezTbv9LhSpgDcGph2n3"}
 {"title": "Blue Moon", "artist": "The Marcels", "bpm": 64, "tags": [], "spotify": "https://open.spotify.com/track/39hE7MMHFjYsqv7zwhR6LD?si=_QCFt48BTbidy-k0xEZG4Q", "URI": "spotify:track:39hE7MMHFjYsqv7zwhR6LD"}
@@ -71,7 +71,7 @@
 {"title": "Bills", "artist": "LunchMoney Lewis", "bpm": 63, "tags": [], "spotify": "https://open.spotify.com/track/10znXCse0n6fZQWKWzqOop?si=YCz3QL6gQ-yWzv7hApH_ag", "URI": "spotify:track:10znXCse0n6fZQWKWzqOop"}
 {"title": "Tonight Tonight", "artist": "Hot Chelle Rae", "bpm": 50, "tags": [], "spotify": "https://open.spotify.com/track/2i0AUcEnsDm3dsqLrFWUCq?si=93lp_2iYQJGo1D9QRu9eYw", "URI": "spotify:track:2i0AUcEnsDm3dsqLrFWUCq"}
 {"title": "9 to 5", "artist": "Dolly Parton", "bpm": 53, "tags": [], "spotify": "https://open.spotify.com/track/4w3tQBXhn5345eUXDGBWZG?si=AGpZciDPSn-0DqOZRJvXtg", "URI": "spotify:track:4w3tQBXhn5345eUXDGBWZG"}
-{"title": "Call Me Maybe", "artist": "Carly Rae Jepsen", "bpm": 60, "tags": [], "spotify": "https://open.spotify.com/track/20I6sIOMTCkB6w7ryavxtO?si=4pEFRqVSTwKvJ3s04U_usg", "URI": "spotify:track:20I6sIOMTCkB6w7ryavxtO"}
+{"title": "Call Me Maybe", "artist": "Carly Rae Jepsen", "bpm": 60, "tags": ["pop"], "spotify": "https://open.spotify.com/track/20I6sIOMTCkB6w7ryavxtO?si=4pEFRqVSTwKvJ3s04U_usg", "URI": "spotify:track:20I6sIOMTCkB6w7ryavxtO"}
 {"title": "September", "artist": "Earth, Wind & Fire", "bpm": 63, "tags": [], "spotify": "https://open.spotify.com/track/7Cuk8jsPPoNYQWXK9XRFvG?si=BrpvgEMZQd6J5mHYf7hr4A", "URI": "spotify:track:7Cuk8jsPPoNYQWXK9XRFvG"}
 {"title": "Rock Steady", "artist": "Ole Børud", "bpm": 69, "tags": [], "spotify": "https://open.spotify.com/track/5WCAW8xyyGevUxlUiFBvxL?si=BKWjlj-CRVC30pfuHEK1vg", "URI": "spotify:track:5WCAW8xyyGevUxlUiFBvxL"}
 {"title": "Summertime Blues", "artist": "Dion", "bpm": 77, "tags": [], "spotify": "https://open.spotify.com/track/75PlQtrs8lKbY2Lh64LsNc?si=tPJEDkDuT2imIOT-xyh40A", "URI": "spotify:track:75PlQtrs8lKbY2Lh64LsNc"}
@@ -97,3 +97,4 @@
 {"title": "Gummihatt - Swing", "artist": "Bjelleklang", "bpm": 98, "tags": ["swing", "høy energi"], "spotify": "https://open.spotify.com/track/4LsgdqNf0VlA0gsOpWt7nA?si=X8a2f6RSTdqxeTgOELTdyg", "URI": null}
 {"title": "Be Mine", "artist": "Ofenbach", "bpm": 63, "tags": ["swing", "breaks", "styling"], "spotify": "https://open.spotify.com/track/2KklXplRtxMsBYo474Es0w?si=LA8MSgBMTPa0UivIgrI3yQ", "URI": null}
 {"title": "My Same", "artist": "Adele", "bpm": 63, "tags": ["koselig"], "spotify": "https://open.spotify.com/track/7f0L8uhS0AMutwBnY25mT9?si=5gOjWzbiRfy1-UFAx7Oaew", "URI": null}
+

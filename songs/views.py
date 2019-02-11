@@ -45,7 +45,7 @@ def update_songs_txt(song, title=None):
 
         for i in range(len(data)):
             if title in data[i]:
-                data[i] = json.dumps(song, ensure_ascii=False)
+                data[i] = json.dumps(song, ensure_ascii=False) + "\n"
 
         with open('songs/static/songs/songs.txt', mode='w', encoding="UTF-8") as songs:
             songs.write("".join(data) + '\n')

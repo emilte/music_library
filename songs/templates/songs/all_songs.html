@@ -11,6 +11,11 @@
             position: sticky;
             top: 3.6em;
         }
+        @media (max-width: 576px) {
+            #table-songs {
+                font-size: 70%;
+            }
+        }
     </style>
 {% endblock %}
 
@@ -78,7 +83,7 @@
             <ol id="all-songs">
                 {% for song in songs %}
                     <li>
-                        <a class="text-success" target="_blank" href="{{ song.spotify }}">{{ song }}</a>
+                        <a class="text-success song-link" target="_blank" href="{{ song.spotify }}">{{ song }}</a>
                         <a href="{% url 'songs:edit_song' song.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/88bb88/edit.png"></a>
                     </li>
                 {% endfor %}
@@ -97,8 +102,6 @@
             $('.search-option').change(function() {
                 $('form').submit();
             });
-
-            $("#btn-song").sticky({topSpacing:500});
         });
     </script>
 {% endblock %}
