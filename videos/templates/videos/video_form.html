@@ -1,0 +1,65 @@
+{% extends 'songs/base.html' %}
+{% block title %}Add/edit video{% endblock %}
+{% load static %}
+
+{% block head %}
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+
+    {{ form.media }}
+    <style media="screen">
+
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'videos:all_videos' %}">All videos</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Add video</a></li>
+{% endblock %}
+
+{% block body %}
+    <h1>Add video</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-9 mb-3">
+                {{ form.navn.label_tag }}
+                {{ form.navn }}
+                {{ form.navn.errors }}
+            </div>
+        </div>
+        <div class="form-row">
+
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                {{ form.youtube.label_tag }}
+                {{ form.youtube }}
+                {{ form.youtube.errors }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form.vanskelighetsgrad.label_tag }}
+                {{ form.vanskelighetsgrad }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-5">
+                {{ form.beskrivelse.label_tag }}
+                {{ form.beskrivelse }}
+                {{ form.beskrivelse.errors }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.fokuspunkt.label_tag }}
+                {{ form.fokuspunkt }}
+                {{ form.fokuspunkt.errors }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-12 mb-3">
+                {{ form.tags }}
+            </div>
+        </div>
+        <button class="btn btn-block btn-dark" type="submit">Save</button>
+    </form>
+
+{% endblock %}

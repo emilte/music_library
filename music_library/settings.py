@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_user_agents',
     'django_extensions',
     'accounts.apps.AccountsConfig',
+    'videos.apps.VideosConfig',
     'info.apps.InfoConfig',
     'tinymce', # For HTMLField
     'songs.apps.SongsConfig',

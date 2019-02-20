@@ -30,6 +30,7 @@ urlpatterns = [
     path('songs/', include('songs.urls')),
     path('account/', include('accounts.urls')),
     path('courses/', include('courses.urls')),
+    path('videos/', include('videos.urls')),
     path('info/', include('info.urls')),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('tinymce/', include('tinymce.urls')),
