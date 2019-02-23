@@ -1,6 +1,7 @@
 {% extends 'songs/base.html' %}
 {% block title %}All videos{% endblock %}
 {% block head %}
+
     <style media="screen">
         #table-videos {
             background: rgba(10,40,40,0.8);
@@ -67,7 +68,7 @@
                                     </div> <!-- End: modal-header -->
                                     <div class="modal-body text-left">
                                         <div class="container">
-                                            <iframe width="560" height="315" src="{{ video.youtube }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            <iframe width="560" height="315" src="{{ video.youtube }}&rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                         </div>
                                         <div class="container">
                                             <div class="row">
@@ -77,11 +78,11 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col gray-box">
-                                                    <h3>Beskrivelse:</h3>
+                                                    <h4>Beskrivelse:</h4>
                                                     {{ video.beskrivelse }}
                                                 </div>
                                                 <div class="col gray-box">
-                                                    <h3>Fokuspunkt:</h3>
+                                                    <h4>Fokuspunkt:</h4>
                                                     {{ video.fokuspunkt }}
                                                 </div>
                                             </div>
