@@ -8,6 +8,7 @@ app_name = 'videos'
 
 urlpatterns = [
     path('all/', views.all_videos, name="all_videos"),
-    path('add_video/', views.add_video, name="add_video"),
-    path('edit_video/<int:videoID>', views.edit_video, name="edit_video"),
+    path('add/', views.add_video, name="add_video"),
+    path('edit/<int:videoID>', views.edit_video, name="edit_video"),
+    path('delete/<int:videoID>', views.delete_video, name="delete_video"),
 ]

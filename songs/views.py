@@ -79,7 +79,7 @@ def edit_song(request, songID):
             return redirect('songs:all_songs')
     # GET or form failed
 
-    return render(request, 'songs/song_form.html', {'form': form})
+    return render(request, 'songs/song_form.html', {'form': form, "songID": songID})
 
 def all_songs(request):
     form = SearchForm()
@@ -93,6 +93,10 @@ def all_songs(request):
         'form': form,
         'songs': songs.order_by('bpm'),
     })
+
+def delete_song(request, songID):
+    Song.objects.get(id=songID).delete()
+    return redirect("songs:all_songs")
 
 def add_tag(request):
     form = TagForm()

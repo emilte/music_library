@@ -7,11 +7,13 @@ from django.views.i18n import JavaScriptCatalog
 app_name = 'songs'
 
 urlpatterns = [
-    path('add/', views.add_song, name="add_song"),
-    path('tags/add', views.add_tag, name="add_tag"),
-    path('edit/<int:songID>', views.edit_song, name="edit_song"),
-    path('edit/<int:tagID>', views.edit_tag, name="edit_tag"),
     path('all/', views.all_songs, name="all_songs"),
+    path('add/', views.add_song, name="add_song"),
+    path('edit/<int:songID>', views.edit_song, name="edit_song"),
+    path('delete/<int:songID>', views.delete_song, name="delete_song"),
+
+    path('tags/add', views.add_tag, name="add_tag"),
+    path('tags/edit/<int:tagID>', views.edit_tag, name="edit_tag"),
     path('bpm_calc/', views.bpm_calc, name="bpm_calc"),
 
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),

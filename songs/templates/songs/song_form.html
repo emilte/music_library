@@ -57,7 +57,16 @@
                 {{ form.tags }}
             </div>
         </div>
-        <button class="btn btn-block btn-dark" type="submit">Save</button>
+        <div class="row">
+            <div class="col-md-8">
+                <button class="btn btn-block btn-dark" type="submit">Save</button>
+            </div>
+            <div class="col-md-4">
+                {% if songID %}
+                    <a href="{% url 'songs:delete_song' songID %}" class="btn btn-block btn-danger" type="submit">Delete</a>
+                {% endif %}
+            </div>
+        </div>
     </form>
 
 {% endblock %}

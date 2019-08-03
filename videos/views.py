@@ -62,4 +62,8 @@ def edit_video(request, videoID):
             video.embed()
             return redirect('videos:all_videos')
     # GET or form failed
-    return render(request, 'videos/video_form.html', {'form': form})
+    return render(request, 'videos/video_form.html', {'form': form, "videoID": videoID})
+
+def delete_video(request, videoID):
+    video = Video.objects.get(id=videoID).delete()
+    return redirect("videos:all_videos")
