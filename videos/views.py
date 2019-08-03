@@ -11,25 +11,43 @@ import json
 # End: imports -----------------------------------------------------------------
 
 # Functions:
-def hide_annotations(video):
-    video.youtube += "?iv_load_policy=3"
-    video.save()
+def search_video_filter(form, queryset):
+    search = form.cleaned_data['search']
+    tag = form.cleaned_data['tag']
+    vanskelighetsgrad = form.cleaned_data['vanskelighetsgrad']
+
+    if search != "":
+        queryset = queryset.filter( Q(navn__icontains=search) | Q(beskrivelse__icontains=search) | Q(fokuspunkt__icontains=search) )
+    if tag != '-1':
+        queryset = queryset.filter(tags__id=tag)
+    if vanskelighetsgrad != '-1':
+        queryset = queryset.filter(vanskelighetsgrad=vanskelighetsgrad)
+
+    return queryset
 # End: Functions ---------------------------------------------------------------
 
 # Create your views here.
 def all_videos(request):
+    form = SearchForm()
+    videos = Video.objects.all()
+
+    if request.method == "POST":
+        form = SearchForm(data=request.POST)
+        if form.is_valid():
+            videos = search_video_filter(form=form, queryset=videos)
+
     return render(request, 'videos/all_videos.html', {
-        'videos': Video.objects.all()
+        'form': form,
+        'videos': videos.order_by('id'),
     })
 
 def add_video(request):
     form = VideoForm()
-    print(form)
     if request.method == 'POST':
         form = VideoForm(request.POST)
         if form.is_valid():
             video = form.save()
-            hide_annotations(video)
+            video.embed()
             return redirect('videos:all_videos')
 
     return render(request, 'videos/video_form.html', {'form': form})
@@ -40,7 +58,8 @@ def edit_video(request, videoID):
     if request.method == 'POST':
         form = VideoForm(request.POST, instance=video)
         if form.is_valid():
-            form.save()
+            video = form.save()
+            video.embed()
             return redirect('videos:all_videos')
     # GET or form failed
     return render(request, 'videos/video_form.html', {'form': form})

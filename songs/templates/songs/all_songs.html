@@ -38,8 +38,8 @@
             {% csrf_token %}
             <div class="row form-group">
                 <!-- Search (input) -->
-                <div class="col-md-5">
-                    <label class="invisible">This label is hidden. Used for correct spacing</label>
+                <div class="col-lg-3">
+                    <label class="invisible">Search</label>
                     <div class="input-group">
                         {{ form.search }}
                         <button id="btn-search" class="btn btn-dark" type="button" name="button">Search</button>
@@ -48,13 +48,13 @@
 
                 <!-- xxx -->
                 <!-- Tag (select) -->
-                <div class="col-md-3">
+                <div class="col-lg-3">
                     {{ form.tag.label_tag }}
                     {{ form.tag }}
                 </div> <!-- End: Tag (select) -->
 
                 <!-- BPM interval -->
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <label for="bpm-interval">BPM interval</label>
                     <div class="input-group">
                         <!-- BPM min -->
@@ -76,6 +76,12 @@
                         <!-- End: BPM max -->
                     </div>
                 </div> <!-- End: BPM interval -->
+                <div class="col-lg-2">
+                    <label class="invisible">Reset</label>
+                    <div class="input-group">
+                        <a class="btn btn-secondary" href="{% url 'songs:all_songs' %}">Reset</a>
+                    </div>
+                </div>
             </div>
         </form>
 
@@ -102,6 +108,10 @@
             $('.search-option').change(function() {
                 $('form').submit();
             });
+
+            $('#btn-reset').click(function() {
+                $('form').trigger("reset");
+            })
         });
     </script>
 {% endblock %}

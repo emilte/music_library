@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'accounts.apps.AccountsConfig',
     'videos.apps.VideosConfig',
+    'music_library',
     'info.apps.InfoConfig',
     'tinymce', # For HTMLField
     'songs.apps.SongsConfig',

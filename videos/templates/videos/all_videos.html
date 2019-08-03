@@ -40,71 +40,132 @@
 
 {% block body %}
 
-        <h1>All videos:</h1>
+<h1>All videos:</h1>
 
-        <div id="btn-video-div" class="">
-            <a class="btn btn-secondary" href="{% url 'videos:add_video' %}">
-                <img src="https://img.icons8.com/material-rounded/25/22BB30/plus-math.png">
-                Add new Video
-            </a>
+<div id="btn-video-div" class="">
+    <a class="btn btn-secondary" href="{% url 'videos:add_video' %}">
+        <img src="https://img.icons8.com/material-rounded/25/22BB30/plus-math.png">
+        Add new Video
+    </a>
+</div>
+
+<form id="video-filter" action="{% url 'videos:all_videos' %}" method="post">
+    {% csrf_token %}
+    <div class="row form-group">
+
+        <!-- Search (input) -->
+        <div class="col-lg-4">
+            <label class="invisible">Search</label>
+            <div class="input-group">
+                {{ form.search }}
+                <button id="btn-search" class="btn btn-dark" type="button" name="button">Search</button>
+            </div>
+        </div> <!-- End: Search (input) -->
+
+        <!-- xxx -->
+        <!-- Tag (select) -->
+        <div class="col-lg-3">
+            {{ form.tag.label_tag }}
+            {{ form.tag }}
+        </div> <!-- End: Tag (select) -->
+
+        <!-- vanskelighetsgrad (select) -->
+        <div class="col-lg-3">
+            {{ form.vanskelighetsgrad.label_tag }}
+            {{ form.vanskelighetsgrad }}
+        </div> <!-- End: vanskelighetsgrad (select) -->
+
+        <div class="col-lg-2">
+            <label class="invisible">Reset</label>
+            <div class="input-group">
+                <a class="btn btn-secondary" href="{% url 'videos:all_videos' %}">Reset</a>
+            </div>
         </div>
+    </div>
+</form>
 
-        <div id="table-videos">
-            <ul id="videos-list">
-                {% for video in videos %}
-                    <li>
-                        {{ video.id }}
-                        <a class="modal-link text-success" data-toggle="modal" data-target="#video-modal{{ video.id }}">{{ video.navn }}</a>
-                        <a href="{% url 'videos:edit_video' video.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/88bb88/edit.png"></a>
+<div id="table-videos">
+    <ul id="videos-list">
+        {% for video in videos %}
+        <li>
+            {{ video.id }}
+            <a class="modal-link text-success" data-toggle="modal" data-target="#video-modal{{ video.id }}">{{ video.navn }}</a>
+            <a href="{% url 'videos:edit_video' video.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/88bb88/edit.png"></a>
 
-                        <div id="video-modal{{ video.id }}" class="modal fade bd-example-modal-lg video-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title">{{ video.navn }}</h1>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <img src="https://img.icons8.com/material/24/FFFFFF/delete-sign.png">
-                                        </button>
-                                    </div> <!-- End: modal-header -->
-                                    <div class="modal-body text-left">
-                                        <div class="container">
-                                            <iframe width="560" height="315" src="{{ video.youtube }}&rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                        </div>
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col">
-                                                    Vanskelighetsgrad: &nbsp {{ video.get_vanskelighetsgrad_display }}
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col gray-box">
-                                                    <h4>Beskrivelse:</h4>
-                                                    {{ video.beskrivelse }}
-                                                </div>
-                                                <div class="col gray-box">
-                                                    <h4>Fokuspunkt:</h4>
-                                                    {{ video.fokuspunkt }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> <!-- End: modal-body -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                                    </div> <!-- End: modal-footer -->
-                                </div> <!-- End: modal-content -->
-                            </div> <!-- End: modal-dialog -->
-                        </div> <!-- End: modal -->
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+            <div id="video-modal{{ video.id }}" class="modal fade bd-example-modal-lg video-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title">{{ video.navn }}</h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <img src="https://img.icons8.com/material/24/FFFFFF/delete-sign.png">
+                            </button>
+                        </div> <!-- End: modal-header -->
+                        <div class="modal-body text-left">
+                            <div id="{{video.embedded}}" class="container iframe-wrapper">
+                                <!--
+                                <iframe id="{{video.embedded}}" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            -->
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        Vanskelighetsgrad: &nbsp {{ video.get_vanskelighetsgrad_display }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col gray-box">
+                                        <h4>Beskrivelse:</h4>
+                                        {{ video.beskrivelse }}
+                                    </div>
+                                    <div class="col gray-box">
+                                        <h4>Fokuspunkt:</h4>
+                                        {{ video.fokuspunkt }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- End: modal-body -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                        </div> <!-- End: modal-footer -->
+                    </div> <!-- End: modal-content -->
+                </div> <!-- End: modal-dialog -->
+            </div> <!-- End: modal -->
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 
 {% endblock %}
 
 {% block script %}
-    <script type="text/javascript">
-        $(document).ready(function() {
+<script type="text/javascript">
+    $(document).ready(function() {
 
+        $("[id^=video-modal]").on('show.bs.modal', function(e) {
+            var embedded = $(e.target).find(".iframe-wrapper")[0].id
+            var iframe_element = `<iframe width="100%" height="415" src="${embedded}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+            $(e.target).find(".iframe-wrapper").append(iframe_element)
+        })
+
+        $("[id^=video-modal]").on('hidden.bs.modal', function(e) {
+            $(e.target).find("iframe")[0].remove()
+        })
+
+        $('#btn-search').click(function() {
+            $('form').submit();
+        })
+
+        $('.filter').change(function() {
+            $('form').submit();
         });
-    </script>
+
+        $('#btn-reset').click(function() {
+            $('form').trigger("reset");
+        })
+
+
+    });
+
+</script>
 {% endblock %}

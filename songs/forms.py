@@ -8,9 +8,9 @@ from songs.models import *
 class SearchForm(forms.Form):
     search = forms.CharField(required=False)
     tag = forms.ChoiceField(required=False)
-    check_min = forms.BooleanField(required=False)
+    check_min = forms.BooleanField(required=False, initial=True)
     min_bpm = forms.IntegerField(required=False, min_value=0, max_value=200)
-    check_max = forms.BooleanField(required=False)
+    check_max = forms.BooleanField(required=False, initial=True)
     max_bpm = forms.IntegerField(required=False, min_value=0, max_value=200)
 
     def __init__(self, *args, **kwargs):
