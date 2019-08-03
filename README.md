@@ -10,4 +10,3 @@ Steps:
 5. Run: 'py manage.py populate_db' (or other commands. Replace 'populate_db' with 'help')
 6. Run: 'py manage.py runserver'
 7. Open browser at given url
-
