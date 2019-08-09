@@ -9,6 +9,6 @@ app_name = 'courses'
 urlpatterns = [
     path('all/', views.all_courses, name="all_courses"),
     path('add/', views.add_course, name="add_course"),
-    path('edit/', views.edit_course, name="edit_course"),
+    path('edit/<int:courseID>', views.edit_course, name="edit_course"),
 
 ]

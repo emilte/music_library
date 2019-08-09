@@ -1,62 +1,171 @@
 {% extends 'songs/base.html' %}
-{% block title %}Add song{% endblock %}
+{% block title %}Add course{% endblock %}
 {% load static %}
 
 {% block head %}
-    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+<script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
 
-    {{ form.media }}
-    <style media="screen">
-
-    </style>
+{{ form.media }}
+<style media="screen">
+    .section {
+        background-color: rgba(100, 180, 160, 0.5);
+        margin-bottom: 1em;
+    }
+</style>
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Add song</a></li>
+<li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Add course</a></li>
 {% endblock %}
 
 {% block body %}
-    <h1>Add song</h1>
+<h1>Add course</h1>
 
-    <form method="post">
-        {% csrf_token %}
+<form method="post">
+    {% csrf_token %}
+
+    <div id="addCourseForm">
         <div class="form-row">
-            <div class="col-md-5 mb-3">
-                {{ form.title.label_tag }}
-                {{ form.title }}
-                {{ form.title.errors }}
+            <div class="form-group col-md">
+                {{ addCourseForm.title.label }}
+                {{ addCourseForm.title }}
             </div>
-            <div class="col-md-5 mb-3">
-                {{ form.artist.label_tag }}
-                {{ form.artist }}
-                {{ form.artist.errors }}
+            <div class="form-group col-md-2">
+                {{ addCourseForm.start_date.label }}
+                {{ addCourseForm.start_date }}
             </div>
-            <div class="col-md-2 mb-5">
-                {{ form.bpm.label_tag }}
-                {{ form.bpm }}
-                {{ form.bpm.errors }}
+            <div class="form-group col-md-1">
+                {{ addCourseForm.int_duration.label }}
+                {{ addCourseForm.int_duration }}
             </div>
         </div>
+
         <div class="form-row">
-            <div class="col-md-9 mb-3">
-                {{ form.spotify.label_tag }}
-                {{ form.spotify }}
-                {{ form.spotify.errors }}
+            <div class="form-group col-md">
+                {{ addCourseForm.male_instructor.label }}
+                {{ addCourseForm.male_instructor }}
+            </div>
+            <div class="form-group col-md">
+                {{ addCourseForm.female_instructor.label }}
+                {{ addCourseForm.female_instructor }}
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-md-9 mb-3">
-                {{ form.URI.label_tag }}
-                {{ form.URI }}
-                <span class="error">{{ form.URI.errors }}</span>
+    </div>
+
+    <br>
+
+    <div id="dynamic-sections">
+
+        <input id="sectionCount" type="hidden" readonly name="sectionCount" value="{{ sectionForms | length }}">
+
+        <div id="sectionFormTemplate" class="d-none">
+            <div class="jumbotron section">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        {{ sectionFormTemplate.title.label }}
+                        {{ sectionFormTemplate.title }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ sectionFormTemplate.start.label }}
+                        {{ sectionFormTemplate.start }}
+                    </div>
+                    <div class="form-group col-md-1">
+                        {{ sectionFormTemplate.duration.label }}
+                        {{ sectionFormTemplate.duration }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ sectionFormTemplate.song.label }}
+                        {{ sectionFormTemplate.song }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ sectionFormTemplate.video.label }}
+                        {{ sectionFormTemplate.video }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        {{ sectionFormTemplate.text.label }}
+                        {{ sectionFormTemplate.text }}
+                    </div>
+                </div>
+                <button class="btn btn-danger float-right" id="btn-remove-section${i}" onclick="removeSection(this)" type="button" name="button" >
+                    <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
+                    Remove
+                </button>
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-md-12 mb-3">
-                {{ form.tags }}
+
+        {% for sectionForm in sectionForms %}
+
+            <div class="jumbotron section">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        {{ sectionForm.title.label }}
+                        {{ sectionForm.title }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ sectionForm.start.label }}
+                        {{ sectionForm.start }}
+                    </div>
+                    <div class="form-group col-md-1">
+                        {{ sectionForm.duration.label }}
+                        {{ sectionForm.duration }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ sectionForm.song.label }}
+                        {{ sectionForm.song }}
+                    </div>
+                    <div class="form-group col-md-2">
+                        {{ sectionForm.video.label }}
+                        {{ sectionForm.video }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        {{ sectionForm.text.label }}
+                        {{ sectionForm.text }}
+                    </div>
+                </div>
+                <button class="btn btn-danger float-right btn-remove-section"    type="button" name="button" >
+                    <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
+                    Remove
+                </button>
             </div>
-        </div>
-        <button class="btn btn-block btn-dark" type="submit">Save</button>
-    </form>
+        {% endfor %}
+
+    </div>
+
+    <button class="btn btn-secondary" id="btn-add-section" type="button" name="button" >
+        <img src="https://img.icons8.com/material-rounded/25/22BB30/plus-math.png">
+        New section
+    </button>
+
+    <br>
+    <br>
+
+    <button class="btn btn-block btn-dark" type="submit">Save</button>
+</form>
 
 {% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function() {
+
+            $(".btn-remove-section").click(function(event) {
+                $("#sectionCount").val( +$("#sectionCount").val() - 1);
+                $(event.currentTarget).parent()[0].remove()
+            })
+
+            $("#btn-add-section").click(function() {
+                $("#sectionCount").val( +$("#sectionCount").val() + 1)
+                $("#dynamic-sections").append( $("#sectionFormTemplate").html().replace(/template/g, $("#sectionCount").val()) )
+            })
+
+
+        })
+    </script>
+{% endblock script %}

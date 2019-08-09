@@ -4,65 +4,98 @@ from courses.forms import *
 from django.db.models import Q
 import json
 #from django.contrib.auth.decorators import login_required
+from songs.models import *
+from videos.models import *
 
 # End: imports -----------------------------------------------------------------
 
 # Functions
-def search_song_filter(form, queryset):
-    search = form.cleaned_data['search']
-    tag = form.cleaned_data['tag']
-    check_min = form.cleaned_data['check_min']
-    min_bpm = form.cleaned_data['min_bpm']
-    check_max = form.cleaned_data['check_max']
-    max_bpm = form.cleaned_data['max_bpm']
-
-    if search != "":
-        queryset = queryset.filter( Q(title__icontains=search) | Q(artist__icontains=search) )
-    if tag != '-1':
-        queryset = queryset.filter(tags__id=tag)
-    if check_min and min_bpm != None:
-        queryset = queryset.filter(bpm__gte=min_bpm)
-    if check_max and max_bpm != None:
-        queryset = queryset.filter(bpm__lte=max_bpm)
-
-    return queryset
-
-
 
 # End: Functions ---------------------------------------------------------------
 
 def add_course(request):
-    form = CourseForm()
+    print(" ==> courses.views: {}".format(request.POST))
+    addCourseForm = CourseForm()
+    sectionForms = []
+
     if request.method == 'POST':
-        form = CourseForm(request.POST)
-        if form.is_valid():
-            course = form.save()
-            return redirect('songs:all_songs')
+        addCourseForm = CourseForm(data=request.POST)
+        sectionCount = int(request.POST.get("sectionCount"))
 
-    return render(request, 'songs/song_form.html', {'form': form})
+        if addCourseForm.is_valid():
+            sectionForms = [SectionForm( prefix=i, data=request.POST) for i in range(1, sectionCount+1)]
+            if all(sectionForm.is_valid() for sectionForm in sectionForms):
 
-def edit_course(request, songID):
-    course = Course.objects.get(id=songID)
-    prev_song = course.title
-    form = CourseForm(instance=course)
+                course = addCourseForm.save()
+                for sectionForm in sectionForms:
+                    section = sectionForm.save()
+                    section.course = course
+                    section.save()
+
+                return redirect('courses:all_courses')
+
+
+
+
+    return render(request, 'courses/course_form.html', {
+        'addCourseForm': addCourseForm,
+        'sectionForms': sectionForms,
+        'sectionFormTemplate': SectionForm(prefix="template"),
+    })
+
+def edit_course(request, courseID):
+    course = Course.objects.get(id=courseID)
+    sections = list(course.sections.all())
+
+    addCourseForm = CourseForm(instance=course)
+    sectionForms = [SectionForm(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
+
+
+    print(course)
+    print(sections)
+
+
+
+
     if request.method == 'POST':
-        form = CourseForm(request.POST, instance=course)
-        if form.is_valid():
-            course = form.save()
-            return redirect('courses:all_courses')
-    # GET or form failed
+        print(request.POST)
+        addCourseForm = CourseForm(request.POST, instance=course)
+        sectionCount = int(request.POST.get("sectionCount"))
 
-    return render(request, 'courses/course_form.html', {'form': form})
+        if addCourseForm.is_valid():
+            sectionForms = [SectionForm( prefix=i, data=request.POST) for i in range(1, sectionCount+1)]
+            if all(sectionForm.is_valid() for sectionForm in sectionForms):
+
+                course = addCourseForm.save()
+                course.sections.all().delete()
+                for sectionForm in sectionForms:
+                    section = sectionForm.save()
+                    print(section.title)
+                    print(section.course)
+                    print(section.text)
+                    section.course = course
+                    section.save()
+                    print(section.course)
+
+                return redirect('courses:all_courses')
+
+
+    # GET or addCourseForm failed
+    return render(request, 'courses/course_form.html', {
+        'addCourseForm': addCourseForm,
+        'sectionForms': sectionForms,
+        'sectionFormTemplate': SectionForm(prefix="template"),
+    })
 
 def all_courses(request):
-    form = SearchForm(initial={'check_min': True, 'check_max': True})
+    #form = SearchForm(initial={'check_min': True, 'check_max': True})
     courses = Course.objects.all()
     if request.method == "POST":
-        form = SearchForm(data=request.POST)
-        if form.is_valid():
-            courses = search_courses_filter(form=form, queryset=courses)
+        courses = Course.objects.all()
+        #form = SearchForm(data=request.POST)
+        #if form.is_valid():
+        #    courses = search_courses_filter(form=form, queryset=courses)
 
     return render(request, 'courses/all_courses.html', {
-        'form': form,
-        'courses': courses.order_by('target_group'),
+        'courses': courses,
     })
