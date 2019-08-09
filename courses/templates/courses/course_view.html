@@ -1,0 +1,59 @@
+{% extends 'songs/base.html' %}
+{% block title %}Add course{% endblock %}
+{% load static %}
+
+{% block head %}
+<script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+
+{{ form.media }}
+<style media="screen">
+    .course-wrapper {
+        color: black;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">All courses</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:course_view' course.id  %}">{{ course.title }}</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="course-wrapper jumbotron">
+
+        <h1>
+            {{ course.title }}
+            <a href="{% url 'courses:edit_course' course.id %}"><img id="edit-pen" src="https://img.icons8.com/material/24/000000/edit.png"></a>
+            <a href="{% url 'courses:export_course' course.id %}"><img id="export-course-icon" src="https://img.icons8.com/windows/24/000000/download.png"></a>
+        </h1>
+
+        Instuktør (follower): {{ course.female_instructor.get_full_name | default:'Ingen valgt' }} <br>
+        Instruktør (leader): {{ course.male_instructor.get_full_name | default:'Ingen valgt'}} <br>
+
+        <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
+        <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
+        Dato: {{ course.start | date:'d. M Y (D)' | default:'TBA' }} <br>
+        Når: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.end | date:'H:i' | default:'TBA' }} <br>
+        Hvor: {{ course.place | default:'TBA' }} <br>
+        {# {{ course.end }} #}
+
+        <br>
+        {% for section in course.sections.all %}
+            <p>
+                ({{ section.nr }}) {{ section.title }} ({{ section.duration }} min) - {{ section.start | date:'H:i' }}
+                <br>
+                Song: {{ section.song }}, video: {{ section.video.name }}
+                {{ section.text }}
+            </p>
+        {% endfor %}
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        })
+    </script>
+{% endblock script %}

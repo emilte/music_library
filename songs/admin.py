@@ -50,4 +50,4 @@ class SongManager(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Song, SongManager)
-admin.site.register(Tag)
+admin.site.register(SongTag)

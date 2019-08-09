@@ -12,13 +12,19 @@ DIFFICULY_CHOISES = [
 ]
 # End: coises ------------------------------------------------------------------
 
+class VideoTag(models.Model):
+    name = models.CharField(null=False, blank=False, max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Video(models.Model):
     navn = models.CharField(max_length=150, null=True, blank=False)
     youtube = models.URLField(null=True, blank=False)
     embedded = models.URLField(null=True, blank=True)
+    tags = models.ManyToManyField('videos.VideoTag')
     beskrivelse = models.TextField(max_length=150, null=True, blank=False)
     fokuspunkt = models.TextField(max_length=150, null=True, blank=False)
-    tags = models.ManyToManyField('songs.Tag')
     vanskelighetsgrad = models.IntegerField(choices=DIFFICULY_CHOISES, default=1)
 
     #tags = models.ManyToManyField(Tag, blank=True)
@@ -39,4 +45,4 @@ class Video(models.Model):
 
 
     def __str__(self):
-        return "{}".format(self.youtube)
+        return "{}".format(self.navn)

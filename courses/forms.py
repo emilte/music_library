@@ -18,6 +18,12 @@ class CourseForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
+        self.fields['start'].widget.attrs.update({'placeholder': 'HH:mm'})
+        self.fields['start'].widget.format = "%H:%M"
+        self.fields['end'].widget.attrs.update({'placeholder': 'HH:mm'})
+        self.fields['end'].widget.format = "%H:%M"
+
+
 class SectionForm(forms.ModelForm):
     #tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
 
@@ -29,3 +35,9 @@ class SectionForm(forms.ModelForm):
         super(SectionForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+            input_formats=["%H:%M"]
+
+        self.fields['start'].widget.format = "%H:%M"
+        self.fields['start'].widget.attrs.update({'placeholder': 'HH:mm'})
+        self.fields['duration'].widget.attrs.update({'placeholder': '7'})
+        self.fields['text'].widget.attrs.update({'rows': '7'})

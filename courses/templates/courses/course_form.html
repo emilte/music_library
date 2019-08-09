@@ -9,13 +9,15 @@
 <style media="screen">
     .section {
         background-color: rgba(100, 180, 160, 0.5);
-        margin-bottom: 1em;
+        padding-top: 0.5em;
+        padding-bottom: 3em;
+        margin-bottom: 0.5em;
     }
 </style>
 {% endblock %}
 
 {% block breadcrumbs %}
-<li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Add course</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Edit course</a></li>
 {% endblock %}
 
 {% block body %}
@@ -24,30 +26,34 @@
 <form method="post">
     {% csrf_token %}
 
-    <div id="addCourseForm">
+    <div id="courseForm">
         <div class="form-row">
-            <div class="form-group col-md">
-                {{ addCourseForm.title.label }}
-                {{ addCourseForm.title }}
-            </div>
-            <div class="form-group col-md-2">
-                {{ addCourseForm.start_date.label }}
-                {{ addCourseForm.start_date }}
+            <div class="form-group col-md-4">
+                {{ courseForm.title.label }}
+                {{ courseForm.title }}
             </div>
             <div class="form-group col-md-1">
-                {{ addCourseForm.int_duration.label }}
-                {{ addCourseForm.int_duration }}
+                {{ courseForm.start.label }}
+                {{ courseForm.start }}
+            </div>
+            <div class="form-group col-md-1">
+                {{ courseForm.end.label }}
+                {{ courseForm.end }}
+            </div>
+            <div class="form-group col-md-5">
+                {{ courseForm.place.label }}
+                {{ courseForm.place }}
             </div>
         </div>
 
         <div class="form-row">
-            <div class="form-group col-md">
-                {{ addCourseForm.male_instructor.label }}
-                {{ addCourseForm.male_instructor }}
+            <div class="form-group col-md-4">
+                {{ courseForm.male_instructor.label }}
+                {{ courseForm.male_instructor }}
             </div>
-            <div class="form-group col-md">
-                {{ addCourseForm.female_instructor.label }}
-                {{ addCourseForm.female_instructor }}
+            <div class="form-group col-md-4">
+                {{ courseForm.female_instructor.label }}
+                {{ courseForm.female_instructor }}
             </div>
         </div>
     </div>
@@ -65,7 +71,7 @@
                         {{ sectionFormTemplate.title.label }}
                         {{ sectionFormTemplate.title }}
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-1">
                         {{ sectionFormTemplate.start.label }}
                         {{ sectionFormTemplate.start }}
                     </div>
@@ -73,7 +79,7 @@
                         {{ sectionFormTemplate.duration.label }}
                         {{ sectionFormTemplate.duration }}
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-4">
                         {{ sectionFormTemplate.song.label }}
                         {{ sectionFormTemplate.song }}
                     </div>
@@ -88,7 +94,7 @@
                         {{ sectionFormTemplate.text }}
                     </div>
                 </div>
-                <button class="btn btn-danger float-right" id="btn-remove-section${i}" onclick="removeSection(this)" type="button" name="button" >
+                <button class="btn btn-danger float-right" onclick="removeSection(this)" type="button" name="button" >
                     <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
                     Remove
                 </button>
@@ -103,7 +109,7 @@
                         {{ sectionForm.title.label }}
                         {{ sectionForm.title }}
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-1">
                         {{ sectionForm.start.label }}
                         {{ sectionForm.start }}
                     </div>
@@ -111,7 +117,7 @@
                         {{ sectionForm.duration.label }}
                         {{ sectionForm.duration }}
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-4">
                         {{ sectionForm.song.label }}
                         {{ sectionForm.song }}
                     </div>
@@ -126,7 +132,7 @@
                         {{ sectionForm.text }}
                     </div>
                 </div>
-                <button class="btn btn-danger float-right btn-remove-section"    type="button" name="button" >
+                <button class="btn btn-danger float-right" onclick="removeSection(this)" type="button" name="button" >
                     <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
                     Remove
                 </button>
@@ -151,18 +157,21 @@
 {% block script %}
     <script type="text/javascript">
 
+        function removeSection(element) {
+            console.log(element)
+            $("#sectionCount").val( +$("#sectionCount").val() - 1);
+            $(element).parent()[0].remove()
 
+        }
+
+        var sectionFormTemplate = $("#sectionFormTemplate").html()
+        $("#sectionFormTemplate").remove()
 
         $(document).ready(function() {
 
-            $(".btn-remove-section").click(function(event) {
-                $("#sectionCount").val( +$("#sectionCount").val() - 1);
-                $(event.currentTarget).parent()[0].remove()
-            })
-
             $("#btn-add-section").click(function() {
                 $("#sectionCount").val( +$("#sectionCount").val() + 1)
-                $("#dynamic-sections").append( $("#sectionFormTemplate").html().replace(/template/g, $("#sectionCount").val()) )
+                $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
             })
 
 

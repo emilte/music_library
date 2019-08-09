@@ -17,7 +17,7 @@ class SearchForm(forms.Form):
         super(SearchForm, self).__init__(*args, **kwargs)
         self.fields['search'].widget.attrs.update({'class': 'search-option form-control', 'placeholder': 'Search...'})
         self.fields['tag'].choices = [(-1, '-----')]
-        self.fields['tag'].choices += [(tag.id, tag.name) for tag in Tag.objects.all()]
+        self.fields['tag'].choices += [(tag.id, tag.name) for tag in SongTag.objects.all()]
         self.fields['tag'].widget.attrs.update({'class': 'search-option form-control'})
         self.fields['check_min'].widget.attrs.update({'id': 'check-min', 'class': 'search-option'})
         self.fields['min_bpm'].widget.attrs.update({'id': 'bpm-min', 'class': 'search-option form-control', 'placeholder': 'From'})
@@ -25,7 +25,7 @@ class SearchForm(forms.Form):
         self.fields['max_bpm'].widget.attrs.update({'id': 'bpm-max', 'class': 'search-option form-control', 'placeholder': 'To'})
 
 class SongForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
+    tags = forms.ModelMultipleChoiceField(queryset=SongTag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
 
     class Meta:
         model = Song
@@ -50,12 +50,12 @@ class SongForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
-class TagForm(forms.ModelForm):
+class SongTagForm(forms.ModelForm):
 
     class Meta:
-        model = Tag
+        model = SongTag
         exclude = []
 
     def __init__(self, *args, **kwargs):
-        super(TagForm, self).__init__(*args, **kwargs)
+        super(SongTagForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Name'})

@@ -3,7 +3,7 @@ from django.db import models
 
 # End: imports -----------------------------------------------------------------
 
-class Tag(models.Model):
+class SongTag(models.Model):
     name = models.CharField(null=False, blank=False, max_length=100)
 
     def __str__(self):
@@ -15,7 +15,7 @@ class Song(models.Model):
     bpm = models.SmallIntegerField(blank=True, null=True)
     spotify = models.URLField(null=False, blank=False)
     URI = models.CharField(max_length=300, null=True, blank=True)
-    tags = models.ManyToManyField(Tag, blank=True)
+    tags = models.ManyToManyField('songs.SongTag', blank=True)
 
     def __str__(self):
         return "{} - {} ({} bpm)".format(self.title, self.artist, self.bpm)

@@ -26,7 +26,15 @@ class Command(BaseCommand):
             tags = video.tags.values_list('name')
             tags = [t[0] for t in tags]
             video = video.__dict__
-            video = {'navn': video['navn'], 'youtube': video['youtube'], 'embedded': video['embedded'], 'tags': tags, 'beskrivelse': video['beskrivelse'], 'fokuspunkt': video['fokuspunkt'], "vanskelighetsgrad": video["vanskelighetsgrad"] }
+            video = {
+                'navn': video['navn'],
+                'youtube': video['youtube'],
+                'embedded': video['embedded'],
+                'tags': tags,
+                'beskrivelse': video['beskrivelse'],
+                'fokuspunkt': video['fokuspunkt'],
+                "vanskelighetsgrad": video["vanskelighetsgrad"],
+            }
             data += json.dumps(video, ensure_ascii=False) + "\n"
 
         with open(path + name, mode="w+", encoding="UTF-8") as file:

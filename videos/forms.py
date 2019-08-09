@@ -2,7 +2,6 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from videos.models import *
-from songs.models import Tag
 
 # End: imports -----------------------------------------------------------------
 
@@ -16,7 +15,7 @@ class SearchForm(forms.Form):
         self.fields['search'].widget.attrs.update({'class': 'filter form-control', 'placeholder': 'Search...'})
 
         self.fields['tag'].choices = [(-1, '-----')]
-        self.fields['tag'].choices += [(tag.id, tag.name) for tag in Tag.objects.all()]
+        self.fields['tag'].choices += [(tag.id, tag.name) for tag in VideoTag.objects.all()]
         self.fields['tag'].widget.attrs.update({'class': 'filter form-control'})
 
         self.fields['vanskelighetsgrad'].choices = [(-1, '-----')]
@@ -25,7 +24,7 @@ class SearchForm(forms.Form):
 
 
 class VideoForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
+    tags = forms.ModelMultipleChoiceField(queryset=VideoTag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
     #vanskelighetsgrad = forms.ChoiceField(choices=())
 
     class Meta:

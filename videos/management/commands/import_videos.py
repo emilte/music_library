@@ -31,7 +31,8 @@ class Command(BaseCommand):
             for line in lines:
                 try:
                     line = json.loads(line)
-                    song = Video.objects.create(
+                    tags = line['tags']
+                    video = Video.objects.create(
                         navn = line["navn"],
                         youtube = line["youtube"],
                         embedded = line["embedded"],
@@ -39,6 +40,10 @@ class Command(BaseCommand):
                         beskrivelse = line["beskrivelse"],
                         vanskelighetsgrad = line["vanskelighetsgrad"],
                     )
+
+                    for name in line['tags']:
+                        videoTag, created = VideoTag.objects.get_or_create(name=name)
+                        video.tags.add(videoTag)
                 except Exception as e:
                     print("Error: {}".format(e))
 

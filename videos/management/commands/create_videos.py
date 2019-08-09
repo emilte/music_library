@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.core import management
 from videos.models import *
 import json
+from halo import *
 # End: imports -----------------------------------------------------------------
 
 yt_links = [
@@ -29,6 +30,8 @@ class Command(BaseCommand):
 
     def create_videos(self):
         global yt_links
+        spinner = Halo("Creating videos")
+        spinner.start()
 
         for x in range(0, len(yt_links) ):
             video = Video.objects.create(
@@ -39,10 +42,9 @@ class Command(BaseCommand):
             )
             video.embed()
 
-
+        spinner.succeed()
 
     def handle(self, *args, **options):
         self.delete_videos()
         self.create_videos()
-        print("Done")
         # End of handle

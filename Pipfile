@@ -13,6 +13,7 @@ user-agents = "*"
 django-user-agents = "*"
 python-memcached = "*"
 django-tinymce = "*"
+python-docx = "*"
 
 [dev-packages]
 
