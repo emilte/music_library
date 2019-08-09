@@ -34,9 +34,6 @@ def add_course(request):
 
                 return redirect('courses:all_courses')
 
-
-
-
     return render(request, 'courses/course_form.html', {
         'addCourseForm': addCourseForm,
         'sectionForms': sectionForms,
@@ -50,17 +47,9 @@ def edit_course(request, courseID):
     addCourseForm = CourseForm(instance=course)
     sectionForms = [SectionForm(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
 
-
-    print(course)
-    print(sections)
-
-
-
-
     if request.method == 'POST':
-        print(request.POST)
         addCourseForm = CourseForm(request.POST, instance=course)
-        sectionCount = int(request.POST.get("sectionCount"))
+        sectionCount = int(request.POST.get("sectionCount", "0"))
 
         if addCourseForm.is_valid():
             sectionForms = [SectionForm( prefix=i, data=request.POST) for i in range(1, sectionCount+1)]
@@ -70,12 +59,8 @@ def edit_course(request, courseID):
                 course.sections.all().delete()
                 for sectionForm in sectionForms:
                     section = sectionForm.save()
-                    print(section.title)
-                    print(section.course)
-                    print(section.text)
                     section.course = course
                     section.save()
-                    print(section.course)
 
                 return redirect('courses:all_courses')
 
