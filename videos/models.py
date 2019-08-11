@@ -15,6 +15,9 @@ DIFFICULY_CHOISES = [
 class VideoTag(models.Model):
     name = models.CharField(null=False, blank=False, max_length=100)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -23,8 +26,8 @@ class Video(models.Model):
     youtube = models.URLField(null=True, blank=False)
     embedded = models.URLField(null=True, blank=True)
     tags = models.ManyToManyField('videos.VideoTag')
-    beskrivelse = models.TextField(max_length=150, null=True, blank=False)
-    fokuspunkt = models.TextField(max_length=150, null=True, blank=False)
+    beskrivelse = models.TextField(null=True, blank=True)
+    fokuspunkt = models.TextField(null=True, blank=True)
     vanskelighetsgrad = models.IntegerField(choices=DIFFICULY_CHOISES, default=1)
 
     #tags = models.ManyToManyField(Tag, blank=True)

@@ -5,22 +5,22 @@ from videos.models import *
 
 # End: imports -----------------------------------------------------------------
 
-class SearchForm(forms.Form):
+class VideoSearchForm(forms.Form):
     search = forms.CharField(required=False)
     tag = forms.ChoiceField(required=False)
     vanskelighetsgrad = forms.ChoiceField(required=False)
 
     def __init__(self, *args, **kwargs):
-        super(SearchForm, self).__init__(*args, **kwargs)
-        self.fields['search'].widget.attrs.update({'class': 'filter form-control', 'placeholder': 'Search...'})
+        super(VideoSearchForm, self).__init__(*args, **kwargs)
+        self.fields['search'].widget.attrs.update({'class': 'video-search-filter form-control', 'placeholder': 'Search...', 'autofocus': True})
 
         self.fields['tag'].choices = [(-1, '-----')]
         self.fields['tag'].choices += [(tag.id, tag.name) for tag in VideoTag.objects.all()]
-        self.fields['tag'].widget.attrs.update({'class': 'filter form-control'})
+        self.fields['tag'].widget.attrs.update({'class': 'video-search-filter form-control'})
 
         self.fields['vanskelighetsgrad'].choices = [(-1, '-----')]
         self.fields['vanskelighetsgrad'].choices += [difficulty for difficulty in DIFFICULY_CHOISES]
-        self.fields['vanskelighetsgrad'].widget.attrs.update({'class': 'filter form-control'})
+        self.fields['vanskelighetsgrad'].widget.attrs.update({'class': 'video-search-filter form-control'})
 
 
 class VideoForm(forms.ModelForm):

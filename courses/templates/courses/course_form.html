@@ -64,46 +64,11 @@
 
         <input id="sectionCount" type="hidden" readonly name="sectionCount" value="{{ sectionForms | length }}">
 
-        <div id="sectionFormTemplate" class="d-none">
-            <div class="jumbotron section">
-                <div class="form-row">
-                    <div class="form-group col-md-3">
-                        {{ sectionFormTemplate.title.label }}
-                        {{ sectionFormTemplate.title }}
-                    </div>
-                    <div class="form-group col-md-1">
-                        {{ sectionFormTemplate.start.label }}
-                        {{ sectionFormTemplate.start }}
-                    </div>
-                    <div class="form-group col-md-1">
-                        {{ sectionFormTemplate.duration.label }}
-                        {{ sectionFormTemplate.duration }}
-                    </div>
-                    <div class="form-group col-md-4">
-                        {{ sectionFormTemplate.song.label }}
-                        {{ sectionFormTemplate.song }}
-                    </div>
-                    <div class="form-group col-md-2">
-                        {{ sectionFormTemplate.video.label }}
-                        {{ sectionFormTemplate.video }}
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-10">
-                        {{ sectionFormTemplate.text.label }}
-                        {{ sectionFormTemplate.text }}
-                    </div>
-                </div>
-                <button class="btn btn-danger float-right" onclick="removeSection(this)" type="button" name="button" >
-                    <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
-                    Remove
-                </button>
-            </div>
-        </div>
-
         {% for sectionForm in sectionForms %}
 
             <div class="jumbotron section">
+                <input type="hidden" name="prefix" value="{{ sectionForm.prefix }}">
+
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         {{ sectionForm.title.label }}
@@ -150,6 +115,46 @@
     <br>
 
     <button class="btn btn-block btn-dark" type="submit">Save</button>
+
+    <!-- TEMPLATE -->
+    <div id="sectionFormTemplate" class="d-none">
+        <div class="jumbotron section">
+            <input type="hidden" name="prefix" value="template">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    {{ sectionFormTemplate.title.label }}
+                    {{ sectionFormTemplate.title }}
+                </div>
+                <div class="form-group col-md-1">
+                    {{ sectionFormTemplate.start.label }}
+                    {{ sectionFormTemplate.start }}
+                </div>
+                <div class="form-group col-md-1">
+                    {{ sectionFormTemplate.duration.label }}
+                    {{ sectionFormTemplate.duration }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ sectionFormTemplate.song.label }}
+                    {{ sectionFormTemplate.song }}
+                </div>
+                <div class="form-group col-md-2">
+                    {{ sectionFormTemplate.video.label }}
+                    {{ sectionFormTemplate.video }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-10">
+                    {{ sectionFormTemplate.text.label }}
+                    {{ sectionFormTemplate.text }}
+                </div>
+            </div>
+            <button class="btn btn-danger float-right" onclick="removeSection(this)" type="button" name="button" >
+                <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
+                Remove
+            </button>
+        </div>
+    </div>
+
 </form>
 
 {% endblock %}

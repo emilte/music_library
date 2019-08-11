@@ -18,6 +18,13 @@
 
         <h1>All courses:</h1>
 
+        <div class="">
+            <a class="btn btn-secondary" href="{% url 'courses:add_course' %}">
+                <img src="https://img.icons8.com/material-rounded/25/22BB30/plus-math.png">
+                Add new Course
+            </a>
+        </div>
+
         <div id="table-courses">
             <ol id="all-courses">
                 {% for course in courses %}

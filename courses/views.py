@@ -23,8 +23,15 @@ def add_course(request):
         courseForm = CourseForm(data=request.POST)
         sectionCount = int(request.POST.get("sectionCount"))
 
+        print(courseForm.errors) # Log errors
+
         if courseForm.is_valid():
-            sectionForms = [SectionForm( prefix=i, data=request.POST) for i in range(1, sectionCount+1)]
+            prefixes = request.POST.getlist("prefix")
+
+            sectionForms = [SectionForm( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
+
+            [print(sectionForm.errors for sectionForm in sectionForms)] # Log errors
+
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
 
                 course = courseForm.save()
@@ -54,10 +61,16 @@ def edit_course(request, courseID):
         courseForm = CourseForm(request.POST, instance=course)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
-        print(courseForm.errors)
+        print(courseForm.errors) # Log errors
+
 
         if courseForm.is_valid():
-            sectionForms = [SectionForm( prefix=i, data=request.POST) for i in range(1, sectionCount+1)]
+            prefixes = request.POST.getlist("prefix")
+
+            sectionForms = [SectionForm( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
+
+            [print(sectionForm.errors for sectionForm in sectionForms)] # Log errors
+
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
 
                 course = courseForm.save()

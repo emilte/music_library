@@ -57,7 +57,7 @@ def home(request):
     return render(request, 'songs/home.html')
 
 def add_song(request):
-    form = SongForm()
+    form = SearSongForm()
     if request.method == 'POST':
         form = SongForm(request.POST)
         if form.is_valid():
@@ -82,10 +82,10 @@ def edit_song(request, songID):
     return render(request, 'songs/song_form.html', {'form': form, "songID": songID})
 
 def all_songs(request):
-    form = SearchForm()
+    form = SongSearchForm()
     songs = Song.objects.all()
     if request.method == "POST":
-        form = SearchForm(data=request.POST)
+        form = SongSearchForm(data=request.POST)
         if form.is_valid():
             songs = search_song_filter(form=form, queryset=songs)
 

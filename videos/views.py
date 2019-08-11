@@ -11,7 +11,8 @@ import json
 # End: imports -----------------------------------------------------------------
 
 # Functions:
-def search_video_filter(form, queryset):
+
+def video_search_filter(form, queryset):
     search = form.cleaned_data['search']
     tag = form.cleaned_data['tag']
     vanskelighetsgrad = form.cleaned_data['vanskelighetsgrad']
@@ -24,21 +25,23 @@ def search_video_filter(form, queryset):
         queryset = queryset.filter(vanskelighetsgrad=vanskelighetsgrad)
 
     return queryset
+
+
 # End: Functions ---------------------------------------------------------------
 
 # Create your views here.
 def all_videos(request):
-    form = SearchForm()
+    form = VideoSearchForm()
     videos = Video.objects.all()
 
     if request.method == "POST":
-        form = SearchForm(data=request.POST)
+        form = VideoSearchForm(data=request.POST)
         if form.is_valid():
-            videos = search_video_filter(form=form, queryset=videos)
+            videos = video_search_filter(form=form, queryset=videos)
 
     return render(request, 'videos/all_videos.html', {
         'form': form,
-        'videos': videos.order_by('id'),
+        'videos': videos,
     })
 
 def add_video(request):

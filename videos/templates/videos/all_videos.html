@@ -49,7 +49,7 @@
     </a>
 </div>
 
-<form id="video-filter" action="{% url 'videos:all_videos' %}" method="post">
+<form action="{% url 'videos:all_videos' %}" method="post">
     {% csrf_token %}
     <div class="row form-group">
 
@@ -116,11 +116,11 @@
                                 <div class="row">
                                     <div class="col gray-box">
                                         <h4>Beskrivelse:</h4>
-                                        {{ video.beskrivelse }}
+                                        {{ video.beskrivelse | linebreaks }}
                                     </div>
                                     <div class="col gray-box">
                                         <h4>Fokuspunkt:</h4>
-                                        {{ video.fokuspunkt }}
+                                        {{ video.fokuspunkt | linebreaks }}
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
             $('form').submit();
         })
 
-        $('.filter').change(function() {
+        $('.video-search-filter').change(function() {
             $('form').submit();
         });
 

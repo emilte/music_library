@@ -5,7 +5,7 @@ from songs.models import *
 
 # End: imports -----------------------------------------------------------------
 
-class SearchForm(forms.Form):
+class SongSearchForm(forms.Form):
     search = forms.CharField(required=False)
     tag = forms.ChoiceField(required=False)
     check_min = forms.BooleanField(required=False, initial=True)
@@ -14,7 +14,7 @@ class SearchForm(forms.Form):
     max_bpm = forms.IntegerField(required=False, min_value=0, max_value=200)
 
     def __init__(self, *args, **kwargs):
-        super(SearchForm, self).__init__(*args, **kwargs)
+        super(SongSearchForm, self).__init__(*args, **kwargs)
         self.fields['search'].widget.attrs.update({'class': 'search-option form-control', 'placeholder': 'Search...'})
         self.fields['tag'].choices = [(-1, '-----')]
         self.fields['tag'].choices += [(tag.id, tag.name) for tag in SongTag.objects.all()]
