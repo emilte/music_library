@@ -3,7 +3,11 @@
 
 {% block head %}
     <style>
-
+        .blue-box {
+            background-color: rgba(50, 100, 150, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+        }
     </style>
 {% endblock %}
 
@@ -12,26 +16,30 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Create account</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <p>
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.help_text %}
-                    <small class="text-secondary">{{ field.help_text }}</small>
-                {% endif %}
-                {% for error in field.errors %}
-                    <p class="error">{{ error }}</p>
-                {% endfor %}
-            </p>
-        {% endfor %}
-        <button type="submit" class="btn btn-lg btn-primary btn-block">Sign up</button>
-    </form>
-    <br>
+    <div class="blue-box">
 
-    <span>Already have an account?</span>
-    <a href="{% url 'accounts:login' %}">Login here</a>
+        <h2>Create account</h2>
+
+        <form class="container" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="text-secondary">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Sign up</button>
+        </form>
+        <br>
+
+        <span>Already have an account?</span>
+        <a href="{% url 'accounts:login' %}">Login here</a>
+    </div>
 
 {% endblock %}

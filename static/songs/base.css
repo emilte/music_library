@@ -5,9 +5,9 @@ html {
 }
 
 body {
-    background-image: url('background.png');
+    background-image: url('background2.png');
     background-size: cover auto;
-    position: relative !important; /* Needed for natural element flow */
+    position: relative; /* Needed for natural element flow */
     margin-top: 4em !important; /* Because of navbar (fixed) */
 
     color: white;
@@ -23,6 +23,12 @@ a:hover {
     color: red;
 }
 
+.white-box {
+    background: rgba(255,255,255,0.8);
+    border-radius: 1em;
+    padding: 1em 1em 1em 1em;
+}
+
 #navbar {
     padding-right: 5em;
 }
@@ -32,14 +38,16 @@ a:hover {
 }
 
 #breadcrumbs {
-    background-color: transparent;
+    background-color: rgba(15,15,25,0.8);
 }
 
 #content-wrapper {
-    min-height: 67vh !important;
+    min-height: 56.9vh !important;
 }
 
+
 #footer {
+    background: rgba(20,20,40,0.5);
     /* Space between content and footer */
     margin-top: 2em;
 }

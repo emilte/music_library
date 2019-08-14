@@ -2,6 +2,11 @@
 {% block title %}Tag{% endblock %}
 {% block head %}
     <style>
+        .green-box {
+            background: rgba(10,40,40,0.8);
+            border-radius: 1em;
+            padding: 1em 1em 1em 1em;
+        }
         .btn {
             margin-left: 1em;
         }
@@ -13,17 +18,18 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Tag</h1>
+    <div class="green-box">
 
-    <form class="form-inline" method="post">
-        {% csrf_token %}
+        <h1>Tag</h1>
 
-        {{ form.name }}
-        {{ form.name.errors }}
-        <button class="btn btn-dark" type="submit">Save</button>
-        <button class="btn btn-danger" type="submit">Delete</button>
+        <form class="form-inline" method="post">
+            {% csrf_token %}
 
+            {{ form.name }}
+            {{ form.name.errors }}
+            <button class="btn btn-dark" type="submit">Save</button>
+            <button class="btn btn-danger" type="submit">Delete</button>
 
-
-    </form>
+        </form>
+    </div>
 {% endblock %}

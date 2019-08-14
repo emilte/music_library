@@ -1,72 +1,79 @@
 {% extends 'songs/base.html' %}
-{% block title %}Add song{% endblock %}
+{% block title %}Edit song{% endblock %}
 {% load static %}
 
 {% block head %}
     <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
 
     {{ form.media }}
-    <style media="screen">
 
+    <style media="screen">
+        .green-box {
+            background: rgba(10,40,40,0.8);
+            border-radius: 1em;
+            padding: 1em 1em 1em 1em;
+        }
     </style>
 {% endblock %}
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'songs:all_songs' %}">All songs</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Add song</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Edit song</a></li>
 {% endblock %}
 
 {% block body %}
-    <h1>Add song</h1>
+    <div class="green-box">
+        <h1>Add song</h1>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-row">
-            <div class="col-md-5 mb-3">
-                {{ form.title.label_tag }}
-                {{ form.title }}
-                {{ form.title.errors }}
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5 mb-3">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                    {{ form.title.errors }}
+                </div>
+                <div class="col-md-5 mb-3">
+                    {{ form.artist.label_tag }}
+                    {{ form.artist }}
+                    {{ form.artist.errors }}
+                </div>
+                <div class="col-md-2 mb-5">
+                    {{ form.bpm.label_tag }}
+                    {{ form.bpm }}
+                    {{ form.bpm.errors }}
+                </div>
             </div>
-            <div class="col-md-5 mb-3">
-                {{ form.artist.label_tag }}
-                {{ form.artist }}
-                {{ form.artist.errors }}
+            <div class="form-row">
+                <div class="col-md mb-3">
+                    {{ form.spotify.label_tag }}
+                    {{ form.spotify }}
+                    {{ form.spotify.errors }}
+                </div>
+                <div class="col-md mb-3">
+                    {{ form.URI.label_tag }}
+                    {{ form.URI }}
+                    <span class="error">{{ form.URI.errors }}</span>
+                </div>
             </div>
-            <div class="col-md-2 mb-5">
-                {{ form.bpm.label_tag }}
-                {{ form.bpm }}
-                {{ form.bpm.errors }}
+            <br>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    {{ form.tags }}
+                </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-9 mb-3">
-                {{ form.spotify.label_tag }}
-                {{ form.spotify }}
-                {{ form.spotify.errors }}
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-9 mb-3">
-                {{ form.URI.label_tag }}
-                {{ form.URI }}
-                <span class="error">{{ form.URI.errors }}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-12 mb-3">
-                {{ form.tags }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8">
-                <button class="btn btn-block btn-dark" type="submit">Save</button>
-            </div>
-            <div class="col-md-4">
+            <div class="row">
+                <div class="col-md">
+                    <button class="btn btn-block btn-dark" type="submit">Save</button>
+                </div>
                 {% if songID %}
-                    <a href="{% url 'songs:delete_song' songID %}" class="btn btn-block btn-danger" type="submit">Delete</a>
+                    <div class="col-md-4">
+                        <a href="{% url 'songs:delete_song' songID %}" class="btn btn-block btn-danger" type="submit">Delete</a>
+                    </div>
                 {% endif %}
             </div>
-        </div>
-    </form>
+        </form>
+
+    </div>
 
 {% endblock %}

@@ -2,7 +2,7 @@
 {% block title %}All songs{% endblock %}
 {% block head %}
     <style media="screen">
-        #table-songs {
+        .green-box {
             background: rgba(10,40,40,0.8);
             border-radius: 1em;
             padding: 1em 1em 1em 1em;
@@ -85,8 +85,8 @@
             </div>
         </form>
 
-        <div id="table-songs">
-            <ol id="all-songs">
+        <div class="green-box">
+            <ol>
                 {% for song in songs %}
                     <li>
                         <a class="text-success song-link" target="_blank" href="{{ song.spotify }}">{{ song }}</a>
