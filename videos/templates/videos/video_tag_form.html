@@ -1,0 +1,35 @@
+{% extends 'songs/base.html' %}
+{% block title %}Tag{% endblock %}
+{% block head %}
+    <style>
+        .red-box {
+            background: rgba(200,0,100,0.2);
+            border-radius: 1em;
+            padding: 1em;
+        }
+        .btn {
+            margin-left: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_tag' %}">Add tag</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="green-box">
+
+        <h1>Tag</h1>
+
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+
+            {{ form.name }}
+            {{ form.name.errors }}
+            <button class="btn btn-dark" type="submit">Save</button>
+            <button class="btn btn-danger" type="submit">Delete</button>
+
+        </form>
+    </div>
+{% endblock %}

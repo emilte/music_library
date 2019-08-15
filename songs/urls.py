@@ -12,8 +12,8 @@ urlpatterns = [
     path('edit/<int:songID>', views.edit_song, name="edit_song"),
     path('delete/<int:songID>', views.delete_song, name="delete_song"),
 
-    path('tags/add', views.add_tag, name="add_tag"),
-    path('tags/edit/<int:tagID>', views.edit_tag, name="edit_tag"),
+    path('tag/add', views.add_song_tag, name="add_song_tag"),
+    path('tag/edit/<int:tagID>', views.edit_song_tag, name="edit_song_tag"),
     path('bpm_calc/', views.bpm_calc, name="bpm_calc"),
 
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),

@@ -2,10 +2,16 @@
 {% block title %}All courses{% endblock %}
 {% block head %}
     <style media="screen">
-        #table-courses {
-            background: rgba(10,40,40,0.8);
+        .orange-box {
+            background: rgba(255,165,0,0.4);
             border-radius: 1em;
-            padding: 1em 1em 1em 1em;
+            padding: 1em;
+        }
+        .course-link {
+            color: rgba(255, 165, 0, 1);
+        }
+        .course-link:hover {
+            color: rgba(255, 165, 0, 0.6);
         }
     </style>
 {% endblock %}
@@ -25,11 +31,13 @@
             </a>
         </div>
 
-        <div id="table-courses">
+        <br>
+
+        <div class="orange-box">
             <ol id="all-courses">
                 {% for course in courses %}
                     <li>
-                        <a class="text-success" href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
+                        <a class="course-link" href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
                         <a href="{% url 'courses:edit_course' course.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/88bb88/edit.png"></a>
                     </li>
                 {% endfor %}

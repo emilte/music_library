@@ -36,29 +36,15 @@
                 <a class="nav-link" href="{% url 'songs:all_songs' %}">Songs</a>
             </li>
 
-            <!--
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Songs
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'songs:all_songs' %}">All Songs</a>
-                    <a class="dropdown-item" href="{% url 'songs:bpm_calc' %}">BPM Calculator</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'songs:add_song' %}">Add Song</a>
-                    <a class="dropdown-item" href="{% url 'songs:add_tag' %}">Add Tag</a>
-                </div>
-            </li>
-            -->
             {% if request.user.is_authenticated and request.user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'videos:all_videos' %}">Videos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'courses:all_courses' %}">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                 </li>
             {% endif %}
         </ul>

@@ -70,3 +70,24 @@ def edit_video(request, videoID):
 def delete_video(request, videoID):
     video = Video.objects.get(id=videoID).delete()
     return redirect("videos:all_videos")
+
+def add_video_tag(request):
+    form = VideoTagForm()
+    if request.method == 'POST':
+        form = VideoTagForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    # GET or form failed
+    return render(request, 'songs/tag_form.html', {'form': form})
+
+def edit_video_tag(request, tagID):
+    tag = VideoTag.objects.get(id=tagID)
+    form = VideoTagForm(instance=tag)
+    if request.method == 'POST':
+        form = VideoTagForm(request.POST, instance=tag)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    # GET or form failed
+    return render(request, 'songs/tag_form.html', {'form': form})

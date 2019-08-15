@@ -98,21 +98,21 @@ def delete_song(request, songID):
     Song.objects.get(id=songID).delete()
     return redirect("songs:all_songs")
 
-def add_tag(request):
-    form = TagForm()
+def add_song_tag(request):
+    form = SongTagForm()
     if request.method == 'POST':
-        form = TagForm(request.POST)
+        form = SongTagForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('home')
     # GET or form failed
     return render(request, 'songs/tag_form.html', {'form': form})
 
-def edit_tag(request, tagID):
-    song = Song.objects.get(id=tagID)
-    form = SongForm(instance=song)
+def edit_song_tag(request, tagID):
+    tag = SongTag.objects.get(id=tagID)
+    form = SongTagForm(instance=tag)
     if request.method == 'POST':
-        form = SongForm(request.POST, instance=song)
+        form = SongTagForm(request.POST, instance=tag)
         if form.is_valid():
             form.save()
             return redirect('home')
@@ -121,5 +121,4 @@ def edit_tag(request, tagID):
 
 def bpm_calc(request):
     # https://github.com/selwin/django-user_agents
-    print(request.user_agent.is_mobile)
     return render(request, 'songs/bpm_calc.html')

@@ -11,4 +11,7 @@ urlpatterns = [
     path('add/', views.add_video, name="add_video"),
     path('edit/<int:videoID>', views.edit_video, name="edit_video"),
     path('delete/<int:videoID>', views.delete_video, name="delete_video"),
+
+    path('tag/add', views.add_video_tag, name="add_video_tag"),
+    path('tag/edit/<int:tagID>', views.edit_video_tag, name="edit_video_tag"),
 ]
