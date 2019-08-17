@@ -3,25 +3,25 @@
 {% load static %}
 
 {% block head %}
-<script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
 
-{{ form.media }}
-<style media="screen">
-    .section {
-        background-color: rgba(255,165,0,0.4);
-        padding-top: 0.5em;
-        padding-bottom: 3em;
-        margin-bottom: 0.5em;
-    }
-</style>
+    {{ form.media }}
+    <style media="screen">
+        .section {
+            background-color: rgba(255,165,0,0.4);
+            padding-top: 0.5em;
+            padding-bottom: 3em;
+            margin-bottom: 0.5em;
+        }
+    </style>
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Edit course</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Rediger Kurs</a></li>
 {% endblock %}
 
 {% block body %}
-<h1>Add course</h1>
+<h1>Rediger Kurs</h1>
 
 <form method="post">
     {% csrf_token %}
@@ -29,31 +29,31 @@
     <div id="courseForm">
         <div class="form-row">
             <div class="form-group col-md-4">
-                {{ courseForm.title.label }}
-                {{ courseForm.title }}
+                {{ courseForm.tittel.label }}
+                {{ courseForm.tittel }}
             </div>
             <div class="form-group col-md-1">
                 {{ courseForm.start.label }}
                 {{ courseForm.start }}
             </div>
             <div class="form-group col-md-1">
-                {{ courseForm.end.label }}
-                {{ courseForm.end }}
+                {{ courseForm.slutt.label }}
+                {{ courseForm.slutt }}
             </div>
             <div class="form-group col-md-5">
-                {{ courseForm.place.label }}
-                {{ courseForm.place }}
+                {{ courseForm.sted.label }}
+                {{ courseForm.sted }}
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md-4">
-                {{ courseForm.male_instructor.label }}
-                {{ courseForm.male_instructor }}
+                {{ courseForm.fører.label }}
+                {{ courseForm.fører }}
             </div>
             <div class="form-group col-md-4">
-                {{ courseForm.female_instructor.label }}
-                {{ courseForm.female_instructor }}
+                {{ courseForm.følger.label }}
+                {{ courseForm.følger }}
             </div>
         </div>
     </div>
@@ -71,16 +71,16 @@
 
                 <div class="form-row">
                     <div class="form-group col-md-3">
-                        {{ sectionForm.title.label }}
-                        {{ sectionForm.title }}
+                        {{ sectionForm.tittel.label }}
+                        {{ sectionForm.tittel }}
                     </div>
                     <div class="form-group col-md-1">
                         {{ sectionForm.start.label }}
                         {{ sectionForm.start }}
                     </div>
                     <div class="form-group col-md-1">
-                        {{ sectionForm.duration.label }}
-                        {{ sectionForm.duration }}
+                        {{ sectionForm.varighet.label }}
+                        {{ sectionForm.varighet }}
                     </div>
                     <div class="form-group col-md-4">
                         {{ sectionForm.song.label }}
@@ -122,16 +122,16 @@
             <input type="hidden" name="prefix" value="template">
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    {{ sectionFormTemplate.title.label }}
-                    {{ sectionFormTemplate.title }}
+                    {{ sectionFormTemplate.tittel.label }}
+                    {{ sectionFormTemplate.tittel }}
                 </div>
                 <div class="form-group col-md-1">
                     {{ sectionFormTemplate.start.label }}
                     {{ sectionFormTemplate.start }}
                 </div>
                 <div class="form-group col-md-1">
-                    {{ sectionFormTemplate.duration.label }}
-                    {{ sectionFormTemplate.duration }}
+                    {{ sectionFormTemplate.varighet.label }}
+                    {{ sectionFormTemplate.varighet }}
                 </div>
                 <div class="form-group col-md-4">
                     {{ sectionFormTemplate.song.label }}
@@ -150,7 +150,7 @@
             </div>
             <button class="btn btn-danger float-right" onclick="removeSection(this)" type="button" name="button" >
                 <img src="https://img.icons8.com/material-sharp/24/000000/minus.png">
-                Remove
+                Fjern
             </button>
         </div>
     </div>

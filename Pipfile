@@ -15,6 +15,7 @@ python-memcached = "*"
 django-tinymce = "*"
 python-docx = "*"
 docx = "*"
+spotipy = "*"
 
 [dev-packages]
 

@@ -36,7 +36,7 @@ class Command(BaseCommand):
         for x in range(0, len(yt_links) ):
             video = Video.objects.create(
                 navn = "Video" + str(x),
-                youtube = yt_links[x],
+                youtube_URL = yt_links[x],
                 beskrivelse = "Swing",
                 fokuspunkt = "Fokus",
             )

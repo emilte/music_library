@@ -15,60 +15,60 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Add course</a></li>
+<li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Rediger Kurs</a></li>
 {% endblock %}
 
 {% block body %}
-<h1>Add course</h1>
+<h1>Rediger Kurs</h1>
 
 <form method="post">
     {% csrf_token %}
     <div id="addCourseForm">
         <div class="form-row">
             <div class="form-group col-md">
-                {{ addCourseForm.title.label }}
-                {{ addCourseForm.title }}
+                {{ addCourseForm.tittel.label }}
+                {{ addCourseForm.tittel }}
             </div>
             <div class="form-group col-md-2">
-                {{ addCourseForm.start_date.label }}
-                {{ addCourseForm.start_date }}
+                {{ addCourseForm.start.label }}
+                {{ addCourseForm.start }}
             </div>
             <div class="form-group col-md-1">
-                {{ addCourseForm.int_duration.label }}
-                {{ addCourseForm.int_duration }}
+                {{ addCourseForm.varighet.label }}
+                {{ addCourseForm.varighet }}
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md">
-                {{ addCourseForm.male_instructor.label }}
-                {{ addCourseForm.male_instructor }}
+                {{ addCourseForm.fører.label }}
+                {{ addCourseForm.fører }}
             </div>
             <div class="form-group col-md">
-                {{ addCourseForm.female_instructor.label }}
-                {{ addCourseForm.female_instructor }}
+                {{ addCourseForm.følger.label }}
+                {{ addCourseForm.følger }}
             </div>
         </div>
     </div>
 
     <br>
 
-    {{ sectionFormTemplate.title |  }}
+    {{ sectionFormTemplate.tittel |  }}
 
     <div class="d-none">
         <div id="sectionFormTemplate" class="jumbotron section">
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    {{ sectionFormTemplate.title.label }}
-                    {{ sectionFormTemplate.title }}
+                    {{ sectionFormTemplate.tittel.label }}
+                    {{ sectionFormTemplate.tittel }}
                 </div>
                 <div class="form-group col-md-2">
                     {{ sectionFormTemplate.start.label }}
                     {{ sectionFormTemplate.start }}
                 </div>
                 <div class="form-group col-md-1">
-                    {{ sectionFormTemplate.duration.label }}
-                    {{ sectionFormTemplate.duration }}
+                    {{ sectionFormTemplate.varighet.label }}
+                    {{ sectionFormTemplate.varighet }}
                 </div>
                 <div class="form-group col-md-2">
                     {{ sectionFormTemplate.song.label }}
@@ -137,23 +137,23 @@
                 <div id="section${i}" class="jumbotron section">
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="title${i}">Title</label>
-                            <input type="text" name="title${i}" class="form-control" id="title${i}" placeholder="Title">
+                            <label for="tittel${i}">Title</label>
+                            <input type="text" name="tittel${i}" class="form-control" id="tittel${i}" placeholder="Title">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="start${i}">Start</label>
                             <input type="text" name="start${i}" class="form-control" id="start${i}" placeholder="">
                         </div>
                         <div class="form-group col-md-1">
-                            <label for="duration${i}">Duration</label>
-                            <input type="text" name="duration${i}" class="form-control" id="duration${i}" placeholder="min">
+                            <label for="varighet${i}">Duration</label>
+                            <input type="text" name="varighet${i}" class="form-control" id="varighet${i}" placeholder="min">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="song${i}">Song</label>
                             <select name="song${i}" class="form-control" id="song${i}">
                                 <option value="-1" selected="">---------</option>
                                 {% for song in songs %}
-                                    <option value="{{ forloop.counter }}">{{ song.title }}</option>
+                                    <option value="{{ forloop.counter }}">{{ song.tittel }}</option>
                                 {% endfor %}
                             </select>
                         </div>

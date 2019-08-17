@@ -20,12 +20,12 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'songs:all_songs' %}">All songs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'songs:all_songs' %}">Alle sanger</a></li>
 {% endblock %}
 
 {% block body %}
 
-        <h1>All songs:</h1>
+        <h1>Alle sanger:</h1>
 
         <div id="btn-song-div" class="">
             <a class="btn btn-secondary" href="{% url 'songs:add_song' %}">
@@ -89,7 +89,7 @@
             <ol>
                 {% for song in songs %}
                     <li>
-                        <a class="text-success song-link" target="_blank" href="{{ song.spotify }}">{{ song }}</a>
+                        <a class="text-success song-link" target="_blank" href="{{ song.spotify_url }}">{{ song }}</a>
                         <a href="{% url 'songs:edit_song' song.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/88bb88/edit.png"></a>
                     </li>
                 {% endfor %}

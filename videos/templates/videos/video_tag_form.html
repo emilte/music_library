@@ -14,21 +14,22 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'videos:add_tag' %}">Add tag</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_tag' %}">Legg til VideoTag</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="green-box">
 
-        <h1>Tag</h1>
+        <h1>VideoTag:</h1>
 
         <form class="form-inline" method="post">
             {% csrf_token %}
 
-            {{ form.name }}
-            {{ form.name.errors }}
-            <button class="btn btn-dark" type="submit">Save</button>
-            <button class="btn btn-danger" type="submit">Delete</button>
+            {{ form.navn.label_tag }}
+            {{ form.navn }}
+            {{ form.navn.errors }}
+            <button class="btn btn-dark" type="submit">Lagre</button>
+            <button class="btn btn-danger" type="submit">Slett</button>
 
         </form>
     </div>

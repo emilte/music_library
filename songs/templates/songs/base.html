@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" type="image/png" href="https://png.icons8.com/metro/16/006F30/musical-notes.png"/>
 
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Hjem{% endblock %}</title>
 
     {% block head %}{% endblock %}
 </head>
@@ -25,8 +25,9 @@
         <!-- breadcrumbs -->
         <nav aria-label="breadcrumb">
             <ol id="breadcrumbs" class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Hjem</a></li>
                 {% block breadcrumbs %}
+                    
                 {% endblock %}
             </ol>
         </nav> <!-- End: breadcrumbs -->

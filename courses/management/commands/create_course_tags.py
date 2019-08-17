@@ -26,8 +26,8 @@ class Command(BaseCommand):
         global tags
         spinner = Halo("Creating tags")
         spinner.start()
-        for name in tags:
-            SongTag.objects.create(name=name)
+        for navn in tags:
+            SongTag.objects.create(navn=navn)
 
         spinner.succeed()
 

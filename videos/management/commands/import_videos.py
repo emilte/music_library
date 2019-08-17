@@ -34,7 +34,7 @@ class Command(BaseCommand):
                     tags = line['tags']
                     video = Video.objects.create(
                         navn = line["navn"],
-                        youtube = line["youtube"],
+                        youtube_URL = line["youtube_URL"],
                         embedded = line["embedded"],
                         fokuspunkt = line["fokuspunkt"],
                         beskrivelse = line["beskrivelse"],

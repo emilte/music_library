@@ -17,21 +17,21 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'songs:all_songs' %}">All songs</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Edit song</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'songs:all_songs' %}">Alle sanger</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Rediger sang</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="green-box">
-        <h1>Add song</h1>
+        <h1>Sang</h1>
 
         <form method="post">
             {% csrf_token %}
             <div class="form-row">
                 <div class="col-md-5 mb-3">
-                    {{ form.title.label_tag }}
-                    {{ form.title }}
-                    {{ form.title.errors }}
+                    {{ form.tittel.label_tag }}
+                    {{ form.tittel }}
+                    {{ form.tittel.errors }}
                 </div>
                 <div class="col-md-5 mb-3">
                     {{ form.artist.label_tag }}
@@ -46,14 +46,14 @@
             </div>
             <div class="form-row">
                 <div class="col-md mb-3">
-                    {{ form.spotify.label_tag }}
-                    {{ form.spotify }}
-                    {{ form.spotify.errors }}
+                    {{ form.spotify_URL.label_tag }}
+                    {{ form.spotify_URL }}
+                    {{ form.spotify_URL.errors }}
                 </div>
                 <div class="col-md mb-3">
-                    {{ form.URI.label_tag }}
-                    {{ form.URI }}
-                    <span class="error">{{ form.URI.errors }}</span>
+                    {{ form.spotify_URI.label_tag }}
+                    {{ form.spotify_URI }}
+                    <span class="error">{{ form.spotify_URI.errors }}</span>
                 </div>
             </div>
             <br>
@@ -64,11 +64,11 @@
             </div>
             <div class="row">
                 <div class="col-md">
-                    <button class="btn btn-block btn-dark" type="submit">Save</button>
+                    <button class="btn btn-block btn-dark" type="submit">Lagre</button>
                 </div>
                 {% if songID %}
                     <div class="col-md-4">
-                        <a href="{% url 'songs:delete_song' songID %}" class="btn btn-block btn-danger" type="submit">Delete</a>
+                        <a href="{% url 'songs:delete_song' songID %}" class="btn btn-block btn-danger" type="submit">Slett</a>
                     </div>
                 {% endif %}
             </div>

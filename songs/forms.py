@@ -30,12 +30,12 @@ class SongForm(forms.ModelForm):
     class Meta:
         model = Song
         fields = [
-            'title',
+            'tittel',
             'artist',
             'bpm',
             'tags',
-            'spotify',
-            'URI',
+            'spotify_URL',
+            'spotify_URI',
             ]
 
     class Media:
@@ -58,4 +58,4 @@ class SongTagForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SongTagForm, self).__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Name'})
+        self.fields['navn'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Navn'})

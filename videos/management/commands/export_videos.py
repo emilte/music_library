@@ -28,7 +28,7 @@ class Command(BaseCommand):
             video = video.__dict__
             video = {
                 'navn': video['navn'],
-                'youtube': video['youtube'],
+                'youtube_URL': video['youtube_URL'],
                 'embedded': video['embedded'],
                 'tags': tags,
                 'beskrivelse': video['beskrivelse'],

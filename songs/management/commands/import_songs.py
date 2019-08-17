@@ -32,11 +32,11 @@ class Command(BaseCommand):
                 try:
                     line = json.loads(line)
                     song = Song.objects.create(
-                        title = line['title'],
+                        tittel = line['tittel'],
                         artist = line['artist'],
                         bpm = line['bpm'],
-                        spotify = line['spotify'],
-                        URI = line['URI'],
+                        spotify_URL = line['spotify_URL'],
+                        spotify_URI = line['spotify_URI'],
                     )
                 except Exception as e:
                     print("Error: {}".format(e))

@@ -10,42 +10,59 @@
     .course-wrapper {
         color: black;
     }
+    .text-small-italic {
+        font-size: 0.7em;
+        font-style: italic;
+        margin-top: 0.5em
+    }
 </style>
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">All courses</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'courses:course_view' course.id  %}">{{ course.title }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle Kurs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:course_view' course.id  %}">{{ course.tittel }}</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="course-wrapper jumbotron">
 
         <h1>
-            {{ course.title }}
+            {{ course.tittel }}
             <a href="{% url 'courses:edit_course' course.id %}"><img id="edit-pen" src="https://img.icons8.com/material/24/000000/edit.png"></a>
             <a href="{% url 'courses:export_course' course.id %}"><img id="export-course-icon" src="https://img.icons8.com/windows/24/000000/download.png"></a>
+            <a href="{% url 'courses:create_playlist' course.id %}"><img src="https://img.icons8.com/ios-filled/24/000000/photos-folder.png"></a>
         </h1>
 
-        Instuktør (follower): {{ course.female_instructor.get_full_name | default:'Ingen valgt' }} <br>
-        Instruktør (leader): {{ course.male_instructor.get_full_name | default:'Ingen valgt'}} <br>
+        <p>
+            Instuktør (follower): {{ course.fører.get_full_name | default:'Ingen valgt' }} <br>
+            Instruktør (leader): {{ course.følger.get_full_name | default:'Ingen valgt'}} <br>
 
-        <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
-        <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
-        Dato: {{ course.start | date:'d. M Y (D)' | default:'TBA' }} <br>
-        Når: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.end | date:'H:i' | default:'TBA' }} <br>
-        Hvor: {{ course.place | default:'TBA' }} <br>
-        {# {{ course.end }} #}
+            <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
+            <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
+            Dato: {{ course.start | date:'d. M Y (D)' | default:'TBA' }} <br>
+            Når: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.slutt | date:'H:i' | default:'TBA' }} <br>
+            Hvor: {{ course.sted | default:'TBA' }}
+        </p>
 
-        <br>
-        {% for section in course.sections.all %}
-            <p>
-                ({{ section.nr }}) {{ section.title }} ({{ section.duration }} min) - {{ section.start | date:'H:i' }}
-                <br>
-                Song: {{ section.song }}, video: {{ section.video.name }}
-                {{ section.text }}
-            </p>
-        {% endfor %}
+        <p>
+            {% for section in course.sections.all %}
+                <p>
+                    {{ section.tittel }} ({{ section.varighet | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}
+
+                         {% if section.song %}
+                            <div class="text-small-italic">
+                                 Song: <a target="_blank" href="{{ section.song.spotify }}">{{ section.song }}</a>
+                            </div>
+                         {% endif %}
+                         {% if section.video %}
+                            <div class="text-small-italic">
+                                Video: <a target="_blank" href="{{ section.video.youtube }}">{{ section.video }}</a>
+                            </div>
+                         {% endif %}
+                    {{ section.text }}
+                </p>
+            {% endfor %}
+        </p>
 
     </div>
 {% endblock %}

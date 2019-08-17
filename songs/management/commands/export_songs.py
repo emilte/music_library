@@ -25,7 +25,7 @@ class Command(BaseCommand):
             tags = song.tags.values_list('name')
             tags = [t[0] for t in tags]
             song = song.__dict__
-            song = {'title': song['title'], 'artist': song['artist'], 'bpm': song['bpm'], 'tags': tags, 'spotify': song['spotify'], 'URI': song['URI'] }
+            song = {'tittel': song['tittel'], 'artist': song['artist'], 'bpm': song['bpm'], 'tags': tags, 'spotify_URL': song['spotify_URL'], 'spotify_URI': song['spotify_URI'] }
             data += json.dumps(song, ensure_ascii=False) + "\n"
 
         with open('songs/static/songs/' + name, mode="w+", encoding="UTF-8") as file:

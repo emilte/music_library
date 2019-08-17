@@ -55,7 +55,7 @@ class Command(BaseCommand):
         spinner.start()
 
         for tag in tags:
-            VideoTag.objects.create(name=tag)
+            VideoTag.objects.create(navn=tag)
 
         spinner.succeed()
 

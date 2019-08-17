@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'songs:add_tag' %}">Add tag</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'songs:add_tag' %}">Legg til sang-tag</a></li>
 {% endblock %}
 
 {% block body %}
@@ -27,8 +27,8 @@
 
             {{ form.name }}
             {{ form.name.errors }}
-            <button class="btn btn-dark" type="submit">Save</button>
-            <button class="btn btn-danger" type="submit">Delete</button>
+            <button class="btn btn-dark" type="submit">Lagre</button>
+            <button class="btn btn-danger" type="submit">Slett</button>
 
         </form>
     </div>

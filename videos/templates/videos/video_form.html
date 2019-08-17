@@ -16,13 +16,13 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'videos:all_videos' %}">All videos</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Add video</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:all_videos' %}">Turbibliotek</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Legg til Video</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="red-box">
-        <h1>Add video</h1>
+        <h1>Legg til Video</h1>
 
         <form method="post">
             {% csrf_token %}
@@ -38,9 +38,9 @@
             </div>
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                    {{ form.youtube.label_tag }}
-                    {{ form.youtube }}
-                    {{ form.youtube.errors }}
+                    {{ form.youtube_URL.label_tag }}
+                    {{ form.youtube_URL }}
+                    {{ form.youtube_URL.errors }}
                 </div>
                 <div class="col-md-3 mb-3">
                     {{ form.vanskelighetsgrad.label_tag }}
@@ -66,11 +66,11 @@
             </div>
             <div class="row">
                 <div class="col-md">
-                    <button class="btn btn-block btn-dark" type="submit">Save</button>
+                    <button class="btn btn-block btn-dark" type="submit">Lagre</button>
                 </div>
                 {% if videoID %}
                     <div class="col-md-4">
-                        <a href="{% url 'videos:delete_video' videoID %}" class="btn btn-block btn-danger" type="submit">Delete</a>
+                        <a href="{% url 'videos:delete_video' videoID %}" class="btn btn-block btn-danger" type="submit">Slett</a>
                     </div>
                 {% endif %}
             </div>
