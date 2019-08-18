@@ -90,4 +90,8 @@ def edit_video_tag(request, tagID):
             form.save()
             return redirect('home')
     # GET or form failed
-    return render(request, 'songs/tag_form.html', {'form': form})
+    return render(request, 'videos/video_tag_form.html', {'form': form})
+
+def video_view(request, videoID):
+    video = Video.objects.get(id=videoID)
+    return render(request, 'videos/video_view.html', {'video': video})

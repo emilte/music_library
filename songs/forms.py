@@ -17,7 +17,7 @@ class SongSearchForm(forms.Form):
         super(SongSearchForm, self).__init__(*args, **kwargs)
         self.fields['search'].widget.attrs.update({'class': 'search-option form-control', 'placeholder': 'Search...'})
         self.fields['tag'].choices = [(-1, '-----')]
-        self.fields['tag'].choices += [(tag.id, tag.name) for tag in SongTag.objects.all()]
+        self.fields['tag'].choices += [(tag.id, tag.navn) for tag in SongTag.objects.all()]
         self.fields['tag'].widget.attrs.update({'class': 'search-option form-control'})
         self.fields['check_min'].widget.attrs.update({'id': 'check-min', 'class': 'search-option'})
         self.fields['min_bpm'].widget.attrs.update({'id': 'bpm-min', 'class': 'search-option form-control', 'placeholder': 'From'})

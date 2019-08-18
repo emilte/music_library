@@ -15,7 +15,7 @@ class VideoSearchForm(forms.Form):
         self.fields['search'].widget.attrs.update({'class': 'video-search-filter form-control', 'placeholder': 'Search...', 'autofocus': True})
 
         self.fields['tag'].choices = [(-1, '-----')]
-        self.fields['tag'].choices += [(tag.id, tag.name) for tag in VideoTag.objects.all()]
+        self.fields['tag'].choices += [(tag.id, tag.navn) for tag in VideoTag.objects.all()]
         self.fields['tag'].widget.attrs.update({'class': 'video-search-filter form-control'})
 
         self.fields['vanskelighetsgrad'].choices = [(-1, '-----')]
@@ -31,7 +31,7 @@ class VideoForm(forms.ModelForm):
         model = Video
         fields = [
             'navn',
-            'youtube',
+            'youtube_URL',
             'beskrivelse',
             'fokuspunkt',
             'tags',

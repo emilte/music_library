@@ -17,12 +17,12 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'videos:all_videos' %}">Turbibliotek</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Legg til Video</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Rediger Video</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="red-box">
-        <h1>Legg til Video</h1>
+        <h1>Rediger Video</h1>
 
         <form method="post">
             {% csrf_token %}

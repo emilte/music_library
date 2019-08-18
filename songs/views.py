@@ -117,7 +117,7 @@ def edit_song_tag(request, tagID):
             form.save()
             return redirect('home')
     # GET or form failed
-    return render(request, 'songs/tag_form.html', {'form': form})
+    return render(request, 'songs/song_tag_form.html', {'form': form})
 
 def bpm_calc(request):
     # https://github.com/selwin/django-user_agents

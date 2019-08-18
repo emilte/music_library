@@ -114,8 +114,8 @@ class Command(BaseCommand):
                 tittel = tittel,
                 artist = info['artist'],
                 bpm = info['bpm'],
-                spotify = info['spotify_URL'],
-                URI = info['spotify_URI'],
+                spotify_URL = info['spotify_URL'],
+                spotify_URI = info['spotify_URI'],
             )
 
             for navn in info['tags']:
