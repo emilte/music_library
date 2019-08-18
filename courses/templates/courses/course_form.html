@@ -5,8 +5,41 @@
 {% block head %}
     <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
 
-    {{ form.media }}
+    {{ courseForm.media }}
+
     <style media="screen">
+        .selector select::-webkit-scrollbar {
+            width: 0.4em;
+        }
+        .selector select::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,1);
+            border-radius: 10px;
+        }
+        .selector select::-webkit-scrollbar-track {
+            background-color: white;
+            border-radius: 10px;
+        }
+        .selector-available, .selector-chosen {
+            width: 200px;
+        }
+        .selector h2 {
+            font-size: 1.1em;
+            color: white !important;
+            background: rgba(255, 165, 0, 0.4) !important;
+        }
+        .selector select {
+            width: 200px;
+            height: 3.8em;
+            color: white;
+            background: rgba(255, 165, 0, 0.4);
+        }
+        .selector ul.selector-chooser {
+            margin: 2.5em 5px 0 5px;
+        }
+        .selector .selector-filter, .selector .help-icon {
+            display: none;
+        }
+
         .section {
             background-color: rgba(255,165,0,0.4);
             padding-top: 0.5em;
@@ -17,10 +50,23 @@
 {% endblock %}
 
 {% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle Kurs</a></li>
     <li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Rediger Kurs</a></li>
 {% endblock %}
 
 {% block body %}
+
+{% for field in courseForm %}
+  {% if field.errors %}
+    {% for error in field.errors %}
+      <a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a>
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+
+{{ courseForm.non_field_errors }}
+
+
 <h1>Rediger Kurs</h1>
 
 <form method="post">
@@ -30,31 +76,51 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 {{ courseForm.tittel.label }}
+                <div data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+
+                </div>
                 {{ courseForm.tittel }}
-            </div>
-            <div class="form-group col-md-1">
-                {{ courseForm.start.label }}
-                {{ courseForm.start }}
-            </div>
-            <div class="form-group col-md-1">
-                {{ courseForm.slutt.label }}
-                {{ courseForm.slutt }}
+                {{ courseForm.tittel.errors }}
             </div>
             <div class="form-group col-md-5">
                 {{ courseForm.sted.label }}
                 {{ courseForm.sted }}
+                {{ courseForm.sted.errors }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                {{ courseForm.dato.label }}
+                {{ courseForm.dato }}
+                {{ courseForm.dato.errors }}
+            </div>
+            <div class="form-group col-md-1">
+                {{ courseForm.start.label }}
+                {{ courseForm.start }}
+                {{ courseForm.start.errors }}
+            </div>
+            <div class="form-group col-md-1">
+                {{ courseForm.slutt.label }}
+                {{ courseForm.slutt }}
+                {{ courseForm.slutt.errors }}
             </div>
         </div>
 
-        <div class="form-row">
+        <div class="form-row mb-1">
             <div class="form-group col-md-4">
                 {{ courseForm.fører.label }}
                 {{ courseForm.fører }}
+                {{ courseForm.fører.errors }}
             </div>
             <div class="form-group col-md-4">
                 {{ courseForm.følger.label }}
                 {{ courseForm.følger }}
+                {{ courseForm.følger.errors }}
             </div>
+        </div>
+
+        <div class="form-row">
+            {{ courseForm.tags }}
         </div>
     </div>
 
@@ -73,31 +139,37 @@
                     <div class="form-group col-md-3">
                         {{ sectionForm.tittel.label }}
                         {{ sectionForm.tittel }}
-                    </div>
-                    <div class="form-group col-md-1">
-                        {{ sectionForm.start.label }}
-                        {{ sectionForm.start }}
+                        {{ sectionForm.tittel.errors }}
                     </div>
                     <div class="form-group col-md-1">
                         {{ sectionForm.varighet.label }}
                         {{ sectionForm.varighet }}
+                        {{ sectionForm.varighet.errors }}
+                    </div>
+                    <div class="form-group col-md-1">
+                        {{ sectionForm.start.label }}
+                        {{ sectionForm.start }}
+                        {{ sectionForm.start.errors }}
                     </div>
                     <div class="form-group col-md-4">
                         {{ sectionForm.song.label }}
                         {{ sectionForm.song }}
+                        {{ sectionForm.song.errors }}
                     </div>
                     <div class="form-group col-md-2">
                         {{ sectionForm.video.label }}
                         {{ sectionForm.video }}
+                        {{ sectionForm.video.errors }}
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-10">
-                        {{ sectionForm.text.label }}
-                        {{ sectionForm.text }}
+                        {{ sectionForm.beskrivelse.label }}
+                        {{ sectionForm.beskrivelse }}
+                        {{ sectionForm.beskrivelse.errors }}
                     </div>
                 </div>
-                <button class="btn btn-danger float-right" onclick="removeSection(this)" type="button" name="button" >
+                <button class="btn btn-dark float-right" onclick="removeSection(this)" type="button" name="button" >
                     <img src="https://img.icons8.com/material-sharp/24/FFAA00/minus.png">
                     Fjern
                 </button>
@@ -114,7 +186,16 @@
     <br>
     <br>
 
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            {{ courseForm.kommentarer.label }}
+            {{ courseForm.kommentarer }}
+            {{ courseForm.kommentarer.errors }}
+        </div>
+    </div>
+
     <button class="btn btn-block btn-dark" type="submit">Save</button>
+</form>
 
     <!-- TEMPLATE -->
     <div id="sectionFormTemplate" class="d-none">
@@ -124,28 +205,34 @@
                 <div class="form-group col-md-3">
                     {{ sectionFormTemplate.tittel.label }}
                     {{ sectionFormTemplate.tittel }}
-                </div>
-                <div class="form-group col-md-1">
-                    {{ sectionFormTemplate.start.label }}
-                    {{ sectionFormTemplate.start }}
+                    {{ sectionFormTemplate.tittel.errors }}
                 </div>
                 <div class="form-group col-md-1">
                     {{ sectionFormTemplate.varighet.label }}
                     {{ sectionFormTemplate.varighet }}
+                    {{ sectionFormTemplate.varighet.errors }}
+                </div>
+                <div class="form-group col-md-1">
+                    {{ sectionFormTemplate.start.label }}
+                    {{ sectionFormTemplate.start }}
+                    {{ sectionFormTemplate.start.errors }}
                 </div>
                 <div class="form-group col-md-4">
                     {{ sectionFormTemplate.song.label }}
                     {{ sectionFormTemplate.song }}
+                    {{ sectionFormTemplate.song.errors }}
                 </div>
                 <div class="form-group col-md-2">
                     {{ sectionFormTemplate.video.label }}
                     {{ sectionFormTemplate.video }}
+                    {{ sectionFormTemplate.video.errors }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-10">
-                    {{ sectionFormTemplate.text.label }}
-                    {{ sectionFormTemplate.text }}
+                    {{ sectionFormTemplate.beskrivelse.label }}
+                    {{ sectionFormTemplate.beskrivelse }}
+                    {{ sectionFormTemplate.beskrivelse.errors }}
                 </div>
             </div>
             <button class="btn btn-dark float-right" onclick="removeSection(this)" type="button" name="button" >
@@ -155,7 +242,6 @@
         </div>
     </div>
 
-</form>
 
 {% endblock %}
 
@@ -177,6 +263,10 @@
             $("#btn-add-section").click(function() {
                 $("#sectionCount").val( +$("#sectionCount").val() + 1)
                 $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
+            })
+
+            $(function () {
+                $('[data-toggle="popover"]').popover()
             })
 
 

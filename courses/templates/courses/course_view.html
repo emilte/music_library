@@ -3,19 +3,16 @@
 {% load static %}
 
 {% block head %}
-<script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
-
-{{ form.media }}
-<style media="screen">
-    .course-wrapper {
-        color: black;
-    }
-    .text-small-italic {
-        font-size: 0.7em;
-        font-style: italic;
-        margin-top: 0.5em
-    }
-</style>
+    <style media="screen">
+        .course-wrapper {
+            color: black;
+        }
+        .text-small-italic {
+            font-size: 0.7em;
+            font-style: italic;
+            /* margin-bottom: 0.5em */
+        }
+    </style>
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -34,34 +31,46 @@
         </h1>
 
         <p>
-            Instuktør (follower): {{ course.fører.get_full_name | default:'Ingen valgt' }} <br>
-            Instruktør (leader): {{ course.følger.get_full_name | default:'Ingen valgt'}} <br>
+            Instuktør (fører): {{ course.fører.get_full_name | default:'Ingen valgt' }} <br>
+            Instruktør (følger): {{ course.følger.get_full_name | default:'Ingen valgt'}} <br>
 
             <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
             <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
-            Dato: {{ course.start | date:'d. M Y (D)' | default:'TBA' }} <br>
+            Dato: {{ course.dato | date:'d. M Y (D)' | default:'TBA' }} <br>
             Når: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.slutt | date:'H:i' | default:'TBA' }} <br>
-            Hvor: {{ course.sted | default:'TBA' }}
+            Hvor: {{ course.sted | default:'TBA' }} <br>
+            Tags: {% for tag in course.tags.all %}
+                <span class="badge badge-light">{{ tag | title }}</span>
+            {% endfor %}
+            <br><br>
         </p>
 
         <p>
             {% for section in course.sections.all %}
                 <p>
-                    {{ section.tittel }} ({{ section.varighet | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}
+                    <b>{{ section.tittel }} ({{ section.varighet | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}</b>
 
-                         {% if section.song %}
-                            <div class="text-small-italic">
-                                 Song: <a target="_blank" href="{{ section.song.spotify }}">{{ section.song }}</a>
-                            </div>
-                         {% endif %}
-                         {% if section.video %}
-                            <div class="text-small-italic">
-                                Video: <a target="_blank" href="{{ section.video.youtube }}">{{ section.video }}</a>
-                            </div>
-                         {% endif %}
-                    {{ section.text }}
+                     {% if section.song %}
+                        <br>
+                        <span class="text-small-italic">
+                             Song: <a target="_blank" href="{{ section.song.spotify_URL }}">{{ section.song }}</a>
+                        </span>
+                     {% endif %}
+                     {% if section.video %}
+                        <br>
+                        <span class="text-small-italic">
+                            Video: <a target="_blank" href="{{ section.video.youtube_URL }}">{{ section.video }}</a>
+                        </span>
+
+                     {% endif %}
+                     <p>{{ section.beskrivelse }}</p>
+
                 </p>
             {% endfor %}
+
+            {% if course.kommentarer %}
+                Kommentarer: {{ course.kommentarer }}
+            {% endif %}
         </p>
 
     </div>

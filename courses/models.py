@@ -8,27 +8,41 @@ class Course(models.Model):
     tittel = models.CharField(max_length=140, null=True, blank=False, default="")
     fører = models.ForeignKey('accounts.User', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="male_courses")
     følger = models.ForeignKey('accounts.User', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="female_courses")
-    dato = models.DateTimeField(null=True, blank=True)
-    start = models.TimeField(null=True, blank=True)
-    slutt = models.TimeField(null=True, blank=True)
-    varighet = models.IntegerField(null=True, blank=True)
+    dato = models.DateField(null=True, blank=True)
+    start = models.DateTimeField(null=True, blank=True)
+    slutt = models.DateTimeField(null=True, blank=True)
+    #varighet = models.TimeField(null=True, blank=True)
+    kommentarer = models.TextField(null=True, blank=True, default="")
     sted = models.CharField(max_length=140, null=True, blank=True, default="")
-
-    #sections = models.ManyToManyField('courses.Section', blank=True)
-    # external = models.BooleanField(default=False, blank=True)
-    # target_group = models.CharField(max_length=140, null=True, blank=True)
+    tags = models.ManyToManyField('videos.VideoTag')
 
     def __str__(self):
-        return self.tittel
+        return "{} ({})".format(self.tittel, self.getDato())
+
+    def getDato(self):
+        if self.dato:
+            return self.dato.strftime("%d.%m.%y")
+        else:
+            return "Ingen dato"
+
+    def getStart(self):
+        return self.start.strftime("%H:%M")
+
+    def getSlutt(self):
+        return self.slutt.strftime("%H:%M")
+
+    def getTags(self):
+        return [navn[0] for navn in self.tags.all().values_list('navn') ]
 
 class Section(models.Model):
     nr = models.IntegerField(null=True, blank=True)
     tittel = models.CharField(max_length=140, null=True, blank=False, default="")
     beskrivelse = models.TextField(null=True, blank=True, default="")
-    kommentarer = models.TextField(null=True, blank=True, default="")
-    kurs = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True, related_name="sections")
     start = models.TimeField(null=True, blank=True)
-    varighet = models.IntegerField(null=True, blank=True)
+    varighet = models.IntegerField(null=True, blank=False)
+    # varighet2 = models.IntegerField(null=True, blank=True)
+    #varighet2 = models.DurationField(null=True, blank=True)
+    course = models.ForeignKey('Course', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="sections")
     song = models.ForeignKey('songs.Song', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="sections")
     video = models.ForeignKey('videos.Video', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="sections")
 
@@ -39,3 +53,9 @@ class Section(models.Model):
         return self.tittel
         #return "{} - {}...".format(self.course.title[0:40], self.text[:40])
         #return "{} - ({}) {}...".format(self.course.title[0:40], self.nr, self.text[:40])
+
+    def getStart(self):
+        return self.start.strftime("%H:%M")
+
+    def getSong(self):
+        return self.song or "Ingen valgt"
