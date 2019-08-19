@@ -67,9 +67,32 @@
                     <button class="btn btn-block btn-dark" type="submit">Lagre</button>
                 </div>
                 {% if songID %}
-                    <div class="col-md-4">
-                        <a href="{% url 'songs:delete_song' songID %}" class="btn btn-block btn-danger" type="submit">Slett</a>
-                    </div>
+                        <!-- Delete Song (button) -->
+                        <button type="button" class="btn btn-block btn-danger col-md-4" data-toggle="modal" data-target="#delete-song">Slett</button>
+
+                        <!-- Delete Song (modal) -->
+                        <div class="modal fade text-dark" id="delete-song" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Er du helt sikker på at du vil slette sangen?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body"><p>Da blir den borte for alltid :'(</p></div>
+
+                                    <div class="modal-footer">
+                                        <!-- Delete Song confirmed (button) -->
+                                        <a class="btn btn-danger" href="{% url 'songs:delete_song' songID %}">Slett sang</a>
+                                        <!-- Cancel (button) -->
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- End: Delete Song (modal) -->
                 {% endif %}
             </div>
         </form>

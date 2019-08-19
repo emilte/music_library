@@ -79,7 +79,7 @@ def add_video_tag(request):
             form.save()
             return redirect('home')
     # GET or form failed
-    return render(request, 'songs/tag_form.html', {'form': form})
+    return render(request, 'videos/video_tag_form.html', {'form': form})
 
 def edit_video_tag(request, tagID):
     tag = VideoTag.objects.get(id=tagID)

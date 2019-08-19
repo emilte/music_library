@@ -49,3 +49,13 @@ class VideoForm(forms.ModelForm):
         super(VideoForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+class VideoTagForm(forms.ModelForm):
+
+    class Meta:
+        model = VideoTag
+        exclude = []
+
+    def __init__(self, *args, **kwargs):
+        super(VideoTagForm, self).__init__(*args, **kwargs)
+        self.fields['navn'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Navn'})

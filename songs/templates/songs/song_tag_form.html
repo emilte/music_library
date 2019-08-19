@@ -5,7 +5,7 @@
         .green-box {
             background: rgba(10,40,40,0.8);
             border-radius: 1em;
-            padding: 1em 1em 1em 1em;
+            padding: 1em;
         }
         .btn {
             margin-left: 1em;
@@ -14,21 +14,20 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'songs:add_tag' %}">Legg til sang-tag</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'songs:add_song_tag' %}">Legg til SangTag</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="green-box">
 
-        <h1>Tag</h1>
+        <h1>SangTag:</h1>
 
         <form class="form-inline" method="post">
             {% csrf_token %}
 
-            {{ form.name }}
-            {{ form.name.errors }}
+            {{ form.navn }}
+            {{ form.navn.errors }}
             <button class="btn btn-dark" type="submit">Lagre</button>
-            <button class="btn btn-danger" type="submit">Slett</button>
 
         </form>
     </div>

@@ -19,7 +19,7 @@ def search_song_filter(form, queryset):
     max_bpm = form.cleaned_data['max_bpm']
 
     if search != "":
-        queryset = queryset.filter( Q(title__icontains=search) | Q(artist__icontains=search) )
+        queryset = queryset.filter( Q(tittel__icontains=search) | Q(artist__icontains=search) )
     if tag != '-1':
         queryset = queryset.filter(tags__id=tag)
     if check_min and min_bpm != None:
@@ -30,7 +30,7 @@ def search_song_filter(form, queryset):
     return queryset
 
 def update_songs_txt(song, title=None):
-    tags = song.tags.values_list('name')
+    tags = song.tags.values_list('navn')
     tags = [t[0] for t in tags]
     song = song.__dict__
     song = {'title': song['title'], 'artist': song['artist'], 'bpm': song['bpm'], 'tags': tags, 'spotify': song['spotify'], 'URI': song['URI'] }
@@ -62,20 +62,20 @@ def add_song(request):
         form = SongForm(request.POST)
         if form.is_valid():
             song = form.save()
-            update_songs_txt(song)
+            #update_songs_txt(song)
             return redirect('songs:all_songs')
 
     return render(request, 'songs/song_form.html', {'form': form})
 
 def edit_song(request, songID):
     song = Song.objects.get(id=songID)
-    prev_song = song.title
+    prev_song = song.tittel
     form = SongForm(instance=song)
     if request.method == 'POST':
         form = SongForm(request.POST, instance=song)
         if form.is_valid():
             song = form.save()
-            update_songs_txt(song, prev_song)
+            #update_songs_txt(song, prev_song)
             return redirect('songs:all_songs')
     # GET or form failed
 
@@ -106,7 +106,7 @@ def add_song_tag(request):
             form.save()
             return redirect('home')
     # GET or form failed
-    return render(request, 'songs/tag_form.html', {'form': form})
+    return render(request, 'songs/song_tag_form.html', {'form': form})
 
 def edit_song_tag(request, tagID):
     tag = SongTag.objects.get(id=tagID)

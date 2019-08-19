@@ -119,6 +119,7 @@ def course_view(request, courseID):
     })
 
 
+
 def create_playlist(request, courseID):
 
     # Parameters needed for spotipy API
@@ -168,8 +169,6 @@ def create_playlist(request, courseID):
 
 
 
-
-
 def export_course(request, courseID):
     course = Course.objects.get(id=courseID)
 
@@ -185,7 +184,7 @@ def export_course(request, courseID):
     p = document.add_paragraph(informasjon)
 
     for section in course.sections.all():
-        p = document.add_paragraph("")
+        # p = document.add_paragraph("")
         h = document.add_heading("{} ({} min) - {}".format(section.tittel, section.varighet, section.getStart()), level=2)
 
         p = document.add_paragraph()
@@ -194,6 +193,10 @@ def export_course(request, courseID):
         run.font.size = docx.shared.Pt(9)
 
         run = p.add_run("\n\n{}".format(section.beskrivelse))
+
+
+    h = document.add_heading("Kommentarer: ", level=2)
+    p = document.add_paragraph(course.kommentarer)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
     response['Content-Disposition'] = 'attachment; filename={}.docx'.format(course)
