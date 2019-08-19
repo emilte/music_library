@@ -2,9 +2,22 @@
 {% block title %}Welcome{% endblock %}
 {% load static %}
 
+{% block head %}
+    <style media="screen">
+        #home-carousel {
+
+            border: 3px solid gray;
+            border-image: linear-gradient(to bottom right, blue, green) 1;
+            border-image: linear-gradient(135deg, rgba(0,237,43,1) 0%,rgba(41,137,216,1) 47%,rgba(255,0,250,1) 100%) 10;
+            padding: 0em;
+            width: 60%;
+        }
+    </style>
+{% endblock head %}
+
 {% block body %}
-    <h1>Velkommen</h1>
-    <div id="home-carousel" class="carousel slide" data-ride="carousel">
+<h1>Velkommen</h1>
+    <div id="home-carousel" class="carousel slide container" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#home-carousel" data-slide-to="0" class="active"></li>
             <li data-target="#home-carousel" data-slide-to="1"></li>
