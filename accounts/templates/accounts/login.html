@@ -15,16 +15,16 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'accounts:login' %}">Login</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:login' %}">Logg inn</a></li>
 {% endblock %}
 
 {% block body %}
     {% if user.is_authenticated %}
-        Already logged in
+        <h1 class="text-success">Du er allerede logget inn</h1>
     {% else %}
         <div class="blue-box">
 
-            <h1>Login:</h1>
+            <h1>Logg inn:</h1>
 
             <form class="container" method="post">
                 {% csrf_token %}
@@ -40,12 +40,12 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
-                <button class="btn btn-primary" type="submit">Login</button>
+                <button class="btn btn-primary" type="submit">Logg inn</button>
             </form>
 
         </div>
         <br>
-        <a href="{% url 'accounts:signup' %}">Dont have a user? Sign up here!</a>
+        <a href="{% url 'accounts:signup' %}">Har du ingen bruker? Registrer deg her!</a>
     </div>
     {% endif %}
 {% endblock %}

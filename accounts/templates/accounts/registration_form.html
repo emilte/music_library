@@ -12,13 +12,13 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'accounts:signup' %}">Sign up</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:signup' %}">Registrering</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="blue-box">
 
-        <h2>Create account</h2>
+        <h2>Lag bruker</h2>
 
         <form class="container" method="post">
             {% csrf_token %}
@@ -34,12 +34,12 @@
                     {% endfor %}
                 </p>
             {% endfor %}
-            <button type="submit" class="btn btn-lg btn-primary btn-block">Sign up</button>
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Registrer</button>
         </form>
         <br>
 
-        <span>Already have an account?</span>
-        <a href="{% url 'accounts:login' %}">Login here</a>
+        <span>Har du allerede en bruker?</span>
+        <a href="{% url 'accounts:login' %}">Logg inn her</a>
     </div>
 
 {% endblock %}

@@ -27,7 +27,7 @@ class UserAdmin(auth_admin.UserAdmin):
     # Fields shown in user detail: admin/accounts//user/'id'/change
     fieldsets = [
         [None,              {'fields': ['email', 'password']}],
-        ['Personal info',   {'fields': ['first_name', 'last_name', 'phone_number'] }],
+        ['Personal info',   {'fields': ['first_name', 'last_name', 'phone_number', 'spotify_username'] }],
         ['Permissions',     {'fields': ['active', 'staff', 'superuser', 'groups', 'user_permissions']}],
         ['Important dates', {'fields': ['last_login', 'date_joined']}],
     ]
@@ -45,7 +45,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ],
     ]
 
-    list_display = ['email', 'get_full_name', 'phone_number', 'staff', 'superuser']
+    list_display = ['email', 'get_full_name', 'phone_number', 'spotify_username', 'staff', 'superuser']
     list_filter = ['staff', 'superuser', 'active']
     search_fields = ['first_name', 'last_name', 'email', 'phone_number']
     ordering = ['email']

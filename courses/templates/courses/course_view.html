@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block head %}
+
     <style media="screen">
         .course-wrapper {
             color: black;
@@ -11,6 +12,9 @@
             font-size: 0.7em;
             font-style: italic;
             /* margin-bottom: 0.5em */
+        }
+        .course-caret:hover {
+            cursor: pointer;
         }
     </style>
 {% endblock %}
@@ -21,26 +25,36 @@
 {% endblock %}
 
 {% block body %}
+
+    <h1>{{ saved }}</h1>
+
     <div class="course-wrapper jumbotron">
 
         <h1>
             {{ course.tittel }}
-            <a href="{% url 'courses:edit_course' course.id %}"><img id="edit-pen" src="https://img.icons8.com/material/24/000000/edit.png"></a>
-            <a href="{% url 'courses:export_course' course.id %}"><img id="export-course-icon" src="https://img.icons8.com/windows/24/000000/download.png"></a>
-            <a href="{% url 'courses:create_playlist' course.id %}"><img src="https://img.icons8.com/ios-filled/24/000000/photos-folder.png"></a>
+            <span class="dropdown">
+
+                <img src="https://img.icons8.com/metro/24/000000/chevron-down.png" class="course-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'courses:edit_course' course.id %}"><img src="https://img.icons8.com/material/16/000000/edit.png"> Rediger kurs</a>
+                    <a class="dropdown-item" href="{% url 'courses:export_course' course.id %}"><img src="https://img.icons8.com/windows/16/000000/download.png"> Eksporter .docx</a>
+                    <a class="dropdown-item" href="{% url 'courses:create_playlist' course.id %}"><img src="https://img.icons8.com/ios-filled/16/000000/photos-folder.png"> Lag spotify liste</a>
+                </div>
+            </span>
         </h1>
 
         <p>
-            Instuktør (fører): {{ course.fører.get_full_name | default:'Ingen valgt' }} <br>
-            Instruktør (følger): {{ course.følger.get_full_name | default:'Ingen valgt'}} <br>
+            <b>Instuktør (fører)</b>: {{ course.fører.get_full_name | default:'Ingen valgt' }} <br>
+            <b>Instruktør (følger)</b>: {{ course.følger.get_full_name | default:'Ingen valgt'}} <br>
 
             <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
             <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
-            Dato: {{ course.dato | date:'d. M Y (D)' | default:'TBA' }} <br>
-            Når: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.slutt | date:'H:i' | default:'TBA' }} <br>
-            Hvor: {{ course.sted | default:'TBA' }} <br>
-            Tags: {% for tag in course.tags.all %}
-                <span class="badge badge-light">{{ tag | title }}</span>
+            <b>Dato</b>: {{ course.dato | date:'d. M Y (D)' | default:'TBA' }} <br>
+            <b>Når</b>: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.slutt | date:'H:i' | default:'TBA' }} <br>
+            <b>Hvor</b>: {{ course.sted | default:'TBA' }} <br>
+            <b>Tags</b>: {% for tag in course.tags.all %}
+                <span class="badge badge-light">{{ tag }}</span>
             {% endfor %}
             <br><br>
         </p>
@@ -66,6 +80,7 @@
                      <p>{{ section.beskrivelse }}</p>
 
                 </p>
+                <br>
             {% endfor %}
 
             {% if course.kommentarer %}

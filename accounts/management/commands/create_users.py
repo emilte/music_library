@@ -34,6 +34,7 @@ class Command(BaseCommand):
             password=USER_PW,
             first_name="Emil",
             last_name="Telstad",
+            spotify_username="emiltelstad",
             phone_number="41325358"
         )
         spinner.succeed("Creating superuser. email: {}, password: {}".format(email, USER_PW))

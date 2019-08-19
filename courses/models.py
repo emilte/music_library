@@ -20,16 +20,22 @@ class Course(models.Model):
         return "{} ({})".format(self.tittel, self.getDato())
 
     def getDato(self):
-        if self.dato:
+        try:
             return self.dato.strftime("%d.%m.%y")
-        else:
-            return "Ingen dato"
+        except:
+            return None
 
     def getStart(self):
-        return self.start.strftime("%H:%M")
+        try:
+            return self.start.strftime("%H:%M")
+        except:
+            return None
 
     def getSlutt(self):
-        return self.slutt.strftime("%H:%M")
+        try:
+            return self.slutt.strftime("%H:%M")
+        except:
+            return None
 
     def getTags(self):
         return [navn[0] for navn in self.tags.all().values_list('navn') ]

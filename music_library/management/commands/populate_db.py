@@ -39,8 +39,8 @@ class Command(BaseCommand):
         management.call_command('create_video_tags')
         management.call_command('create_song_tags')
         #management.call_command('create_course_tags')
-        management.call_command('create_songs')
-        management.call_command('create_videos')
+        management.call_command('import_songs')
+        management.call_command('import_videos')
 
         print("  ==  Dummydata inserted, REMEMBER to runserver  ==  ")
         # End of handle

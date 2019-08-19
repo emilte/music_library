@@ -41,8 +41,8 @@ class Command(BaseCommand):
                         vanskelighetsgrad = line["vanskelighetsgrad"],
                     )
 
-                    for name in line['tags']:
-                        videoTag, created = VideoTag.objects.get_or_create(name=name)
+                    for navn in line['tags']:
+                        videoTag, created = VideoTag.objects.get_or_create(navn=navn)
                         video.tags.add(videoTag)
                 except Exception as e:
                     print("Error: {}".format(e))

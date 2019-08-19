@@ -19,7 +19,7 @@ class Command(BaseCommand):
         for i in range(len(file_options)):
             print("{}: {}".format(i+1, file_options[i]))
 
-        option = int(input("\nChoose option: "))
+        option = int(input("\nChoose option: ")) - 1
         file = file_options[option]
 
         songs = Song.objects.all().delete()

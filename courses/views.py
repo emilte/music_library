@@ -13,42 +13,43 @@ import spotipy
 import spotipy.util as util
 import datetime
 
+import os
+import spotipy.oauth2 as oauth2
 
 # End: imports -----------------------------------------------------------------
 
 # Functions
-
+def trace(x):
+    print(json.dumps(x, indent=4, sort_keys=True))
 # End: Functions ---------------------------------------------------------------
 
 def add_course(request):
-    print(" ==> courses.views: {}".format(request.POST))
     courseForm = CourseForm()
     sectionForms = []
 
     if request.method == 'POST':
         courseForm = CourseForm(data=request.POST)
-        sectionCount = int(request.POST.get("sectionCount"))
-
-        print(courseForm.errors) # Log errors
+        sectionCount = int(request.POST.get("sectionCount", "0"))
 
         if courseForm.is_valid():
             prefixes = request.POST.getlist("prefix")
 
             sectionForms = [SectionForm( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
 
-            [print(sectionForm.errors for sectionForm in sectionForms)] # Log errors
-
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
-
                 course = courseForm.save()
+                duration = 0
                 # Add current sections
                 for i in range(len(sectionForms)):
                     section = sectionForms[i].save()
                     section.nr = i+1
                     section.course = course
+                    if course.start:
+                        section.start = course.start + datetime.timedelta(minutes=duration)
+                        duration += section.varighet
                     section.save()
 
-                return redirect('courses:course_view', courseID=courseID)
+                return redirect('courses:course_view', courseID=course.id)
 
 
     return render(request, 'courses/course_form.html', {
@@ -60,7 +61,6 @@ def add_course(request):
 def edit_course(request, courseID):
     course = Course.objects.get(id=courseID)
     sections = list(course.sections.all())
-
     courseForm = CourseForm(instance=course)
     sectionForms = [SectionForm(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
 
@@ -68,18 +68,12 @@ def edit_course(request, courseID):
         courseForm = CourseForm(request.POST, instance=course)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
-        #print(courseForm.errors or "no errors") # Log errors
-
-
         if courseForm.is_valid():
             prefixes = request.POST.getlist("prefix")
 
             sectionForms = [SectionForm( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
 
-            #print(sectionForm.errors for sectionForm in sectionForms) # Log errors
-
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
-
                 course = courseForm.save()
                 course.sections.all().delete() # reset sections
 
@@ -89,8 +83,9 @@ def edit_course(request, courseID):
                     section = sectionForms[i].save()
                     section.nr = i+1
                     section.course = course
-                    section.start = course.start + datetime.timedelta(minutes=duration)
-                    duration += section.varighet
+                    if course.start:
+                        section.start = course.start + datetime.timedelta(minutes=duration)
+                        duration += section.varighet
                     section.save()
 
                 return redirect('courses:course_view', courseID=courseID)
@@ -101,6 +96,7 @@ def edit_course(request, courseID):
         'courseForm': courseForm,
         'sectionForms': sectionForms,
         'sectionFormTemplate': SectionForm(prefix="template"),
+        'courseID': courseID,
     })
 
 def all_courses(request):
@@ -110,6 +106,10 @@ def all_courses(request):
         'courses': courses,
     })
 
+def delete_course(request, courseID):
+    Course.objects.get(id=courseID).delete()
+
+    return redirect('courses:all_courses')
 
 def course_view(request, courseID):
     course = Course.objects.get(id=courseID)
@@ -118,35 +118,56 @@ def course_view(request, courseID):
         'course': course,
     })
 
+
 def create_playlist(request, courseID):
 
-    def trace(x):
-        print(json.dumps(x, indent=4, sort_keys=True))
+    # Parameters needed for spotipy API
+    client_id = '6b34a08ef909414181faaedf68ec4304'
+    client_secret = 'c7935f0ff3f140c2a87df8117b82241b'
+    scope = 'playlist-modify-public'
+    redirect_uri = 'http://google.com/'
+
+    course = Course.objects.get(id=courseID)
 
     try:
-        client_id = '6b34a08ef909414181faaedf68ec4304'
-        client_secret = 'c7935f0ff3f140c2a87df8117b82241b'
-        username = 'emiltelstad'
-        scope = 'playlist-modify-public'
-        redirect_uri = 'localhost:8000'
-        course = Course.objects.get(id=courseID)
+        # Spotify username for authentification
+        spotify_username = request.user.spotify_username
 
-        token = util.prompt_for_user_token(username=username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
+        # Get access granted token for given user and permission
+        token = util.prompt_for_user_token(username=spotify_username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
 
+        # Spotify API object
         spotify = spotipy.Spotify(auth=token)
 
-        #playlists = spotify.user_playlists(username)
-        # trace(playlists)
+        # Title of playlist to be created
+        playlist_title = '{} ({})'.format(course.tittel, course.dato)
 
-        playlist = spotify.user_playlist_create(user=username, name='{} ({})'.format(course.tittel, course.dato))
+        # Get existing playlists for users
+        playlists = spotify.user_playlists(spotify_username)
 
+        # Check if playlist already exists
+        playlist = [ v for v in playlists['items'] if v['name'] == playlist_title ]
+
+        if not playlist:
+            # Create new playlist
+            playlist = spotify.user_playlist_create(user=spotify_username, name=playlist_title)
+        else:
+            # Take first mathing playlist (should be only one anyway)
+            playlist = playlist[0]
+
+        # Get URI for all songs used in course
         tracks = [section.song.spotify_URI for section in course.sections.all() if section.song]
-        spotify.user_playlist_replace_tracks(user=username, playlist_id=playlist['id'], tracks=tracks)
 
+        # Add tracks to playlist
+        spotify.user_playlist_replace_tracks(user=spotify_username, playlist_id=playlist['id'], tracks=tracks)
+
+        return redirect('courses:course_view', courseID=courseID)
     except Exception as e:
         print(e)
+        return redirect('courses:course_view', courseID=courseID)
 
-    return redirect('courses:course_view', courseID=courseID)
+
+
 
 
 def export_course(request, courseID):
