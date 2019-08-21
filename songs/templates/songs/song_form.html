@@ -7,12 +7,12 @@
 
     {{ form.media }}
 
+    <link rel="stylesheet" href="{% static "songs/song_styles.css" %}">
+
     <style media="screen">
-        .green-box {
-            background: rgba(10,40,40,0.8);
-            border-radius: 1em;
-            padding: 1em 1em 1em 1em;
-        }
+
+        {{ request.user.settings.song_theme.as_css }}
+
     </style>
 {% endblock %}
 
@@ -22,8 +22,9 @@
 {% endblock %}
 
 {% block body %}
-    <div class="green-box">
-        <h1>Sang</h1>
+    <h1>Sang:</h1>
+
+    <div class="default-theme user-theme">
 
         <form method="post">
             {% csrf_token %}

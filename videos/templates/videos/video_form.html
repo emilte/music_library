@@ -1,17 +1,16 @@
 {% extends 'songs/base.html' %}
-{% block title %}Add/edit video{% endblock %}
 {% load static %}
+
+{% block title %}Add/edit video{% endblock %}
 
 {% block head %}
     <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
-
     {{ form.media }}
+
+    <link rel="stylesheet" href="{% static "videos/video_styles.css" %}">
+
     <style media="screen">
-    .red-box {
-        background: rgba(200,0,100,0.2);
-        border-radius: 1em;
-        padding: 1em;
-    }
+        {{ request.user.settings.video_theme.as_css }}
     </style>
 {% endblock %}
 
@@ -21,7 +20,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="red-box">
+    <div class="default-theme user-theme">
         <h1>Rediger Video</h1>
 
         <form method="post">

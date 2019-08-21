@@ -1,21 +1,19 @@
 {% extends 'songs/base.html' %}
+{% load static %}
 {% block title %}All courses{% endblock %}
+
 {% block head %}
+    <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
+
     <style media="screen">
-        .orange-box {
-            background: rgba(255,165,0,0.4);
-            border-radius: 1em;
-            padding: 1em;
-        }
-        .course-link {
-            color: rgba(255, 165, 0, 1);
-        }
-        .course-link:hover {
-            color: rgba(255, 165, 0, 0.6);
-        }
         .course-caret:hover {
             cursor: pointer;
         }
+        .default-theme {
+            border-radius: 1em;
+            padding: 1em;
+        }
+        {{ request.user.settings.course_theme.as_css }}
     </style>
 {% endblock %}
 
@@ -36,11 +34,11 @@
 
         <br>
 
-        <div class="orange-box">
+        <div class="default-theme user-theme">
             <ol id="all-courses">
                 {% for course in courses %}
                     <li>
-                        <a class="course-link" href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
+                        <a class="default-theme-link user-theme-link" href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
 
                         <span class="dropdown">
 

@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django import forms
-from accounts.models import User
+from accounts.models import *
 from django.forms.widgets import PasswordInput, TextInput
 
 class SignUpForm(UserCreationForm):
@@ -36,6 +36,31 @@ class EditUserForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(EditUserForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+class SettingsForm(forms.ModelForm):
+    public_themes = Theme.objects.filter(user=None)
+    account_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
+    video_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
+    course_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
+    song_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
+
+    class Meta:
+        model = Settings
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(SettingsForm, self).__init__(*args, **kwargs)
+
+        if user:
+            themes = self.public_themes | Theme.objects.filter(user=user)
+            self.fields['account_theme'].queryset = themes
+            self.fields['video_theme'].queryset = themes
+            self.fields['course_theme'].queryset = themes
+            self.fields['song_theme'].queryset = themes
+
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 

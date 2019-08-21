@@ -23,7 +23,7 @@ def edit_profile(request):
         form = EditUserForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect( reverse('accounts:profile') )
+            return redirect('account:profile')
     # GET or form failed
     return render(request, 'accounts/edit_profile.html', {
         'form': form,
@@ -45,11 +45,30 @@ def signup(request):
     # GET or form failed. Form is either empty or contains previous POST with errors:
     return render(request, 'accounts/registration_form.html', {'form':form})
 
+@login_required
 def delete_user(request):
     request.user.delete()
     logout(request)
     return redirect('home')
 
+@login_required
+def settings(request):
+    settings, created = Settings.objects.get_or_create(user=request.user)
+    form = SettingsForm(instance=settings, user=request.user)
+
+    print(request.user.settings.account_theme)
+
+    if request.method == "POST":
+        form = SettingsForm(request.POST, instance=settings, user=request.user)
+        if form.is_valid():
+            settings = form.save()
+            return redirect("accounts:profile")
+
+    return render(request, 'accounts/settings.html', {
+        'form':form,
+    })
+
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = CustomPasswordChangeForm(instance=request.user, data=request.POST)

@@ -1,15 +1,14 @@
 {% extends 'songs/base.html' %}
+{% load static %}
+
 {% block title %}Tag{% endblock %}
+
 {% block head %}
+
+    <link rel="stylesheet" href="{% static "videos/video_styles.css" %}">
+
     <style>
-        .red-box {
-            background: rgba(200,0,100,0.2);
-            border-radius: 1em;
-            padding: 1em;
-        }
-        .btn {
-            margin-left: 1em;
-        }
+        {{ request.user.settings.video_theme.as_css }}
     </style>
 {% endblock %}
 
@@ -18,7 +17,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="red-box">
+    <div class="default-theme user-theme">
 
         <h1>VideoTag:</h1>
 

@@ -19,8 +19,8 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **kwargs):
         user = self.create_user(email=email, password=password, **kwargs)
-        user.staff = True
-        user.superuser = True
+        user.is_staff = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
@@ -30,9 +30,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=150, null=False, blank=False)
     spotify_username = models.CharField(max_length=150, null=True, blank=True)
     phone_number = models.CharField(max_length=13, blank=True)
-    active = models.BooleanField(default=True)
-    staff = models.BooleanField(default=False)
-    superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now, blank=True)
 
     objects = UserManager()
@@ -48,17 +48,57 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    def check_group_func(name):
+        def check_group(user):
+            return user.groups.filter(name=name).exists()
+        return check_group
+
     def get_full_name(self):
         return self.first_name + " " + self.last_name
 
     def get_short_name(self):
         return self.first_name
 
-    def is_active(self):
-        return self.active
+class Theme(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=140, default="Default name")
 
-    def is_staff(self):
-        return self.staff
+    background_color = models.CharField(max_length=140)
+    link_color = models.CharField(max_length=140)
+    link_hover_color = models.CharField(max_length=140)
 
-    def is_superuser(self):
-        return self.superuser
+    class Meta:
+        ordering = ['user']
+
+    def __str__(self):
+        return self.name
+
+    def as_css(self):
+        css = """.user-theme {{
+            background-color: {0};
+        }}
+        .user-theme-link {{
+            color: {1};
+        }}
+        .user-theme-link:hover {{
+            cursor: pointer;
+            color: {2};
+        }}
+        """.format(self.background_color, self.link_color, self.link_hover_color)
+        return css
+
+
+class Settings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, related_name="settings")
+
+    account_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_account")
+    video_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_video")
+    course_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_course")
+    song_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_song")
+
+    class Meta:
+        verbose_name = "settings"
+        verbose_name_plural = "settings"
+
+    def __str__(self):
+        return "Settings for {}".format(self.user)

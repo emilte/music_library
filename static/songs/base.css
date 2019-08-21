@@ -8,10 +8,18 @@ body {
     background-image: url('background2.png');
     background-size: cover auto;
     position: relative; /* Needed for natural element flow */
-    margin-top: 4em !important; /* Because of navbar (fixed) */
+    padding-top: 4.5em !important; /* Because of navbar (fixed) */
 
     color: white;
     background-color: #0d0d0d;
+}
+
+body::-webkit-scrollbar {
+    width: 0.4em;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(120,0,120,1);
+    border-radius: 10px;
 }
 
 a:hover {
@@ -26,7 +34,7 @@ a:hover {
 .white-box {
     background: rgba(255,255,255,0.8);
     border-radius: 1em;
-    padding: 1em 1em 1em 1em;
+    padding: 1em;
 }
 
 #navbar {

@@ -4,7 +4,7 @@ from courses.forms import *
 from django.db.models import Q
 import json
 from django.http import JsonResponse
-#from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from songs.models import *
 from videos.models import *
 from docx import Document
@@ -12,6 +12,7 @@ import docx
 import spotipy
 import spotipy.util as util
 import datetime
+from accounts.models import User
 
 import os
 import spotipy.oauth2 as oauth2
@@ -21,9 +22,17 @@ import spotipy.oauth2 as oauth2
 # Functions
 def trace(x):
     print(json.dumps(x, indent=4, sort_keys=True))
+
+def is_instructor(user):
+    return user.groups.filter(name="Instruktør").exists()
 # End: Functions ---------------------------------------------------------------
 
+# @user_passes_test(User.check_group_func("Instruktør"), login_url='/permission/invalid', redirect_field_name=None)
+@login_required
 def add_course(request):
+    if not request.user.has_perm("courses.add_course"):
+        return redirect("songs:forbidden")
+
     courseForm = CourseForm()
     sectionForms = []
 
@@ -58,6 +67,7 @@ def add_course(request):
         'sectionFormTemplate': SectionForm(prefix="template"),
     })
 
+@permission_required('courses.edit_course')
 def edit_course(request, courseID):
     course = Course.objects.get(id=courseID)
     sections = list(course.sections.all())
@@ -99,6 +109,7 @@ def edit_course(request, courseID):
         'courseID': courseID,
     })
 
+@permission_required('courses.view_course')
 def all_courses(request):
     courses = Course.objects.all()
 
@@ -106,11 +117,13 @@ def all_courses(request):
         'courses': courses,
     })
 
+@permission_required('courses.delete_course')
 def delete_course(request, courseID):
     Course.objects.get(id=courseID).delete()
 
     return redirect('courses:all_courses')
 
+@permission_required('courses.view_course')
 def course_view(request, courseID):
     course = Course.objects.get(id=courseID)
 
@@ -119,7 +132,7 @@ def course_view(request, courseID):
     })
 
 
-
+@permission_required('courses.view_course')
 def create_playlist(request, courseID):
 
     # Parameters needed for spotipy API
@@ -168,7 +181,7 @@ def create_playlist(request, courseID):
         return redirect('courses:course_view', courseID=courseID)
 
 
-
+@permission_required('courses.view_course')
 def export_course(request, courseID):
     course = Course.objects.get(id=courseID)
 

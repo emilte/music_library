@@ -38,6 +38,7 @@ class Command(BaseCommand):
         management.call_command('create_users')
         management.call_command('create_video_tags')
         management.call_command('create_song_tags')
+        management.call_command('create_themes')
         #management.call_command('create_course_tags')
         management.call_command('import_songs')
         management.call_command('import_videos')

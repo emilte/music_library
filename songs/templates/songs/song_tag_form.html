@@ -1,15 +1,14 @@
 {% extends 'songs/base.html' %}
+{% load static %}
+
 {% block title %}Tag{% endblock %}
+
 {% block head %}
+
+    <link rel="stylesheet" href="{% static "songs/song_styles.css" %}">
+
     <style>
-        .green-box {
-            background: rgba(10,40,40,0.8);
-            border-radius: 1em;
-            padding: 1em;
-        }
-        .btn {
-            margin-left: 1em;
-        }
+        {{ request.user.settings.song_theme.as_css }}
     </style>
 {% endblock %}
 
@@ -18,9 +17,10 @@
 {% endblock %}
 
 {% block body %}
-    <div class="green-box">
+    <div class="default-theme user-theme">
 
         <h1>SangTag:</h1>
+        <br>
 
         <form class="form-inline" method="post">
             {% csrf_token %}

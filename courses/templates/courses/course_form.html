@@ -7,6 +7,8 @@
 
     {{ courseForm.media }}
 
+    <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
+
     <style media="screen">
         .selector select::-webkit-scrollbar {
             width: 0.4em;
@@ -40,8 +42,7 @@
             display: none;
         }
 
-        .section {
-            background-color: rgba(255,165,0,0.4);
+        .default-theme {
             padding-top: 0.5em;
             padding-bottom: 0.2em;
             margin-bottom: 0.5em;
@@ -63,6 +64,8 @@
             bottom: 20px;
             right: 15px;
         }
+        {{ request.user.settings.course_theme.as_css }}
+
     </style>
 {% endblock %}
 
@@ -153,7 +156,7 @@
 
         {% for sectionForm in sectionForms %}
 
-            <div class="jumbotron section">
+            <div class="jumbotron default-theme user-theme">
                 <input type="hidden" name="prefix" value="{{ sectionForm.prefix }}">
 
                 <div class="form-row">
@@ -259,7 +262,7 @@
 
     <!-- TEMPLATE -->
     <div id="sectionFormTemplate" class="d-none">
-        <div class="jumbotron section">
+        <div class="jumbotron default-theme user-theme">
             <input type="hidden" name="prefix" value="template">
             <div class="form-row">
                 <div class="form-group col-md-3">

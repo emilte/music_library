@@ -3,13 +3,12 @@
 {% load static %}
 
 {% block head %}
+    <link rel="stylesheet" href="{% static "accounts/account_styles.css" %}">
+
     <style media="screen">
-        .blue-box {
-            background-color: rgba(50, 100, 150, 0.3);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 1em;
-        }
+    
+    {{ request.user.settings.account_theme.as_css }}
+
     </style>
 {% endblock head %}
 
@@ -22,7 +21,10 @@
         <h1>{{ user.get_full_name }}</h1>
     </div>
 
-    <div class="blue-box">
+    {{ request.user.settings.account_theme }}
+
+
+    <div class="default-theme user-theme">
         <h4>Personlig informasjon:</h4>
         <p>
             <div>Email: {{ user.email }}</div>
@@ -32,6 +34,7 @@
     </div>
 
     <div class="float-right">
+        <a class="btn btn-primary" href="{% url 'accounts:settings' %}">Innstillinger</a>
         <a class="btn btn-primary" href="{% url 'accounts:edit_profile' %}">Rediger profil</a>
         <a class="btn btn-secondary" href="{% url 'accounts:change_password' %}">Endre passord</a>
         <a class="btn btn-danger" href="{% url 'accounts:logout' %}">Logg ut</a>

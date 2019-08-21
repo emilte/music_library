@@ -3,15 +3,18 @@
 {% load static %}
 
 {% block head %}
-<script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
 
-{{ form.media }}
-<style media="screen">
-    .section {
-        background-color: rgba(100, 180, 160, 0.5);
-        margin-bottom: 1em;
-    }
-</style>
+    {{ form.media }}
+
+    <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
+
+    <style media="screen">
+        .section {
+            background-color: rgba(100, 180, 160, 0.5);
+            margin-bottom: 1em;
+        }
+    </style>
 {% endblock %}
 
 {% block breadcrumbs %}

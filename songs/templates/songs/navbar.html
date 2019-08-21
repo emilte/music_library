@@ -36,17 +36,15 @@
                 <a class="nav-link" href="{% url 'songs:all_songs' %}">Musikk bibliotek</a>
             </li>
 
-            {% if request.user.is_authenticated and request.user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'videos:all_videos' %}">Turbibliotek</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'courses:all_courses' %}">Kurs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
-                </li>
-            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'videos:all_videos' %}">Turbibliotek</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'courses:all_courses' %}">Kurs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+            </li>
         </ul>
         {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto">

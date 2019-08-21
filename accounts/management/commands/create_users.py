@@ -49,13 +49,27 @@ class Command(BaseCommand):
             password=USER_PW,
             first_name="Staff",
             last_name="Staffski",
-            staff=True,
+            is_staff=True,
             phone_number="87654321"
         )
         spinner.succeed("Creating staff user. email: {}, password: {}".format(email, USER_PW))
+
+    def create_user(self):
+        spinner = Halo("Creating a user")
+        spinner.start()
+        email = "user@user.com"
+        User.objects.create_user(
+            email=email,
+            password=USER_PW,
+            first_name="User",
+            last_name="Normal",
+            phone_number="87654321"
+        )
+        spinner.succeed("Creating user. email: {}, password: {}".format(email, USER_PW))
 
 
     def handle(self, *args, **options):
         self.createsu()
         self.create_staff()
+        self.create_user()
         # End of handle

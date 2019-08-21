@@ -4,6 +4,8 @@
 
 {% block head %}
 
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+
     <style media="screen">
         .course-wrapper {
             color: black;
@@ -16,6 +18,7 @@
         .course-caret:hover {
             cursor: pointer;
         }
+
     </style>
 {% endblock %}
 
