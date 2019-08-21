@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static "accounts/account_styles.css" %}">
 
     <style media="screen">
-    
+
     {{ request.user.settings.account_theme.as_css }}
 
     </style>
@@ -20,9 +20,6 @@
     <div id="title" class="text-center">
         <h1>{{ user.get_full_name }}</h1>
     </div>
-
-    {{ request.user.settings.account_theme }}
-
 
     <div class="default-theme user-theme">
         <h4>Personlig informasjon:</h4>
