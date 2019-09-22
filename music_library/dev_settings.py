@@ -3,6 +3,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 DEBUG = True
 
+SECRET_KEY = "NOT SET"
+
 # Security
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False

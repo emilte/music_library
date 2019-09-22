@@ -15,6 +15,8 @@ urlpatterns = [
     path('tag/add', views.add_song_tag, name="add_song_tag"),
     path('tag/edit/<int:tagID>', views.edit_song_tag, name="edit_song_tag"),
     path('bpm_calc/', views.bpm_calc, name="bpm_calc"),
+    
+    path('gen/', views.gen, name='gen'),
 
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]

@@ -28,7 +28,7 @@ class Command(BaseCommand):
 
         spinner = Halo("Creating superuser")
         spinner.start()
-        email = "emil.telstad@live.no"
+        email = "emil.telstad@gmail.com"
         User.objects.create_superuser(
             email=email,
             password=USER_PW,
