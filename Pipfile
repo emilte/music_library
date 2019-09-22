@@ -18,6 +18,7 @@ docx = "*"
 spotipy = "*"
 gunicorn = "*"
 django-heroku = "*"
+whitenoise = "*"
 
 [dev-packages]
 

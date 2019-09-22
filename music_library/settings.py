@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['swingkurs.herokuapp.com']
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # For whitenoise, heroku
-# PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 STATIC_URL = '/static/'
@@ -51,7 +51,7 @@ AUTH_USER_MODEL = 'accounts.User'
 # )
 
 #  Add configuration for static files storage using whitenoise, heroku
-# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # # Production settings:
 SECURE_HSTS_SECONDS = 60 # TODO: Find a decent value
@@ -92,7 +92,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware', # User agent
-    # 'whitenoise.middleware.WhiteNoiseMiddleware', # whitenoise, heroku
+    'whitenoise.middleware.WhiteNoiseMiddleware', # whitenoise, heroku
 ]
 
 ROOT_URLCONF = 'music_library.urls'
