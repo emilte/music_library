@@ -16,7 +16,8 @@ django-tinymce = "*"
 python-docx = "*"
 docx = "*"
 spotipy = "*"
-whitenoise = "3.3.1"
+gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 
