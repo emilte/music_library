@@ -16,6 +16,7 @@ django-tinymce = "*"
 python-docx = "*"
 docx = "*"
 spotipy = "*"
+whitenoise = "3.3.1"
 
 [dev-packages]
 
