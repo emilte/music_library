@@ -29,8 +29,6 @@ ALLOWED_HOSTS = ['*']
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-# For whitenoise, heroku
-PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 
 # Static
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
@@ -51,11 +49,11 @@ AUTH_USER_MODEL = 'accounts.User'
 # For whitenoise, heroku
 # Extra lookup directories for collectstatic to find static files
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'staticroot'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 #  Add configuration for static files storage using whitenoise, heroku
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # # Production settings:
 SECURE_HSTS_SECONDS = 60 # TODO: Find a decent value
@@ -96,6 +94,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware', # User agent
+    'whitenoise.middleware.WhiteNoiseMiddleware', # whitenoise, heroku
+]
+
+MIDDLEWARE_CLASSES = [
     'whitenoise.middleware.WhiteNoiseMiddleware', # whitenoise, heroku
 ]
 
