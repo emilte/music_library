@@ -21,9 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['swingkurs.herokuapp.com']
+# ALLOWED_HOSTS = ['swingkurs.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -50,7 +51,7 @@ AUTH_USER_MODEL = 'accounts.User'
 # For whitenoise, heroku
 # Extra lookup directories for collectstatic to find static files
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
+    os.path.join(PROJECT_ROOT, 'staticroot'),
 )
 
 #  Add configuration for static files storage using whitenoise, heroku
