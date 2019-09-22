@@ -28,7 +28,7 @@ class Command(BaseCommand):
             song = {'tittel': song['tittel'], 'artist': song['artist'], 'bpm': song['bpm'], 'tags': tags, 'spotify_URL': song['spotify_URL'], 'spotify_URI': song['spotify_URI'] }
             data += json.dumps(song, ensure_ascii=False) + "\n"
 
-        with open('songs/static/songs/' + name, mode="w+", encoding="UTF-8") as file:
+        with open('songs/static/songs/private_files' + name, mode="w+", encoding="UTF-8") as file:
             file.write(data)
 
 

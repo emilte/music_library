@@ -11,7 +11,7 @@ import os
 class Command(BaseCommand):
 
     def txt_to_db(self):
-        path = 'songs/static/songs/'
+        path = 'songs/static/songs/private_files'
 
         file_options = [file for file in os.listdir(path) if file.endswith(".txt")]
 

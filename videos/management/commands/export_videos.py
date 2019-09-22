@@ -13,7 +13,7 @@ class Command(BaseCommand):
 
     def db_to_txt(self):
         videos = Video.objects.all()
-        path = "videos/static/videos/"
+        path = "videos/static/videos/private_files"
 
         name = input("Name the exported file: ")
         name += "_lines-{}".format(len(videos))

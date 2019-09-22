@@ -24,7 +24,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = []
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -153,7 +152,7 @@ USE_TZ = True
 
 # Local settings that overwrite this.
 try:
-    from start3.local_settings import *
+    from .local_settings import *
 except:
     print("local_settings not imported")
     pass
@@ -162,6 +161,7 @@ except:
 checklist = {
     # 'DEBUG': DEBUG,
     # 'DATABASES': DATABASES,
+    # 'SECRET_KEY': SECRET_KEY,
 }
 
 def check_settings(settings=None):
