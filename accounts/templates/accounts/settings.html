@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="{% static "accounts/account_styles.css" %}">
 
     <style media="screen">
+        .default-theme {
+            max-width: 20vw;
+        }
         {{ request.user.settings.account_theme.as_css }}
     </style>
 {% endblock head %}

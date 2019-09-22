@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from videos.forms import *
 from videos.models import *
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 import json
 #from django.views import generic
 #from django.contrib.auth.decorators import login_required
@@ -30,7 +31,11 @@ def video_search_filter(form, queryset):
 # End: Functions ---------------------------------------------------------------
 
 # Create your views here.
+@login_required
 def all_videos(request):
+    # if not request.user.has_perm("videos.view_video"):
+    #     return redirect("forbidden")
+
     form = VideoSearchForm()
     videos = Video.objects.all()
 
@@ -44,7 +49,11 @@ def all_videos(request):
         'videos': videos,
     })
 
+@login_required
 def add_video(request):
+    if not request.user.has_perm("videos.add_video"):
+        return redirect("forbidden")
+
     form = VideoForm()
     if request.method == 'POST':
         form = VideoForm(request.POST)
@@ -55,7 +64,11 @@ def add_video(request):
 
     return render(request, 'videos/video_form.html', {'form': form})
 
+@login_required
 def edit_video(request, videoID):
+    if not request.user.has_perm("videos.change_video"):
+        return redirect("forbidden")
+
     video = Video.objects.get(id=videoID)
     form = VideoForm(instance=video)
     if request.method == 'POST':
@@ -67,11 +80,19 @@ def edit_video(request, videoID):
     # GET or form failed
     return render(request, 'videos/video_form.html', {'form': form, "videoID": videoID})
 
+@login_required
 def delete_video(request, videoID):
+    if not request.user.has_perm("videos.delete_video"):
+        return redirect("forbidden")
+
     video = Video.objects.get(id=videoID).delete()
     return redirect("videos:all_videos")
 
+@login_required
 def add_video_tag(request):
+    # if not request.user.has_perm("videos.add_video_tag"):
+    #     return redirect("forbidden")
+
     form = VideoTagForm()
     if request.method == 'POST':
         form = VideoTagForm(request.POST)
@@ -81,7 +102,11 @@ def add_video_tag(request):
     # GET or form failed
     return render(request, 'videos/video_tag_form.html', {'form': form})
 
+@login_required
 def edit_video_tag(request, tagID):
+    # if not request.user.has_perm("videos.change_video_tag"):
+    #     return redirect("forbidden")
+
     tag = VideoTag.objects.get(id=tagID)
     form = VideoTagForm(instance=tag)
     if request.method == 'POST':
@@ -92,6 +117,10 @@ def edit_video_tag(request, tagID):
     # GET or form failed
     return render(request, 'videos/video_tag_form.html', {'form': form})
 
+@login_required
 def video_view(request, videoID):
+    # if not request.user.has_perm("videos.view_video"):
+    #     return redirect("forbidden")
+
     video = Video.objects.get(id=videoID)
     return render(request, 'videos/video_view.html', {'video': video})

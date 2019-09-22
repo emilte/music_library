@@ -19,13 +19,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g3z9hk$&=!6n^pl-z+f4@vcllbw_!m0*s%ylw2%cs@i6eyq+u5'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Static files (CSS, JavaScript, Images)
@@ -154,8 +151,24 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
+# Local settings that overwrite this.
+try:
+    from start3.local_settings import *
+except:
+    print("local_settings not imported")
+    pass
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
+
+checklist = {
+    # 'DEBUG': DEBUG,
+    # 'DATABASES': DATABASES,
+}
+
+def check_settings(settings=None):
+    if settings:
+        print("|\n== CHECK SETTINGS ==")
+        for k, v in settings.items():
+            print("{} = {}".format(k, v))
+        print('|')
+
+check_settings(checklist)

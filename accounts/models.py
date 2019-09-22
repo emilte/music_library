@@ -68,10 +68,13 @@ class Theme(models.Model):
     link_hover_color = models.CharField(max_length=140)
 
     class Meta:
-        ordering = ['user']
+        ordering = ['user', 'name']
 
     def __str__(self):
-        return self.name
+        if self.user:
+            return "{} ({})".format(self.name, self.user.get_full_name())
+        else:
+            return "{} ({})".format(self.name, "Public")
 
     def as_css(self):
         css = """.user-theme {{

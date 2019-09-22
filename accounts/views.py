@@ -52,6 +52,11 @@ def delete_user(request):
     return redirect('home')
 
 @login_required
+def logout_user(request):
+    logout(request)
+    return redirect('accounts:login')
+
+@login_required
 def settings(request):
     settings, created = Settings.objects.get_or_create(user=request.user)
     form = SettingsForm(instance=settings, user=request.user)

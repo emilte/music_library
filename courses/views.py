@@ -5,6 +5,7 @@ from django.db.models import Q
 import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.models import Permission
 from songs.models import *
 from videos.models import *
 from docx import Document
@@ -31,7 +32,7 @@ def is_instructor(user):
 @login_required
 def add_course(request):
     if not request.user.has_perm("courses.add_course"):
-        return redirect("songs:forbidden")
+        return redirect("forbidden")
 
     courseForm = CourseForm()
     sectionForms = []
@@ -67,8 +68,11 @@ def add_course(request):
         'sectionFormTemplate': SectionForm(prefix="template"),
     })
 
-@permission_required('courses.edit_course')
+@login_required
 def edit_course(request, courseID):
+    if not request.user.has_perm("courses.change_course"):
+        return redirect("forbidden")
+
     course = Course.objects.get(id=courseID)
     sections = list(course.sections.all())
     courseForm = CourseForm(instance=course)
@@ -109,31 +113,43 @@ def edit_course(request, courseID):
         'courseID': courseID,
     })
 
-@permission_required('courses.view_course')
+@login_required
 def all_courses(request):
+    # if not request.user.has_perm("courses.view_course"):
+    #     return redirect("forbidden")
+
     courses = Course.objects.all()
 
     return render(request, 'courses/all_courses.html', {
         'courses': courses,
     })
 
-@permission_required('courses.delete_course')
+@login_required
+def course_view(request, courseID):
+    # if not request.user.has_perm("courses.view_course"):
+    #     return redirect("forbidden")
+
+    course = Course.objects.get(id=courseID)
+
+    return render(request, 'courses/course_view.html', {
+    'course': course,
+    })
+
+@login_required
 def delete_course(request, courseID):
+    if not request.user.has_perm("courses.delete_course"):
+        return redirect("forbidden")
+
     Course.objects.get(id=courseID).delete()
 
     return redirect('courses:all_courses')
 
-@permission_required('courses.view_course')
-def course_view(request, courseID):
-    course = Course.objects.get(id=courseID)
-
-    return render(request, 'courses/course_view.html', {
-        'course': course,
-    })
 
 
-@permission_required('courses.view_course')
+@login_required
 def create_playlist(request, courseID):
+    # if not request.user.has_perm("courses.view_course"):
+    #     return redirect("forbidden")
 
     # Parameters needed for spotipy API
     client_id = '6b34a08ef909414181faaedf68ec4304'
@@ -181,8 +197,11 @@ def create_playlist(request, courseID):
         return redirect('courses:course_view', courseID=courseID)
 
 
-@permission_required('courses.view_course')
+@login_required
 def export_course(request, courseID):
+    # if not request.user.has_perm("courses.view_course"):
+    #     return redirect("forbidden")
+
     course = Course.objects.get(id=courseID)
 
     document = Document()

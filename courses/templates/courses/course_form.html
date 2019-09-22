@@ -100,9 +100,6 @@
         <div class="form-row">
             <div class="form-group col-md-4">
                 {{ courseForm.tittel.label }}
-                <div data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-
-                </div>
                 {{ courseForm.tittel }}
                 {{ courseForm.tittel.errors }}
             </div>
@@ -193,12 +190,8 @@
                         {{ sectionForm.beskrivelse.errors }}
                     </div>
                 </div>
-                <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button" >
-                    Opp
-                </button>
-                <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button" >
-                    Ned
-                </button>
+                <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button" >Opp</button>
+                <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button" >Ned</button>
                 <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button" >
                     <img src="https://img.icons8.com/material-sharp/24/FFAA00/minus.png">
                     Fjern
@@ -225,13 +218,15 @@
     </div>
 
     <div class="row">
-        <div class="col-md">
+        <div class="col-8">
             <button class="btn btn-block btn-dark" type="submit">Lagre</button>
         </div>
         {% if courseID %}
 
             <!-- Delete Course (button) -->
-            <button type="button" class="btn btn-block btn-danger col-md-4" data-toggle="modal" data-target="#delete-course">Slett</button>
+            <div class="col">
+                <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#delete-course">Slett</button>
+            </div>
 
             <!-- Delete Course (modal) -->
             <div class="modal fade text-dark" id="delete-course" tabindex="-1" role="dialog">

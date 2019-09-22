@@ -1,8 +1,10 @@
 # imports
+from __future__ import print_function
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from songs.forms import *
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 import json
 #from django.views import generic
 #from django.contrib.auth.decorators import login_required
@@ -94,7 +96,11 @@ def all_songs(request):
         'songs': songs.order_by('bpm'),
     })
 
+@login_required
 def delete_song(request, songID):
+    if not request.user.has_perm("songs.delete_song"):
+        return redirect("forbidden")
+
     Song.objects.get(id=songID).delete()
     return redirect("songs:all_songs")
 
@@ -122,3 +128,6 @@ def edit_song_tag(request, tagID):
 def bpm_calc(request):
     # https://github.com/selwin/django-user_agents
     return render(request, 'songs/bpm_calc.html')
+
+def forbidden(request):
+    return render(request, 'songs/forbidden.html')

@@ -10,7 +10,8 @@ app_name = 'accounts' # Necessary for url naming. eg {% url 'accounts:signin' %}
 urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', login, kwargs={'template_name':'accounts/login.html', "authentication_form":CustomAuthForm}, name='login'),
-    path('logout/', logout, {'template_name':'songs/home.html'}, name='logout'),
+    path('logout/', views.logout_user, name='logout'),
+    #path('logout/', logout, {'template_name':'songs/home.html'}, name='logout'),
     path('change_password/', views.change_password, name='change_password'),
 
     path('profile/', views.profile, name='profile'),
