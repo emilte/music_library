@@ -23,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['swingkurs.herokuapp.com']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 # For whitenoise, heroku
-PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+# PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 STATIC_URL = '/static/'
@@ -46,12 +46,23 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # For whitenoise, heroku
 # Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(PROJECT_ROOT, 'static'),
+# )
 
 #  Add configuration for static files storage using whitenoise, heroku
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# # Production settings:
+SECURE_HSTS_SECONDS = 60 # TODO: Find a decent value
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_PRELOAD = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+CSRF_COOKIE_SECURE = True
+X_FRAME_OPTIONS = "DENY"
 
 # Application definition
 INSTALLED_APPS = [
@@ -81,7 +92,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware', # User agent
-    'whitenoise.middleware.WhiteNoiseMiddleware', # whitenoise, heroku
+    # 'whitenoise.middleware.WhiteNoiseMiddleware', # whitenoise, heroku
 ]
 
 ROOT_URLCONF = 'music_library.urls'
