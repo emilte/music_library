@@ -1,0 +1,9 @@
+.default-theme {
+    background-color: rgba(255,165,0,0.4);
+}
+.default-theme-link {
+    color: rgba(255, 165, 0, 1);
+}
+.default-theme-link:hover {
+    color: rgba(255, 165, 0, 0.6);
+}

@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    background-image: url('/staticroot/songs/images/background2.png');
+    background-image: url('/static/songs/images/background2.png');
     background-size: cover auto;
     position: relative; /* Needed for natural element flow */
     padding-top: 4.5em !important; /* Because of navbar (fixed) */
