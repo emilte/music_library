@@ -31,24 +31,27 @@ ALLOWED_HOSTS = ['swingkurs.herokuapp.com']
 # For whitenoise, heroku
 PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 
+# Static
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 STATIC_URL = '/static/'
 
+# Media
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
 MEDIA_URL = '/media/'
 
+# URLs
 LOGIN_REDIRECT_URL = '/account/profile'
 LOGIN_URL = '/account/login'
-
 LOGOUT_REDIRECT_URL = ''
 
+# Custom User model
 AUTH_USER_MODEL = 'accounts.User'
 
 # For whitenoise, heroku
 # Extra lookup directories for collectstatic to find static files
-# STATICFILES_DIRS = (
-#     os.path.join(PROJECT_ROOT, 'static'),
-# )
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
 
 #  Add configuration for static files storage using whitenoise, heroku
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
@@ -127,17 +130,6 @@ CACHES = {
 # Name of cache backend to cache user agents. If it not specified default
 # cache alias will be used. Set to `None` to disable caching.
 USER_AGENTS_CACHE = 'default'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
