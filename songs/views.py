@@ -133,27 +133,27 @@ def forbidden(request):
     return render(request, 'songs/forbidden.html')
 
 def gen(request):
-    file = File.objects.get(id=1)
-    print(file)
-    print(file.file)
-
-    data = file.file.read().decode().split("\n")
-    print(data[1])
-
-    songs = Song.objects.all().delete()
-
-
-    for line in data:
-        try:
-            line = json.loads(line)
-            song = Song.objects.create(
-                tittel = line['tittel'],
-                artist = line['artist'],
-                bpm = line['bpm'],
-                spotify_URL = line['spotify_URL'],
-                spotify_URI = line['spotify_URI'],
-            )
-        except Exception as e:
-            print("Error: {}".format(e))
+    # file = File.objects.get(id=1)
+    # print(file)
+    # print(file.file)
+    #
+    # data = file.file.read().decode().split("\n")
+    # print(data[1])
+    #
+    # songs = Song.objects.all().delete()
+    # 
+    #
+    # for line in data:
+    #     try:
+    #         line = json.loads(line)
+    #         song = Song.objects.create(
+    #             tittel = line['tittel'],
+    #             artist = line['artist'],
+    #             bpm = line['bpm'],
+    #             spotify_URL = line['spotify_URL'],
+    #             spotify_URI = line['spotify_URI'],
+    #         )
+    #     except Exception as e:
+    #         print("Error: {}".format(e))
 
     return redirect('home')
