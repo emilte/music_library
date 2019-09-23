@@ -14,6 +14,7 @@
     <div id="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
 
+            <!--
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Menu
@@ -27,32 +28,47 @@
                     <a class="dropdown-item" href="{% url 'info:faq' %}">FAQ</a>
                 </div>
             </li>
+            -->
 
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'songs:bpm_calc' %}">BPM Calculator</a>
+                <a class="nav-link" href="{% url 'songs:bpm_calc' %}">
+                    <img src="https://img.icons8.com/ios/24/000000/69.png">
+                    BPM Calculator
+                </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'songs:all_songs' %}">Musikk bibliotek</a>
+                <a class="nav-link" href="{% url 'songs:all_songs' %}">
+                    <img src="https://img.icons8.com/ios/24/000000/music.png">
+                    Musikk
+                </a>
             </li>
-
+            <!--
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'videos:all_videos' %}">Turbibliotek</a>
+                <a class="nav-link" href="{% url 'videos:all_videos' %}">Tur-bibliotek</a>
+            </li>
+            -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'courses:all_courses' %}">
+                    <img src="https://img.icons8.com/wired/24/000000/planner.png">
+                    Kurs
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'courses:all_courses' %}">Kurs</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+                <a class="nav-link" href="{% url 'admin:index' %}">
+                    <img src="https://img.icons8.com/ios-filled/24/000000/microsoft-admin.png">
+                    Admin
+                </a>
             </li>
         </ul>
         {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
-
-                <a id="navbar-user" class="text-success" href="{% url 'accounts:profile' %}">
-                    <img src="https://img.icons8.com/ios-glyphs/30/009900/user--v1.png">
-                    {{ user.get_full_name }}
-                </a>
+                <div class="nav-item">
+                    <a id="navbar-user" class="text-success" href="{% url 'accounts:profile' %}">
+                        <img src="https://img.icons8.com/ios-glyphs/30/009900/user--v1.png">
+                        {{ user.get_full_name }}
+                    </a>
+                </div>
             </ul>
         {% else %}
             <ul class="navbar-nav ml-auto">
