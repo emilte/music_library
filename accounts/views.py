@@ -9,80 +9,106 @@ from django.db.models import Q
 from django.urls import reverse
 from accounts.forms import * # EmailForm, SignUpForm, CustomAuthenticationForm, EditUserForm, CustomPasswordChangeForm
 from accounts.models import User
+from django.views import View
 # End: imports -----------------------------------------------------------------
 
-@login_required
-def profile(request):
-    return render(request, 'accounts/profile.html')
 
-@login_required
-def edit_profile(request):
-    if request.method == 'GET':
-        form = EditUserForm(instance=request.user)
-    else: # POST
-        form = EditUserForm(request.POST, instance=request.user)
+class ProfileView(View):
+    template = "accounts/profile.html"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template)
+
+
+
+
+class EditProfileView(View):
+    template = "accounts/edit_profile.html"
+    form_class = EditUserForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(instance=request.user)
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('account:profile')
-    # GET or form failed
-    return render(request, 'accounts/edit_profile.html', {
-        'form': form,
-    })
+            return redirect('accounts:profile')
+        else:
+            return render(request, self.template, {'form': form})
 
-def signup(request):
-    if request.method == "GET":
-        form = SignUpForm() # GET should give a new form
-    else: # POST
-        form = SignUpForm(request.POST)
+class SignUpView(View):
+    template = "accounts/registration_form.html"
+    form_class = SignUpForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=raw_password)
             login(request, user)
-            return HttpResponseRedirect( reverse('home') )
+            return redirect('home')
+        else:
+            return render(request, self.template, {'form': form})
 
-    # GET or form failed. Form is either empty or contains previous POST with errors:
-    return render(request, 'accounts/registration_form.html', {'form':form})
 
-@login_required
-def delete_user(request):
-    request.user.delete()
-    logout(request)
-    return redirect('home')
 
-@login_required
-def logout_user(request):
-    logout(request)
-    return redirect('accounts:login')
+class DeleteUserView(View):
 
-@login_required
-def settings(request):
-    settings, created = Settings.objects.get_or_create(user=request.user)
-    form = SettingsForm(instance=settings, user=request.user)
+    def get(self, request, *args, **kwargs):
+        request.user.delete()
+        logout(request)
+        return redirect('home')
 
-    print(request.user.settings.account_theme)
 
-    if request.method == "POST":
-        form = SettingsForm(request.POST, instance=settings, user=request.user)
+
+class LogoutUserView(View):
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('accounts:login')
+
+
+class SettingsView(View):
+    template = "accounts/settings.html"
+    form_class = SettingsForm
+
+    def get(self, request, *args, **kwargs):
+        settings, created = Settings.objects.get_or_create(user=request.user)
+        form = self.form_class(instance=settings, user=request.user)
+
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        settings, created = Settings.objects.get_or_create(user=request.user)
+        form = self.form_class(request.POST, instance=settings, user=request.user)
         if form.is_valid():
             settings = form.save()
             return redirect("accounts:profile")
+        else:
+            return render(request, self.template, {'form': form})
 
-    return render(request, 'accounts/settings.html', {
-        'form':form,
-    })
 
-@login_required
-def change_password(request):
-    if request.method == 'POST':
-        form = CustomPasswordChangeForm(instance=request.user, data=request.POST)
+class ChangePasswordView(View):
+    template = "accounts/change_password.html"
+    form_class = CustomPasswordChangeForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(request.user)
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST, instance=settings)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            return HttpResponseRedirect( reverse('accounts:profile') )
-    else:
-        form = CustomPasswordChangeForm(request.user)
-    return render(request, 'accounts/change_password.html', {
-        'form': form,
-    })
+            return redirect("accounts:profile")
+        else:
+            return render(request, self.template, {'form': form})
