@@ -8,11 +8,11 @@ app_name = 'courses'
 
 urlpatterns = [
     # path(route, view, kwargs=None, name=None)
-    path('all/', views.all_courses, name="all_courses"),
-    path('add/', views.add_course, name="add_course"),
-    path('<int:courseID>/', views.course_view, name="course_view"),
-    path('delete/<int:courseID>/', views.delete_course, name="delete_course"),
-    path('edit/<int:courseID>/', views.edit_course, name="edit_course"),
-    path('export/<int:courseID>/', views.export_course, name="export_course"),
-    path('spotify/create_playlist/<int:courseID>/', views.create_playlist, name="create_playlist"),
+    path('all/', views.AllCoursesView.as_view(), name="all_courses"),
+    path('add/', views.AddCourseView.as_view(), name="add_course"),
+    path('<int:courseID>/', views.CourseView.as_view(), name="course_view"),
+    path('delete/<int:courseID>/', views.DeleteCourseView.as_view(), name="delete_course"),
+    path('edit/<int:courseID>/', views.EditCourseView.as_view(), name="edit_course"),
+    path('export/<int:courseID>/', views.ExportView.as_view(), name="export_course"),
+    path('spotify/create_playlist/<int:courseID>/', views.CreatePlaylistView.as_view(), name="create_playlist"),
 ]

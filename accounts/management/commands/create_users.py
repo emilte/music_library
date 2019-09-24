@@ -69,6 +69,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
+        User.objects.all().delete()
         self.createsu()
         self.create_staff()
         self.create_user()

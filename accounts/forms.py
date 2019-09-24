@@ -2,6 +2,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 from django import forms
 from accounts.models import *
 from django.forms.widgets import PasswordInput, TextInput
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class SignUpForm(UserCreationForm):
 

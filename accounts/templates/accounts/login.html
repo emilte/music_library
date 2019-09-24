@@ -1,5 +1,7 @@
 {% extends 'songs/base.html' %}
 {% load static %}
+{% load account %}
+{% load socialaccount %}
 
 {% block title %}Login{% endblock title %}
 
@@ -7,7 +9,7 @@
     <link rel="stylesheet" href="{% static "accounts/account_styles.css" %}">
     <style media="screen">
         .default-theme {
-            min-width: 200px;
+            min-width: 220px;
             max-width: 500px;
         }
     </style>
@@ -19,11 +21,11 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-        <h1>Du er allerede logget inn</h1>
+        <h2>Du er allerede logget inn</h2>
     {% else %}
         <div class="default-theme">
 
-            <h1>Logg inn:</h1>
+            <h2>Logg inn:</h2>
 
             <form class="container" method="post">
                 {% csrf_token %}
@@ -44,8 +46,10 @@
 
         </div>
         <br>
+
+        <a href="{% provider_login_url 'google' %}">Logg inn med Google i stedet</a>
+        <br>
         <a href="{% url 'accounts:signup' %}">Har du ingen bruker? Registrer deg her!</a>
-    </div>
     {% endif %}
 {% endblock %}
 
