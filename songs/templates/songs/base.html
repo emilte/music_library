@@ -22,6 +22,21 @@
     {% include "songs/navbar.html" %}
 
     <div id="content-wrapper" class="container">
+
+        {% for message in messages %}
+            {% if 'success' in message.tags %}
+                <div class="container bg-success rounded mb-1">
+                    {{ message }}
+                </div>
+            {% elif 'error' in message.tags %}
+                <div class="container bg-danger rounded mb-1">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+
+
         <!-- breadcrumbs -->
         <nav aria-label="breadcrumb">
             <ol id="breadcrumbs" class="breadcrumb">

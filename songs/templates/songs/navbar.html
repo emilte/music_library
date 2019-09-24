@@ -11,7 +11,7 @@
     </button>
 
 
-    <div id="navbar" class="collapse navbar-collapse">
+    <div id="navbar" class="collapse navbar-collapse mr-auto">
         <ul class="navbar-nav mr-auto">
 
             <!--
@@ -32,14 +32,14 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'songs:bpm_calc' %}">
-                    <img src="https://img.icons8.com/ios/24/000000/69.png">
+                    <img src="https://img.icons8.com/ios/24/FFFFFF/69.png">
                     BPM Calculator
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'songs:all_songs' %}">
-                    <img src="https://img.icons8.com/ios/24/000000/music.png">
+                    <img src="https://img.icons8.com/ios/24/FFFFFF/music.png">
                     Musikk
                 </a>
             </li>
@@ -50,13 +50,13 @@
             -->
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'courses:all_courses' %}">
-                    <img src="https://img.icons8.com/wired/24/000000/planner.png">
+                    <img src="https://img.icons8.com/wired/24/FFFFFF/planner.png">
                     Kurs
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'admin:index' %}">
-                    <img src="https://img.icons8.com/ios-filled/24/000000/microsoft-admin.png">
+                    <img src="https://img.icons8.com/ios-filled/24/FFFFFF/microsoft-admin.png">
                     Admin
                 </a>
             </li>
@@ -64,8 +64,8 @@
         {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
                 <div class="nav-item">
-                    <a id="navbar-user" class="text-success" href="{% url 'accounts:profile' %}">
-                        <img src="https://img.icons8.com/ios-glyphs/30/009900/user--v1.png">
+                    <a id="navbar-user" class="nav-link text-success" href="{% url 'accounts:profile' %}">
+                        <img src="https://img.icons8.com/ios-glyphs/24/009900/user--v1.png">
                         {{ user.get_full_name }}
                     </a>
                 </div>

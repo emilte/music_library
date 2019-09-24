@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-CUSTOM_SETTINGS = "dev_settings"
+CUSTOM_SETTINGS = ["dev_settings", "allauth_settings"]
 
 DEBUG = False
 
@@ -29,9 +29,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "mediaroot")
 MEDIA_URL = '/media/'
 
 # URLs
-LOGIN_REDIRECT_URL = '/account/profile'
-LOGIN_URL = '/account/login'
-LOGOUT_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'accounts:profile'
+LOGIN_URL = 'accounts:login'
+LOGOUT_REDIRECT_URL = 'home'
 
 # Custom User model
 AUTH_USER_MODEL = 'accounts.User'
@@ -151,18 +151,23 @@ USE_TZ = True
 
 # Custom settings that overwrite this.
 try:
-    if CUSTOM_SETTINGS == "heroku_settings":
+    from .local_settings import *
+except:
+    print("== local_settings was not imported ==")
+
+try:
+    if "heroku_settings" in CUSTOM_SETTINGS:
         print("== IMPORTED: heroku_settings ==")
         from .heroku_settings import *
-    elif CUSTOM_SETTINGS == "local_settings":
-        print("== IMPORTED: local_settings ==")
-        from .local_settings import *
-    elif CUSTOM_SETTINGS == "dev_settings":
+    if "dev_settings" in CUSTOM_SETTINGS:
         print("== IMPORTED: dev_settings ==")
         from .dev_settings import *
+    if "allauth_settings" in CUSTOM_SETTINGS:
+        print("== IMPORTED: allauth_settings ==")
+        from .allauth_settings import *
 except Exception as e:
     print(e)
-    print("custom_settings was not imported")
+    print("== custom_settings was not imported ==")
     pass
 
 
@@ -172,6 +177,7 @@ checklist = {
     # 'DEBUG': DEBUG,
     # 'DATABASES': DATABASES,
     # 'SECRET_KEY': SECRET_KEY,
+    # 'SPOTIFY_CLIENT_ID': SPOTIFY_CLIENT_ID,
 }
 
 def check_settings(settings=None):

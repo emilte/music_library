@@ -230,32 +230,40 @@
                 <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#delete-course">Slett</button>
             </div>
 
-            <!-- Delete Course (modal) -->
-            <div class="modal fade text-dark" id="delete-course" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
 
-                        <div class="modal-header">
-                            <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body"><p>Du vil miste all data!</p></div>
-
-                        <div class="modal-footer">
-                            <!-- Delete Course confirmed (button) -->
-                            <a class="btn btn-danger" href="{% url 'courses:delete_course' courseID %}">Slett kurs</a>
-                            <!-- Cancel (button) -->
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- End: Delete Course (modal) -->
         {% endif %}
     </div>
 </form>
+
+<!-- Delete Course (modal) -->
+<div class="modal fade text-dark" id="delete-course" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body"><p>Du vil miste all data!</p></div>
+
+            <div class="modal-footer">
+                <!-- Delete Course confirmed (button) -->
+                {% if courseID %}
+                    <form id="form_delete" action="{% url 'courses:delete_course' courseID %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit" name="button">Slett kurs</button>
+                    </form>
+                {% endif %}
+
+                <!-- Cancel (button) -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
+            </div>
+        </div>
+    </div>
+</div> <!-- End: Delete Course (modal) -->
 
     <!-- TEMPLATE -->
     <div id="sectionFormTemplate" class="d-none">

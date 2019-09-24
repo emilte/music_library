@@ -10,9 +10,17 @@ from django.urls import reverse
 from accounts.forms import * # EmailForm, SignUpForm, CustomAuthenticationForm, EditUserForm, CustomPasswordChangeForm
 from accounts.models import User
 from django.views import View
+import spotipy.oauth2 as oauth2
+from django.conf import settings
+from django.utils.decorators import method_decorator
+
 # End: imports -----------------------------------------------------------------
 
+profile_dec = [
+    login_required,
+]
 
+@method_decorator(profile_dec, name='dispatch')
 class ProfileView(View):
     template = "accounts/profile.html"
 
@@ -21,7 +29,7 @@ class ProfileView(View):
 
 
 
-
+@method_decorator(profile_dec, name='dispatch')
 class EditProfileView(View):
     template = "accounts/edit_profile.html"
     form_class = EditUserForm
@@ -59,7 +67,7 @@ class SignUpView(View):
             return render(request, self.template, {'form': form})
 
 
-
+@method_decorator(profile_dec, name='dispatch')
 class DeleteUserView(View):
 
     def get(self, request, *args, **kwargs):
@@ -68,14 +76,14 @@ class DeleteUserView(View):
         return redirect('home')
 
 
-
+@method_decorator(profile_dec, name='dispatch')
 class LogoutUserView(View):
 
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect('accounts:login')
 
-
+@method_decorator(profile_dec, name='dispatch')
 class SettingsView(View):
     template = "accounts/settings.html"
     form_class = SettingsForm
@@ -95,7 +103,7 @@ class SettingsView(View):
         else:
             return render(request, self.template, {'form': form})
 
-
+@method_decorator(profile_dec, name='dispatch')
 class ChangePasswordView(View):
     template = "accounts/change_password.html"
     form_class = CustomPasswordChangeForm
@@ -105,10 +113,39 @@ class ChangePasswordView(View):
         return render(request, self.template, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(data=request.POST, instance=settings)
+        form = self.form_class(data=request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
             return redirect("accounts:profile")
-        else:
-            return render(request, self.template, {'form': form})
+        return render(request, self.template, {'form': form})
+
+class SpotifyConnectView(View):
+    template = "accounts/spotify_connect.html"
+
+    def post(self, request, *args, **kwargs):
+
+        cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
+        sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path)
+
+        token_info = sp_oauth.get_cached_token()
+
+        if not token_info:
+            auth_url = sp_oauth.get_authorize_url()
+            try:
+                print(auth_url)
+                import webbrowser
+                webbrowser.open(auth_url+'&show_dialog=true')
+            except Exception as e:
+                print(e)
+
+        return redirect("accounts:profile")
+
+def callback(request):
+    response = request.build_absolute_uri()
+    cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
+    sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path)
+
+    code = sp_oauth.parse_response_code(response)
+    token_info = sp_oauth.get_access_token(code)
+    return redirect('accounts:profile')

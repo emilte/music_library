@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    background-image: url('/staticroot/songs/images/background2.png');
+    background-image: url('/static/songs/images/background2.png');
     background-size: cover auto;
     position: relative; /* Needed for natural element flow */
     padding-top: 4.5em !important; /* Because of navbar (fixed) */
@@ -43,12 +43,8 @@ a:hover {
     padding-right: 5em;
 }
 
-#navbar-user {
-    padding-left: 1em;
-}
-
 #breadcrumbs {
-    background-color: rgba(15,15,25,0.8);
+    background-color: rgba(25,25,35,0.8);
 }
 
 #content-wrapper {
