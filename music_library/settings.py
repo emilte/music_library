@@ -177,7 +177,7 @@ checklist = {
     # 'DEBUG': DEBUG,
     # 'DATABASES': DATABASES,
     # 'SECRET_KEY': SECRET_KEY,
-    # 'SPOTIFY_CLIENT_ID': SPOTIFY_CLIENT_ID,
+    'SPOTIFY_CLIENT_ID': SPOTIFY_CLIENT_ID,
 }
 
 def check_settings(settings=None):

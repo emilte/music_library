@@ -14,6 +14,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+SPOTIFY_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
+SPOTIFY_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
+SPOTIFY_REDIRECT_URI = os.environ.get('SPOTIFY_REDIRECT_URI')
+SPOTIFY_SCOPE = os.environ.get('SPOTIFY_SCOPE')
+SPOTIFY_CACHE_PATH = os.environ.get('SPOTIFY_CACHE_PATH')
+
 
 #  Add configuration for static files storage using whitenoise, heroku
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
