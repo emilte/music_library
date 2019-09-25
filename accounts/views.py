@@ -9,80 +9,143 @@ from django.db.models import Q
 from django.urls import reverse
 from accounts.forms import * # EmailForm, SignUpForm, CustomAuthenticationForm, EditUserForm, CustomPasswordChangeForm
 from accounts.models import User
+from django.views import View
+import spotipy.oauth2 as oauth2
+from django.conf import settings
+from django.utils.decorators import method_decorator
+
 # End: imports -----------------------------------------------------------------
 
-@login_required
-def profile(request):
-    return render(request, 'accounts/profile.html')
+profile_dec = [
+    login_required,
+]
 
-@login_required
-def edit_profile(request):
-    if request.method == 'GET':
-        form = EditUserForm(instance=request.user)
-    else: # POST
-        form = EditUserForm(request.POST, instance=request.user)
+@method_decorator(profile_dec, name='dispatch')
+class ProfileView(View):
+    template = "accounts/profile.html"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template)
+
+
+
+@method_decorator(profile_dec, name='dispatch')
+class EditProfileView(View):
+    template = "accounts/edit_profile.html"
+    form_class = EditUserForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(instance=request.user)
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('account:profile')
-    # GET or form failed
-    return render(request, 'accounts/edit_profile.html', {
-        'form': form,
-    })
+            return redirect('accounts:profile')
+        else:
+            return render(request, self.template, {'form': form})
 
-def signup(request):
-    if request.method == "GET":
-        form = SignUpForm() # GET should give a new form
-    else: # POST
-        form = SignUpForm(request.POST)
+class SignUpView(View):
+    template = "accounts/registration_form.html"
+    form_class = SignUpForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
             email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=raw_password)
             login(request, user)
-            return HttpResponseRedirect( reverse('home') )
+            return redirect('home')
+        else:
+            return render(request, self.template, {'form': form})
 
-    # GET or form failed. Form is either empty or contains previous POST with errors:
-    return render(request, 'accounts/registration_form.html', {'form':form})
 
-@login_required
-def delete_user(request):
-    request.user.delete()
-    logout(request)
-    return redirect('home')
+@method_decorator(profile_dec, name='dispatch')
+class DeleteUserView(View):
 
-@login_required
-def logout_user(request):
-    logout(request)
-    return redirect('accounts:login')
+    def get(self, request, *args, **kwargs):
+        request.user.delete()
+        logout(request)
+        return redirect('home')
 
-@login_required
-def settings(request):
-    settings, created = Settings.objects.get_or_create(user=request.user)
-    form = SettingsForm(instance=settings, user=request.user)
 
-    print(request.user.settings.account_theme)
+@method_decorator(profile_dec, name='dispatch')
+class LogoutUserView(View):
 
-    if request.method == "POST":
-        form = SettingsForm(request.POST, instance=settings, user=request.user)
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('accounts:login')
+
+@method_decorator(profile_dec, name='dispatch')
+class SettingsView(View):
+    template = "accounts/settings.html"
+    form_class = SettingsForm
+
+    def get(self, request, *args, **kwargs):
+        settings, created = Settings.objects.get_or_create(user=request.user)
+        form = self.form_class(instance=settings, user=request.user)
+
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        settings, created = Settings.objects.get_or_create(user=request.user)
+        form = self.form_class(request.POST, instance=settings, user=request.user)
         if form.is_valid():
             settings = form.save()
             return redirect("accounts:profile")
+        else:
+            return render(request, self.template, {'form': form})
 
-    return render(request, 'accounts/settings.html', {
-        'form':form,
-    })
+@method_decorator(profile_dec, name='dispatch')
+class ChangePasswordView(View):
+    template = "accounts/change_password.html"
+    form_class = CustomPasswordChangeForm
 
-@login_required
-def change_password(request):
-    if request.method == 'POST':
-        form = CustomPasswordChangeForm(instance=request.user, data=request.POST)
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(request.user)
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            return HttpResponseRedirect( reverse('accounts:profile') )
-    else:
-        form = CustomPasswordChangeForm(request.user)
-    return render(request, 'accounts/change_password.html', {
-        'form': form,
-    })
+            return redirect("accounts:profile")
+        return render(request, self.template, {'form': form})
+
+class SpotifyConnectView(View):
+    template = "accounts/spotify_connect.html"
+
+    def post(self, request, *args, **kwargs):
+
+        cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
+        sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path)
+
+        token_info = sp_oauth.get_cached_token()
+
+        if not token_info:
+            auth_url = sp_oauth.get_authorize_url()
+            try:
+                print(auth_url)
+                import webbrowser
+                webbrowser.open(auth_url+'&show_dialog=true')
+            except Exception as e:
+                print(e)
+
+        return redirect("accounts:profile")
+
+def callback(request):
+    response = request.build_absolute_uri()
+    cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
+    sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path)
+
+    code = sp_oauth.parse_response_code(response)
+    token_info = sp_oauth.get_access_token(code)
+    return redirect('accounts:profile')

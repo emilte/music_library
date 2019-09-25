@@ -6,8 +6,8 @@ from django.utils import timezone
 
 class Course(models.Model):
     tittel = models.CharField(max_length=140, null=True, blank=False, default="")
-    fører = models.ForeignKey('accounts.User', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="male_courses")
-    følger = models.ForeignKey('accounts.User', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="female_courses")
+    fører = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="male_courses")
+    følger = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="female_courses")
     dato = models.DateField(null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     slutt = models.DateTimeField(null=True, blank=True)
@@ -40,6 +40,8 @@ class Course(models.Model):
     def getTags(self):
         return [navn[0] for navn in self.tags.all().values_list('navn') ]
 
+
+
 class Section(models.Model):
     nr = models.IntegerField(null=True, blank=True)
     tittel = models.CharField(max_length=140, null=True, blank=False, default="")
@@ -48,15 +50,15 @@ class Section(models.Model):
     varighet = models.IntegerField(null=True, blank=False)
     # varighet2 = models.IntegerField(null=True, blank=True)
     #varighet2 = models.DurationField(null=True, blank=True)
-    course = models.ForeignKey('Course', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="sections")
-    song = models.ForeignKey('songs.Song', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="sections")
-    video = models.ForeignKey('videos.Video', on_delete=models.DO_NOTHING, null=True, blank=True, related_name="sections")
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True, related_name="sections")
+    song = models.ForeignKey('songs.Song', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections")
+    video = models.ForeignKey('videos.Video', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections")
 
     class Meta:
         ordering = ['nr']
 
     def __str__(self):
-        return self.tittel
+        return "Section ({}) in course: {}".format(self.nr, self.course)
         #return "{} - {}...".format(self.course.title[0:40], self.text[:40])
         #return "{} - ({}) {}...".format(self.course.title[0:40], self.nr, self.text[:40])
 

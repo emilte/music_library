@@ -13,10 +13,15 @@ import docx
 import spotipy
 import spotipy.util as util
 import datetime
+from django.contrib.messages import error, success
 from accounts.models import User
+from django.views import View
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
 import os
 import spotipy.oauth2 as oauth2
+from django.conf import settings
 
 # End: imports -----------------------------------------------------------------
 
@@ -24,27 +29,38 @@ import spotipy.oauth2 as oauth2
 def trace(x):
     print(json.dumps(x, indent=4, sort_keys=True))
 
-def is_instructor(user):
-    return user.groups.filter(name="Instruktør").exists()
 # End: Functions ---------------------------------------------------------------
 
-# @user_passes_test(User.check_group_func("Instruktør"), login_url='/permission/invalid', redirect_field_name=None)
-@login_required
-def add_course(request):
-    if not request.user.has_perm("courses.add_course"):
-        return redirect("forbidden")
+addCourse_dec = [
+    login_required,
+    permission_required('courses.add_course', login_url='forbidden')
+]
+@method_decorator(addCourse_dec, name='dispatch')
+class AddCourseView(View):
+    template = 'courses/course_form.html'
+    courseForm_class = CourseForm
+    sectionForm_class = SectionForm
 
-    courseForm = CourseForm()
-    sectionForms = []
+    def get(self, request):
+        courseForm = self.courseForm_class()
+        sectionForm = self.sectionForm_class()
+        return render(request, 'courses/course_form.html', {
+            'courseForm': courseForm,
+            'sectionForms': [],
+            'sectionFormTemplate': self.sectionForm_class(prefix="template"),
+        })
 
-    if request.method == 'POST':
-        courseForm = CourseForm(data=request.POST)
+    def post(self, request):
+        if not request.user.has_perm("courses.add_course"):
+            return redirect("forbidden")
+
+        courseForm = self.courseForm_class(data=request.POST)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
         if courseForm.is_valid():
             prefixes = request.POST.getlist("prefix")
 
-            sectionForms = [SectionForm( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
+            sectionForms = [self.sectionForm_class( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
 
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
                 course = courseForm.save()
@@ -61,24 +77,42 @@ def add_course(request):
 
                 return redirect('courses:course_view', courseID=course.id)
 
+        return render(request, 'courses/course_form.html', {
+            'courseForm': courseForm,
+            'sectionForms': sectionForms,
+            'sectionFormTemplate': self.sectionForm_class(prefix="template"),
+        })
 
-    return render(request, 'courses/course_form.html', {
-        'courseForm': courseForm,
-        'sectionForms': sectionForms,
-        'sectionFormTemplate': SectionForm(prefix="template"),
-    })
 
-@login_required
-def edit_course(request, courseID):
-    if not request.user.has_perm("courses.change_course"):
-        return redirect("forbidden")
 
-    course = Course.objects.get(id=courseID)
-    sections = list(course.sections.all())
-    courseForm = CourseForm(instance=course)
-    sectionForms = [SectionForm(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
+editCourse_dec = [
+    login_required,
+    permission_required('courses.change_course', login_url='forbidden')
+]
+@method_decorator(editCourse_dec, name='dispatch')
+class EditCourseView(View):
+    template = 'courses/course_form.html'
+    courseForm_class = CourseForm
+    sectionForm_class = SectionForm
 
-    if request.method == 'POST':
+    def get(self, request, courseID):
+        course = Course.objects.get(id=courseID)
+        sections = list(course.sections.all())
+        courseForm = self.courseForm_class(instance=course)
+        sectionForms = [self.sectionForm_class(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
+
+        return render(request, self.template, {
+            'courseForm': courseForm,
+            'sectionForms': sectionForms,
+            'courseID': course.id,
+            'sectionFormTemplate': self.sectionForm_class(prefix="template"),
+        })
+
+    def post(self, request, courseID):
+        course = Course.objects.get(id=courseID)
+        sections = list(course.sections.all())
+        sectionForms = [self.sectionForm_class(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
+
         courseForm = CourseForm(request.POST, instance=course)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
@@ -104,70 +138,91 @@ def edit_course(request, courseID):
 
                 return redirect('courses:course_view', courseID=courseID)
 
-
-    # GET or courseForm failed
-    return render(request, 'courses/course_form.html', {
-        'courseForm': courseForm,
-        'sectionForms': sectionForms,
-        'sectionFormTemplate': SectionForm(prefix="template"),
-        'courseID': courseID,
-    })
-
-@login_required
-def all_courses(request):
-    # if not request.user.has_perm("courses.view_course"):
-    #     return redirect("forbidden")
-
-    courses = Course.objects.all()
-
-    return render(request, 'courses/all_courses.html', {
-        'courses': courses,
-    })
-
-@login_required
-def course_view(request, courseID):
-    # if not request.user.has_perm("courses.view_course"):
-    #     return redirect("forbidden")
-
-    course = Course.objects.get(id=courseID)
-
-    return render(request, 'courses/course_view.html', {
-    'course': course,
-    })
-
-@login_required
-def delete_course(request, courseID):
-    if not request.user.has_perm("courses.delete_course"):
-        return redirect("forbidden")
-
-    Course.objects.get(id=courseID).delete()
-
-    return redirect('courses:all_courses')
+        return render(request, self.template, {
+            'courseForm': courseForm,
+            'courseID': course.id,
+            'sectionForms': sectionForms,
+            'sectionFormTemplate': self.sectionForm_class(prefix="template"),
+        })
 
 
 
-@login_required
-def create_playlist(request, courseID):
-    # if not request.user.has_perm("courses.view_course"):
-    #     return redirect("forbidden")
+allCourses_dec = [
+    login_required,
+    permission_required('courses.view_course', login_url='forbidden')
+]
+@method_decorator(allCourses_dec, name='dispatch')
+class AllCoursesView(View):
+    template = 'courses/all_courses.html'
 
-    # Parameters needed for spotipy API
-    client_id = '6b34a08ef909414181faaedf68ec4304'
-    client_secret = 'c7935f0ff3f140c2a87df8117b82241b'
-    scope = 'playlist-modify-public'
-    redirect_uri = 'http://google.com/'
+    def get(self, request):
+        courses = Course.objects.all()
+        return render(request, self.template, {'courses': courses})
 
-    course = Course.objects.get(id=courseID)
 
-    try:
-        # Spotify username for authentification
-        spotify_username = request.user.spotify_username
+course_dec = [
+    login_required,
+    permission_required('courses.view_course', login_url='forbidden')
+]
+@method_decorator(course_dec, name='dispatch')
+class CourseView(View):
+    template = 'courses/course_view.html'
 
-        # Get access granted token for given user and permission
-        token = util.prompt_for_user_token(username=spotify_username, scope=scope, client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
+    def get(self, request, courseID, ):
+        print(request.user.has_perm('courses.view_course'))
+        course = Course.objects.get(id=courseID)
+        return render(request, self.template, {'course': course})
 
+
+deleteCourse_dec = [
+    login_required,
+    permission_required('courses.delete_course', login_url='forbidden')
+]
+@method_decorator(deleteCourse_dec, name='dispatch')
+class DeleteCourseView(View):
+
+    def post(self, request, courseID):
+        Course.objects.get(id=courseID).delete()
+        success(request, 'Course was successfully deleted')
+        return redirect('courses:all_courses')
+
+
+
+genPlaylist_dec = [
+    login_required,
+    permission_required('courses.view_course', login_url='forbidden')
+]
+@method_decorator(genPlaylist_dec, name='dispatch')
+class CreatePlaylistView(View):
+
+    def get(self, request, courseID):
+        course = Course.objects.get(id=courseID)
+
+        # Auth client
+        cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
+        sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path)
+
+        # Get token
+        token_info = sp_oauth.get_cached_token()
+
+        if not token_info:
+            auth_url = sp_oauth.get_authorize_url()
+            try:
+                print(auth_url)
+                import webbrowser
+                webbrowser.open(auth_url+'&show_dialog=true')
+            except Exception as e:
+                print(e)
+            error(request, 'Playlist was not created, try again')
+            return redirect('courses:course_view', courseID=courseID)
+
+
+        token = token_info['access_token']
         # Spotify API object
         spotify = spotipy.Spotify(auth=token)
+
+        # Get username
+        spotify_username = spotify.current_user()['uri'].split(':')[-1]
 
         # Title of playlist to be created
         playlist_title = '{} ({})'.format(course.tittel, course.dato)
@@ -191,47 +246,52 @@ def create_playlist(request, courseID):
         # Add tracks to playlist
         spotify.user_playlist_replace_tracks(user=spotify_username, playlist_id=playlist['id'], tracks=tracks)
 
-        return redirect('courses:course_view', courseID=courseID)
-    except Exception as e:
-        print(e)
+        success(request, "Playlist was created, and it's lit!")
         return redirect('courses:course_view', courseID=courseID)
 
 
-@login_required
-def export_course(request, courseID):
-    # if not request.user.has_perm("courses.view_course"):
-    #     return redirect("forbidden")
+export_dec = [
+    login_required,
+    permission_required('courses.view_course', login_url='forbidden')
+]
+@method_decorator(export_dec, name='dispatch')
+class ExportView(View):
 
-    course = Course.objects.get(id=courseID)
+    def get(self, request, courseID):
 
-    document = Document()
+        course = Course.objects.get(id=courseID)
 
-    document.add_heading(course.tittel, level=1)
+        document = Document()
 
-    tag_names = ", ".join(course.getTags())
+        document.add_heading(course.tittel, level=1)
 
-    informasjon = "Instruktør (fører): {}\nInstruktør (følger): {}\nDato: {}\nNår: {} - {}\nHvor: {}\nTema: {}".format(
-        course.fører.get_full_name(), course.følger.get_full_name(), course.getDato(), course.getStart(), course.getSlutt(), course.sted, tag_names
-    )
-    p = document.add_paragraph(informasjon)
+        tag_names = ", ".join(course.getTags())
 
-    for section in course.sections.all():
-        # p = document.add_paragraph("")
-        h = document.add_heading("{} ({} min) - {}".format(section.tittel, section.varighet, section.getStart()), level=2)
+        fører_navn = course.fører.get_full_name() if course.fører else 'Ingen instruktør valgt'
+        følger_navn = course.følger.get_full_name() if course.fører else 'Ingen instruktør valgt'
 
-        p = document.add_paragraph()
-        run = p.add_run("Sang: {}".format(section.getSong()))
-        run.italic = True
-        run.font.size = docx.shared.Pt(9)
+        informasjon = "Instruktør (fører): {}\nInstruktør (følger): {}\nDato: {}\nNår: {} - {}\nHvor: {}\nTema: {}".format(
+            fører_navn, følger_navn, course.getDato(), course.getStart(), course.getSlutt(), course.sted, tag_names
+        )
+        p = document.add_paragraph(informasjon)
 
-        run = p.add_run("\n\n{}".format(section.beskrivelse))
+        for section in course.sections.all():
+            # p = document.add_paragraph("")
+            h = document.add_heading("{} ({} min) - {}".format(section.tittel, section.varighet, section.getStart()), level=2)
+
+            p = document.add_paragraph()
+            run = p.add_run("Sang: {}".format(section.getSong()))
+            run.italic = True
+            run.font.size = docx.shared.Pt(9)
+
+            run = p.add_run("\n\n{}".format(section.beskrivelse))
 
 
-    h = document.add_heading("Kommentarer: ", level=2)
-    p = document.add_paragraph(course.kommentarer)
+        h = document.add_heading("Kommentarer: ", level=2)
+        p = document.add_paragraph(course.kommentarer)
 
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename={}.docx'.format(course)
-    document.save(response)
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename={}.docx'.format(course)
+        document.save(response)
 
-    return response
+        return response
