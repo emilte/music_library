@@ -267,8 +267,16 @@ class ExportView(View):
 
         tag_names = ", ".join(course.getTags())
 
-        fører_navn = course.fører.get_full_name() if course.fører else 'Ingen instruktør valgt'
-        følger_navn = course.følger.get_full_name() if course.fører else 'Ingen instruktør valgt'
+        if course.fører:
+            fører_navn = course.fører.get_full_name()
+        else:
+            fører_navn = 'Ingen instruktør valgt'
+
+        if course.følger:
+            følger_navn = course.følger.get_full_name()
+        else:
+            følger_navn = 'Ingen instruktør valgt'
+
 
         informasjon = "Instruktør (fører): {}\nInstruktør (følger): {}\nDato: {}\nNår: {} - {}\nHvor: {}\nTema: {}".format(
             fører_navn, følger_navn, course.getDato(), course.getStart(), course.getSlutt(), course.sted, tag_names
