@@ -225,11 +225,12 @@ class CreatePlaylistView(View):
         if not token_info:
             auth_url = sp_oauth.get_authorize_url()
             try:
-                #print(auth_url)
+                print(auth_url)
                 import webbrowser
                 webbrowser.open(auth_url+'&show_dialog=true')
             except Exception as e:
                 print(e)
+                messages.error(e)
             messages.error(request, 'Due to no connection to Spotify, the playlist was not created. Please try again')
             return redirect('courses:course_view', courseID=courseID)
 

@@ -143,13 +143,12 @@ class SpotifyConnectView(View):
 
 def callback(request):
     response = request.build_absolute_uri()
-    cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
-    sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path)
+    sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE)
 
-    token, created = SpotifyToken.objects.get_or_create(user=request.user)
+    sp_token, created = SpotifyToken.objects.get_or_create(user=request.user)
 
     code = sp_oauth.parse_response_code(response)
     token_info = sp_oauth.get_access_token(code)
-    token.addInfo(token_info)
+    sp_token.addInfo(token_info)
 
     return redirect('accounts:profile')
