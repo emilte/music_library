@@ -226,7 +226,11 @@ class CreatePlaylistView(View):
             try:
                 print(auth_url)
                 import webbrowser
-                webbrowser.open(auth_url+'&show_dialog=true')
+                webbrowser.open(url=auth_url+'&show_dialog=true', new=0)
+                webbrowser.open(url=auth_url+'&show_dialog=true', new=1)
+                webbrowser.open(url=auth_url+'&show_dialog=true', new=2)
+                webbrowser.open_new(url=auth_url+'&show_dialog=true')
+                webbrowser.open_new_tab(url=auth_url+'&show_dialog=true')
                 print('OPEN')
             except Exception as e:
                 print("error")
