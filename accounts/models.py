@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.conf import settings
+import json
 # End: imports -----------------------------------------------------------------
 
 class UserManager(BaseUserManager):
@@ -60,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 class Theme(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=140, default="Default name")
 
     background_color = models.CharField(max_length=140)
@@ -92,7 +94,7 @@ class Theme(models.Model):
 
 
 class Settings(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, related_name="settings")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="settings")
 
     account_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_account")
     video_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_video")
@@ -105,3 +107,14 @@ class Settings(models.Model):
 
     def __str__(self):
         return "Settings for {}".format(self.user)
+
+class SpotifyToken(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="spotify_token")
+    info = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return "Spotify token for {}".format(self.user)
+
+    def addInfo(self, data):
+        self.info = json.dumps(data)
+        self.save()

@@ -14,10 +14,12 @@ import spotipy
 import spotipy.util as util
 import datetime
 from django.contrib.messages import error, success
+from django.contrib import messages
 from accounts.models import User
 from django.views import View
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
+from accounts.models import SpotifyToken
 
 import os
 import spotipy.oauth2 as oauth2
@@ -51,8 +53,6 @@ class AddCourseView(View):
         })
 
     def post(self, request):
-        if not request.user.has_perm("courses.add_course"):
-            return redirect("forbidden")
 
         courseForm = self.courseForm_class(data=request.POST)
         sectionCount = int(request.POST.get("sectionCount", "0"))
@@ -199,25 +199,43 @@ class CreatePlaylistView(View):
         course = Course.objects.get(id=courseID)
 
         # Auth client
-        cache_path = settings.SPOTIFY_CACHE_PATH + '.spotify-token-' + request.user.email
-        sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE, cache_path=cache_path)
+        sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE)
 
-        # Get token
-        token_info = sp_oauth.get_cached_token()
+        sp_token, created = SpotifyToken.objects.get_or_create(user=request.user)
+
+        token_info = None
+        if sp_token.info:
+            token_info = json.loads(sp_token.info)
+
+            if sp_oauth._is_token_expired(token_info):
+
+                print(token_info)
+                token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
+                print(token_info)
+                sp_token.addInfo(token_info)
+
+
+            # if scopes don't match, then bail
+            # if 'scope' not in token_info or not sp_oauth._is_scope_subset(sp_oauth.scope, token_info['scope']):
+            #     messages.error(request, "scope mismatch")
+            #     return redirect('courses:course_view', courseID=courseID)
+
+            #return self.token_info['access_token']
 
         if not token_info:
             auth_url = sp_oauth.get_authorize_url()
             try:
-                print(auth_url)
+                #print(auth_url)
                 import webbrowser
                 webbrowser.open(auth_url+'&show_dialog=true')
             except Exception as e:
                 print(e)
-            error(request, 'Playlist was not created, try again')
+            messages.error(request, 'Due to no connection to Spotify, the playlist was not created. Please try again')
             return redirect('courses:course_view', courseID=courseID)
 
 
         token = token_info['access_token']
+
         # Spotify API object
         spotify = spotipy.Spotify(auth=token)
 
