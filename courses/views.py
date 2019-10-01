@@ -169,7 +169,6 @@ class CourseView(View):
     template = 'courses/course_view.html'
 
     def get(self, request, courseID, ):
-        print(request.user.has_perm('courses.view_course'))
         course = Course.objects.get(id=courseID)
         return render(request, self.template, {'course': course})
 
@@ -229,6 +228,7 @@ class CreatePlaylistView(View):
                 import webbrowser
                 webbrowser.open(auth_url+'&show_dialog=true')
             except Exception as e:
+                print("error")
                 print(e)
                 messages.error(e)
             messages.error(request, 'Due to no connection to Spotify, the playlist was not created. Please try again')
