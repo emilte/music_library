@@ -207,10 +207,7 @@ class CreatePlaylistView(View):
             token_info = json.loads(sp_token.info)
 
             if sp_oauth._is_token_expired(token_info):
-
-                print(token_info)
                 token_info = sp_oauth.refresh_access_token(token_info['refresh_token'])
-                print(token_info)
                 sp_token.addInfo(token_info)
 
 
@@ -223,9 +220,8 @@ class CreatePlaylistView(View):
 
         if not token_info:
             auth_url = sp_oauth.get_authorize_url()
-            return redirect(auth_url+'&show_dialog=true'+'&next=/courses/'+str(courseID))
             messages.error(request, 'Due to no connection to Spotify, the playlist was not created. Please try again')
-            return redirect('courses:course_view', courseID=courseID)
+            return redirect(auth_url+'&show_dialog=true')
 
 
         token = token_info['access_token']
