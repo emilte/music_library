@@ -9,16 +9,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-CUSTOM_SETTINGS = ["dev_settings", "allauth_settings"]
+CUSTOM_SETTINGS = ["dev_settings", "allauth_settings", "local_settings"]
 
 DEBUG = False
-
-# ALLOWED_HOSTS = ['swingkurs.herokuapp.com']
 ALLOWED_HOSTS = []
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
 
 # Static
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
@@ -51,21 +45,26 @@ X_FRAME_OPTIONS = "DENY"
 
 # Application definition
 INSTALLED_APPS = [
-    'django_user_agents',
-    'django_extensions',
-    'accounts.apps.AccountsConfig',
-    'videos.apps.VideosConfig',
-    'music_library',
-    'info.apps.InfoConfig',
-    'tinymce', # For HTMLField
-    'songs.apps.SongsConfig',
-    'courses.apps.CoursesConfig',
+    # Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Imported apps
+    'django_user_agents',
+    'django_extensions',
+    'tinymce', # For HTMLField
+
+    # Own apps
+    'accounts',
+    'videos',
+    'music_library',
+    'info',
+    'songs',
+    'courses',
 ]
 
 MIDDLEWARE = [
@@ -76,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
     'django_user_agents.middleware.UserAgentMiddleware', # User agent
 ]
 
@@ -178,6 +178,7 @@ checklist = {
     # 'DATABASES': DATABASES,
     # 'SECRET_KEY': SECRET_KEY,
     'SPOTIFY_CLIENT_ID': SPOTIFY_CLIENT_ID,
+    'INSTALLED_APPS': INSTALLED_APPS,
 }
 
 def check_settings(settings=None):

@@ -37,65 +37,12 @@
             {% endfor %}
             <br>
 
-            <div class="row">
-                <div class="col-md mb-3">
-                    <button id="btn_submit" type="submit" class="btn btn-primary btn-block">Lagre</button>
-                </div>
-                <div class="col-md-5 mb-3">
-                    <!-- Delete account (button) -->
-                    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteAccount">
-                        Slett bruker
-                    </button>
-                </div>
-            </div>
+            <button id="btn_submit" type="submit" class="btn btn-primary btn-block">Lagre</button>
+
         </form> <!-- End: Edit user (form) -->
 
 
     </div>
 
-    <!-- Delete user (modal) -->
-    <div class="modal fade text-dark" id="deleteAccount" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Er du helt sikker på at du vil slette brukeren?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Dette vil slette brukeren din for godt!
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <!-- Delete user confirmed (button) -->
-                    <form class="" action="{% url 'accounts:delete_user' %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-danger" type="submit" name="button">Slett</button>
-                    </form>
-                    <!-- Cancel (button) -->
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
-                </div>
-            </div>
-        </div>
-    </div> <!-- End: Delete user (modal) -->
-
     <br><br><br> <!-- Quickfix footer -->
-{% endblock %}
-
-{% block scriptblock %}
-    <script type="text/javascript">
-        $(document).ready(function() {
-            // Vars:
-
-            // -----------------------------------------------------------------
-            // Functions:
-
-            // -----------------------------------------------------------------
-            // Event listeners:
-
-            // -----------------------------------------------------------------
-        })
-    </script>
 {% endblock %}

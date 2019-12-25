@@ -29,38 +29,13 @@
 
                     <h2>Logg inn:</h2>
 
-                    <form class="container" method="post">
-                        {% csrf_token %}
-                        <div class="text-danger">
-                            {{ form.non_field_errors }}
-                        </div>
-                        {% for field in form %}
-                        <div class="form-group"> <!-- Bootstrap -->
-                            {{ field.label_tag }}
-                            {{ field }}
-                            {% for error in field.errors %}
-                            <div class="error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-                        {% endfor %}
-                        <button class="btn btn-primary" type="submit">Logg inn</button>
-                    </form>
-                    <br>
-                    <a href="{% url 'accounts:signup' %}">Har du ingen bruker? Registrer deg her!</a>
+                    <a class="btn btn-danger" href="{% provider_login_url "google" %}">
+                        <img src="https://img.icons8.com/color/48/000000/google-logo.png">
+                        Logg inn med Google
+                    </a>
 
                 </div>
             </div>
-
-            <div class="col">
-                <h2>Eller:</h2>
-
-                <a class="btn btn-danger" href="{% provider_login_url 'google' %}">
-                    <img src="https://img.icons8.com/color/48/000000/google-logo.png">
-                    Logg inn med Google
-                </a>
-
-            </div>
-
         </div>
         <br>
 
