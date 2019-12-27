@@ -18,7 +18,7 @@ class Song(models.Model):
     tags = models.ManyToManyField('songs.SongTag', blank=True)
 
     def __str__(self):
-        return "{} - {} ({} bpm)".format(self.tittel, self.artist, self.bpm)
+        return "{} - {} ({} bpm)".format(self.title, self.artist, self.bpm)
 
 class File(models.Model):
     description = models.CharField(max_length=255, blank=True)
