@@ -18,7 +18,7 @@ class VideoTag(models.Model):
         ordering = ["title"]
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class Video(models.Model):
     title = models.CharField(max_length=150, null=True, blank=False)
