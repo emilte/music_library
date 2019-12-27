@@ -9,7 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-CUSTOM_SETTINGS = ["dev_settings", "allauth_settings", "local_settings"]
+CUSTOM_SETTINGS = ["heroku_settings", "allauth_settings"] # heroku_settings
+# CUSTOM_SETTINGS = ["dev_settings", "allauth_settings", "local_settings"] # local_settings
 
 DEBUG = False
 ALLOWED_HOSTS = []
