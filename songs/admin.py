@@ -38,13 +38,13 @@ class BPMFilter(admin.SimpleListFilter):
 # managers:
 class SongManager(admin.ModelAdmin):
     fieldsets = (
-        (None, {'fields': ['tittel', 'artist', 'bpm'] } ),
+        (None, {'fields': ['title', 'artist', 'bpm'] } ),
         ('Links', {'fields': ['spotify_URL', 'spotify_URI'] } ),
     )
-    list_display = ['tittel', 'artist', 'bpm']
+    list_display = ['title', 'artist', 'bpm']
     list_filter = [BPMFilter, 'tags']
-    search_fields = ['tittel', 'artist']
-    ordering = ['bpm', 'tittel']
+    search_fields = ['title', 'artist']
+    ordering = ['bpm', 'title']
     readonly_fields = []
 # End: managers ----------------------------------------------------------------
 

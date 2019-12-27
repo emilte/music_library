@@ -27,9 +27,9 @@
             {% csrf_token %}
             <div class="form-row">
                 <div class="col-md-9 mb-3">
-                    {{ form.navn.label_tag }}
-                    {{ form.navn }}
-                    {{ form.navn.errors }}
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                    {{ form.title.errors }}
                 </div>
             </div>
             <div class="form-row">
@@ -42,20 +42,20 @@
                     {{ form.youtube_URL.errors }}
                 </div>
                 <div class="col-md-3 mb-3">
-                    {{ form.vanskelighetsgrad.label_tag }}
-                    {{ form.vanskelighetsgrad }}
+                    {{ form.difficulty.label_tag }}
+                    {{ form.difficulty }}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-md-6 mb-5">
-                    {{ form.beskrivelse.label_tag }}
-                    {{ form.beskrivelse }}
-                    {{ form.beskrivelse.errors }}
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                    {{ form.description.errors }}
                 </div>
                 <div class="col-md-6 mb-3">
-                    {{ form.fokuspunkt.label_tag }}
-                    {{ form.fokuspunkt }}
-                    {{ form.fokuspunkt.errors }}
+                    {{ form.focus.label_tag }}
+                    {{ form.focus }}
+                    {{ form.focus.errors }}
                 </div>
             </div>
             <div class="form-row">

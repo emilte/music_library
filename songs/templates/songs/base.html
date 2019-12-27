@@ -4,14 +4,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- Icon library -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/1.0.1/LineIcons.min.css">
 
+    <!-- Other -->
     <link rel="stylesheet" type="text/css" href="{% static 'songs/css/base.css' %}"/>
-
     <link rel="shortcut icon" type="image/png" href="https://png.icons8.com/metro/16/006F30/musical-notes.png"/>
 
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/5fxgnl3dek8av5x5in4ke8fhqsup13fux7rshr2l91r8lgjw/tinymce/5/tinymce.min.js"></script>
+
+    <!-- Title -->
     <title>{% block title %}Hjem{% endblock %}</title>
 
     {% block head %}{% endblock %}
@@ -39,7 +46,7 @@
 
         <!-- breadcrumbs -->
         <nav aria-label="breadcrumb">
-            <ol id="breadcrumbs" class="breadcrumb">
+            <ol id="breadcrumb" class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'home' %}">Hjem</a></li>
                 {% block breadcrumbs %}
 

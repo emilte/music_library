@@ -16,14 +16,14 @@ import json
 def video_search_filter(form, queryset):
     search = form.cleaned_data['search']
     tag = form.cleaned_data['tag']
-    vanskelighetsgrad = form.cleaned_data['vanskelighetsgrad']
+    difficulty = form.cleaned_data['difficulty']
 
     if search != "":
         queryset = queryset.filter( Q(navn__icontains=search) | Q(beskrivelse__icontains=search) | Q(fokuspunkt__icontains=search) )
     if tag != '-1':
         queryset = queryset.filter(tags__id=tag)
-    if vanskelighetsgrad != '-1':
-        queryset = queryset.filter(vanskelighetsgrad=vanskelighetsgrad)
+    if difficulty != '-1':
+        queryset = queryset.filter(difficulty=difficulty)
 
     return queryset
 

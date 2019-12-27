@@ -30,9 +30,9 @@ MIN_FORMATS = [
 
 class CourseForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(queryset=VideoTag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
-    dato = forms.DateField(input_formats=DATE_FORMATS, required=False)
+    date = forms.DateField(input_formats=DATE_FORMATS, required=False)
     start = forms.DateTimeField(input_formats=TIME_FORMATS, required=False)
-    slutt = forms.DateTimeField(input_formats=TIME_FORMATS, required=False)
+    end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False)
 
     class Media:
         css = {
@@ -44,43 +44,60 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         exclude = []
+        labels = {
+            'title': 'Tittel',
+            'lead': 'Fører',
+            'follow': 'Følger',
+            'date': 'Dato',
+            'end': 'Slutt',
+            'comments': 'Kommentarer',
+            'place': 'Sted',
+        }
 
     def __init__(self, *args, **kwargs):
         super(CourseForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
-        self.fields['tittel'].widget.attrs.update({'placeholder': 'Tittel'})
+        self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
 
         self.fields['start'].widget.attrs.update({'placeholder': 'hh:mm'})
         self.fields['start'].widget.format = "%H:%M"
 
-        self.fields['dato'].widget.attrs.update({'placeholder': 'dd.mm.yy'})
-        self.fields['dato'].widget.format = "%d.%m.%y"
+        self.fields['date'].widget.attrs.update({'placeholder': 'dd.mm.yy'})
+        self.fields['date'].widget.format = "%d.%m.%y"
 
-        self.fields['slutt'].widget.attrs.update({'placeholder': 'hh:mm'})
-        self.fields['slutt'].widget.format = "%H:%M"
+        self.fields['end'].widget.attrs.update({'placeholder': 'hh:mm'})
+        self.fields['end'].widget.format = "%H:%M"
 
-        self.fields['kommentarer'].widget.attrs.update({'rows': '7'})
+        self.fields['comments'].widget.attrs.update({'rows': '7'})
 
 
 
 class SectionForm(forms.ModelForm):
-    # varighet = forms.TimeField(input_formats=MIN_FORMATS, required=False)
+    # duration = forms.TimeField(input_formats=MIN_FORMATS, required=False)
 
     class Meta:
         model = Section
         exclude = []
+        labels = {
+            'title': 'Tittel',
+            'description': 'Beskrivelse',
+            'duration': 'Varighet',
+            'course': 'Kurs',
+            'song': 'Sang',
+        }
 
     def __init__(self, *args, **kwargs):
         super(SectionForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
-        self.fields['varighet'].widget.attrs.update({'placeholder': 'min'})
-        # self.fields['varighet'].widget.format = "%M"
+        self.fields['duration'].widget.attrs.update({'placeholder': 'min'})
+        # self.fields['duration'].widget.format = "%M"
 
         self.fields['start'].widget.attrs.update({'placeholder': 'hh:mm', 'readonly': '1'})
         self.fields['start'].widget.format = "%H:%M"
 
-        self.fields['beskrivelse'].widget.attrs.update({'rows': '7'})
+        # self.fields['description'].widget.attrs.update({'rows': '7', 'class': 'tinymce'})
+        self.fields['description'].widget.attrs.update({'class': 'tinymce'})

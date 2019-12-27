@@ -12,23 +12,22 @@ DIFFICULY_CHOISES = [
 # End: coises ------------------------------------------------------------------
 
 class VideoTag(models.Model):
-    navn = models.CharField(null=False, blank=False, max_length=100)
+    title = models.CharField(null=True, blank=False, max_length=100)
 
     class Meta:
-        ordering = ["navn"]
+        ordering = ["title"]
 
     def __str__(self):
-        return self.navn
+        return self.name
 
 class Video(models.Model):
-    navn = models.CharField(max_length=150, null=True, blank=False)
+    title = models.CharField(max_length=150, null=True, blank=False)
     youtube_URL = models.URLField(null=True, blank=False)
     embedded = models.URLField(null=True, blank=True)
     tags = models.ManyToManyField('videos.VideoTag')
-    beskrivelse = models.TextField(null=True, blank=True)
-    fokuspunkt = models.TextField(null=True, blank=True)
-    vanskelighetsgrad = models.IntegerField(choices=DIFFICULY_CHOISES, default=1)
-
+    description = models.TextField(null=True, blank=True)
+    focus = models.TextField(null=True, blank=True)
+    difficulty = models.IntegerField(choices=DIFFICULY_CHOISES, default=1)
 
     def embed(self):
         video_id = "no id"
@@ -46,4 +45,4 @@ class Video(models.Model):
 
 
     def __str__(self):
-        return "{}".format(self.navn)
+        return "{}".format(self.title)

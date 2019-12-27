@@ -30,17 +30,17 @@
         <div class="container">
             <div class="row">
                 <div class="col mb-3">
-                    Vanskelighetsgrad: &nbsp {{ video.get_vanskelighetsgrad_display }}
+                    Vanskelighetsgrad: &nbsp {{ video.get_difficulty_display }}
                 </div>
             </div>
             <div class="row">
                 <div class="col gray-box mb-3">
                     <h4>Beskrivelse:</h4>
-                    {{ video.beskrivelse | linebreaks }}
+                    {{ video.description | linebreaks }}
                 </div>
                 <div class="col gray-box mb-3">
                     <h4>Fokuspunkt:</h4>
-                    {{ video.fokuspunkt | linebreaks }}
+                    {{ video.focus | linebreaks }}
                 </div>
             </div>
         </div>

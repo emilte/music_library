@@ -29,49 +29,49 @@
     <div id="addCourseForm">
         <div class="form-row">
             <div class="form-group col-md">
-                {{ addCourseForm.tittel.label }}
-                {{ addCourseForm.tittel }}
+                {{ addCourseForm.title.label }}
+                {{ addCourseForm.title }}
             </div>
             <div class="form-group col-md-2">
                 {{ addCourseForm.start.label }}
                 {{ addCourseForm.start }}
             </div>
             <div class="form-group col-md-1">
-                {{ addCourseForm.varighet.label }}
-                {{ addCourseForm.varighet }}
+                {{ addCourseForm.duration.label }}
+                {{ addCourseForm.duration }}
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group col-md">
-                {{ addCourseForm.fører.label }}
-                {{ addCourseForm.fører }}
+                {{ addCourseForm.lead.label }}
+                {{ addCourseForm.lead }}
             </div>
             <div class="form-group col-md">
-                {{ addCourseForm.følger.label }}
-                {{ addCourseForm.følger }}
+                {{ addCourseForm.follow.label }}
+                {{ addCourseForm.follow }}
             </div>
         </div>
     </div>
 
     <br>
 
-    {{ sectionFormTemplate.tittel |  }}
+    {{ sectionFormTemplate.title }}
 
     <div class="d-none">
         <div id="sectionFormTemplate" class="jumbotron section">
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    {{ sectionFormTemplate.tittel.label }}
-                    {{ sectionFormTemplate.tittel }}
+                    {{ sectionFormTemplate.title.label }}
+                    {{ sectionFormTemplate.title }}
                 </div>
                 <div class="form-group col-md-2">
                     {{ sectionFormTemplate.start.label }}
                     {{ sectionFormTemplate.start }}
                 </div>
                 <div class="form-group col-md-1">
-                    {{ sectionFormTemplate.varighet.label }}
-                    {{ sectionFormTemplate.varighet }}
+                    {{ sectionFormTemplate.duration.label }}
+                    {{ sectionFormTemplate.duration }}
                 </div>
                 <div class="form-group col-md-2">
                     {{ sectionFormTemplate.song.label }}
@@ -140,23 +140,23 @@
                 <div id="section${i}" class="jumbotron section">
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="tittel${i}">Title</label>
-                            <input type="text" name="tittel${i}" class="form-control" id="tittel${i}" placeholder="Title">
+                            <label for="title${i}">Title</label>
+                            <input type="text" name="title${i}" class="form-control" id="title${i}" placeholder="Title">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="start${i}">Start</label>
                             <input type="text" name="start${i}" class="form-control" id="start${i}" placeholder="">
                         </div>
                         <div class="form-group col-md-1">
-                            <label for="varighet${i}">Duration</label>
-                            <input type="text" name="varighet${i}" class="form-control" id="varighet${i}" placeholder="min">
+                            <label for="duration${i}">Duration</label>
+                            <input type="text" name="duration${i}" class="form-control" id="duration${i}" placeholder="min">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="song${i}">Song</label>
                             <select name="song${i}" class="form-control" id="song${i}">
                                 <option value="-1" selected="">---------</option>
                                 {% for song in songs %}
-                                    <option value="{{ forloop.counter }}">{{ song.tittel }}</option>
+                                    <option value="{{ forloop.counter }}">{{ song.title }}</option>
                                 {% endfor %}
                             </select>
                         </div>

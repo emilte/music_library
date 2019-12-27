@@ -49,6 +49,10 @@
             position: relative;
         }
 
+        .body-wrapper {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
         .section-btn-up {
             position: absolute;
             top: 24px;
@@ -80,269 +84,225 @@
 
 {% block body %}
 
-{% for field in courseForm %}
-  {% if field.errors %}
-    {% for error in field.errors %}
-      <a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a>
-    {% endfor %}
-  {% endif %}
-{% endfor %}
+    <div class="body-wrapper rounded p-3">
 
-{{ courseForm.non_field_errors }}
+    <h1>Rediger kurs:</h1>
 
+    {{ courseForm.non_field_errors }}
 
-<h1>Rediger Kurs</h1>
+    <form method="post">
+        {% csrf_token %}
 
-<form method="post">
-    {% csrf_token %}
+        <div id="courseForm">
 
-    <div id="courseForm">
-
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                {{ courseForm.tittel.label }}
-                {{ courseForm.tittel }}
-                {{ courseForm.tittel.errors }}
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    {{ courseForm.title.label }}
+                    {{ courseForm.title }}
+                </div>
+                <div class="form-group col-md-5">
+                    {{ courseForm.place.label }}
+                    {{ courseForm.place }}
+                </div>
+                <div class="error">
+                    {{ courseForm.title.errors }}
+                    {{ courseForm.place.errors }}
+                </div>
             </div>
-            <div class="form-group col-md-5">
-                {{ courseForm.sted.label }}
-                {{ courseForm.sted }}
-                {{ courseForm.sted.errors }}
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    {{ courseForm.date.label }}
+                    {{ courseForm.date }}
+                </div>
+                <div class="form-group col-md-1">
+                    {{ courseForm.start.label }}
+                    {{ courseForm.start }}
+                </div>
+                <div class="form-group col-md-1">
+                    {{ courseForm.ned.label }}
+                    {{ courseForm.ned }}
+                </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-2">
-                {{ courseForm.dato.label }}
-                {{ courseForm.dato }}
-                {{ courseForm.dato.errors }}
-            </div>
-            <div class="form-group col-md-1">
-                {{ courseForm.start.label }}
-                {{ courseForm.start }}
+            <div class="error">
+                {{ courseForm.date.errors }}
                 {{ courseForm.start.errors }}
+                {{ courseForm.ned.errors }}
             </div>
-            <div class="form-group col-md-1">
-                {{ courseForm.slutt.label }}
-                {{ courseForm.slutt }}
-                {{ courseForm.slutt.errors }}
+            <div class="form-row mb-1">
+                <div class="form-group col-md-4">
+                    {{ courseForm.lead.label }}
+                    {{ courseForm.lead }}
+                    {{ courseForm.lead.errors }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ courseForm.follow.label }}
+                    {{ courseForm.follow }}
+                    {{ courseForm.follow.errors }}
+                </div>
+            </div>
+            <div class="form-row">
+                {{ courseForm.tags }}
             </div>
         </div>
-        <div class="form-row mb-1">
-            <div class="form-group col-md-4">
-                {{ courseForm.fører.label }}
-                {{ courseForm.fører }}
-                {{ courseForm.fører.errors }}
-            </div>
-            <div class="form-group col-md-4">
-                {{ courseForm.følger.label }}
-                {{ courseForm.følger }}
-                {{ courseForm.følger.errors }}
+
+        <br>
+
+        <div id="dynamic-sections">
+
+            <input id="sectionCount" type="hidden" readonly name="sectionCount" value="{{ sectionForms | length }}">
+
+            {% for sectionForm in sectionForms %}
+
+                <div class="jumbotron default-theme user-theme mt-3">
+
+                    <div class="row">
+
+                        <div class="col-10">
+                            <input type="hidden" name="prefix" value="{{ sectionForm.prefix }}">
+
+                            <div class="form-row">
+                                <div class="form-group col-md">
+                                    {{ sectionForm.title.label }}
+                                    {{ sectionForm.title }}
+                                    {{ sectionForm.title.errors }}
+                                </div>
+                                <div class="form-group col-md-2">
+                                    {{ sectionForm.duration.label }}
+                                    {{ sectionForm.duration }}
+                                    {{ sectionForm.duration.errors }}
+                                </div>
+                                <div class="form-group col-md">
+                                    {{ sectionForm.song.label }}
+                                    {{ sectionForm.song }}
+                                    {{ sectionForm.song.errors }}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md">
+                                    {{ sectionForm.description.label }}
+                                    {{ sectionForm.description }}
+                                    {{ sectionForm.description.errors }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-2">
+                            <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
+                            <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
+                            <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <button class="btn btn-dark border border-warning" id="btn-add-section" type="button" name="button" >
+            <img src="https://img.icons8.com/material-rounded/25/FFAA00/plus-math.png">
+            Legg til ny del
+        </button>
+
+        <div class="form-row mt-4">
+            <div class="form-group col-md-6">
+                {{ courseForm.comments.label }}
+                {{ courseForm.comments }}
+                {{ courseForm.comments.errors }}
             </div>
         </div>
-        <div class="form-row">
-            {{ courseForm.tags }}
+
+        <div class="row">
+            <div class="col-8">
+                <button class="btn btn-block btn-dark" type="submit">Lagre</button>
+            </div>
+            {% if courseID %}
+
+                <!-- Delete Course (button) -->
+                <div class="col">
+                    <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#delete-course">Slett</button>
+                </div>
+
+            {% endif %}
         </div>
-    </div>
+    </form>
 
-    <br>
+    <!-- Delete Course (modal) -->
+    <div class="modal fade text-dark" id="delete-course" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
 
-    <div id="dynamic-sections">
+                <div class="modal-header">
+                    <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-        <input id="sectionCount" type="hidden" readonly name="sectionCount" value="{{ sectionForms | length }}">
+                <div class="modal-body"><p>Du vil miste all data!</p></div>
 
-        {% for sectionForm in sectionForms %}
+                <div class="modal-footer">
+                    <!-- Delete Course confirmed (button) -->
+                    {% if courseID %}
+                        <form id="form_delete" action="{% url 'courses:delete_course' courseID %}" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit" name="button">Slett kurs</button>
+                        </form>
+                    {% endif %}
+
+                    <!-- Cancel (button) -->
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End: Delete Course (modal) -->
+
+        <!-- TEMPLATE -->
+        <div id="sectionFormTemplate" class="d-none">
 
             <div class="jumbotron default-theme user-theme">
 
                 <div class="row">
 
-                    <div class="col">
-                        <input type="hidden" name="prefix" value="{{ sectionForm.prefix }}">
+                    <div class="col-10">
+                        <input type="hidden" name="prefix" value="template">
 
                         <div class="form-row">
-                            <div class="form-group col-md-3">
-                                {{ sectionForm.tittel.label }}
-                                {{ sectionForm.tittel }}
-                                {{ sectionForm.tittel.errors }}
+                            <div class="form-group col-md">
+                                {{ sectionFormTemplate.title.label }}
+                                {{ sectionFormTemplate.title }}
+                                {{ sectionFormTemplate.title.errors }}
                             </div>
-                            <div class="form-group col-md-1">
-                                {{ sectionForm.varighet.label }}
-                                {{ sectionForm.varighet }}
-                                {{ sectionForm.varighet.errors }}
-                            </div>
-                            <!--
-                            <div class="form-group col-md-1">
-                                {{ sectionForm.start.label }}
-                                {{ sectionForm.start }}
-                                {{ sectionForm.start.errors }}
-                            </div>
-                            -->
-                            <div class="form-group col-md-4">
-                                {{ sectionForm.song.label }}
-                                {{ sectionForm.song }}
-                                {{ sectionForm.song.errors }}
-                            </div>
-                            <!--
                             <div class="form-group col-md-2">
-                                {{ sectionForm.video.label }}
-                                {{ sectionForm.video }}
-                                {{ sectionForm.video.errors }}
+                                {{ sectionFormTemplate.duration.label }}
+                                {{ sectionFormTemplate.duration }}
+                                {{ sectionFormTemplate.duration.errors }}
                             </div>
-                            -->
+                            <div class="form-group col-md">
+                                {{ sectionFormTemplate.song.label }}
+                                {{ sectionFormTemplate.song }}
+                                {{ sectionFormTemplate.song.errors }}
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-10">
-                                {{ sectionForm.beskrivelse.label }}
-                                {{ sectionForm.beskrivelse }}
-                                {{ sectionForm.beskrivelse.errors }}
+                            <div class="form-group col-md">
+                                {{ sectionFormTemplate.description.label }}
+                                {{ sectionFormTemplate.description }}
+                                {{ sectionFormTemplate.description.errors }}
                             </div>
                         </div>
                     </div>
 
                     <div class="col-2">
-                        <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button" >Opp</button>
-                        <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button" >Ned</button>
+                        <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
+                        <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
                         <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
                     </div>
 
                 </div>
-
-            </div>
-        {% endfor %}
-
-    </div>
-
-    <button class="btn btn-dark" id="btn-add-section" type="button" name="button" >
-        <img src="https://img.icons8.com/material-rounded/25/FFAA00/plus-math.png">
-        Legg til ny del
-    </button>
-
-    <br>
-    <br>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            {{ courseForm.kommentarer.label }}
-            {{ courseForm.kommentarer }}
-            {{ courseForm.kommentarer.errors }}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-8">
-            <button class="btn btn-block btn-dark" type="submit">Lagre</button>
-        </div>
-        {% if courseID %}
-
-            <!-- Delete Course (button) -->
-            <div class="col">
-                <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#delete-course">Slett</button>
-            </div>
-
-
-        {% endif %}
-    </div>
-</form>
-
-<!-- Delete Course (modal) -->
-<div class="modal fade text-dark" id="delete-course" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body"><p>Du vil miste all data!</p></div>
-
-            <div class="modal-footer">
-                <!-- Delete Course confirmed (button) -->
-                {% if courseID %}
-                    <form id="form_delete" action="{% url 'courses:delete_course' courseID %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-danger" type="submit" name="button">Slett kurs</button>
-                    </form>
-                {% endif %}
-
-                <!-- Cancel (button) -->
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
             </div>
         </div>
-    </div>
-</div> <!-- End: Delete Course (modal) -->
 
-    <!-- TEMPLATE -->
-    <div id="sectionFormTemplate" class="d-none">
-        <div class="jumbotron default-theme user-theme">
-            <div class="row">
-
-                <div class="col border">
-                    <input type="hidden" name="prefix" value="template">
-
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            {{ sectionFormTemplate.tittel.label }}
-                            {{ sectionFormTemplate.tittel }}
-                            {{ sectionFormTemplate.tittel.errors }}
-                        </div>
-                        <div class="form-group col-md-1">
-                            {{ sectionFormTemplate.varighet.label }}
-                            {{ sectionFormTemplate.varighet }}
-                            {{ sectionFormTemplate.varighet.errors }}
-                        </div>
-                        <!--
-                        <div class="form-group col-md-1">
-                            {{ sectionFormTemplate.start.label }}
-                            {{ sectionFormTemplate.start }}
-                            {{ sectionFormTemplate.start.errors }}
-                        </div>
-                        -->
-                        <div class="form-group col-md-4">
-                            {{ sectionFormTemplate.song.label }}
-                            {{ sectionFormTemplate.song }}
-                            {{ sectionFormTemplate.song.errors }}
-                        </div>
-                        <!--
-                        <div class="form-group col-md-2">
-                            {{ sectionFormTemplate.video.label }}
-                            {{ sectionFormTemplate.video }}
-                            {{ sectionFormTemplate.video.errors }}
-                        </div>
-                        -->
-
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-10">
-                            {{ sectionFormTemplate.beskrivelse.label }}
-                            {{ sectionFormTemplate.beskrivelse }}
-                            {{ sectionFormTemplate.beskrivelse.errors }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-2 border">
-                    <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button" >
-                        Opp
-                    </button>
-                    <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button" >
-                        Ned
-                    </button>
-                    <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button" >
-                        Fjern
-                    </button>
-                </div>
-
-            </div>
-
-
-
-
-        </div>
-    </div>
-
+    </div> <!-- END: body-wrapper -->
 
 {% endblock %}
 
@@ -366,18 +326,37 @@
         var sectionFormTemplate = $("#sectionFormTemplate").html()
         $("#sectionFormTemplate").remove()
 
+        var tinymceConfig = {
+            selector: "textarea.tinymce",
+            plugins: 'advlist autoresize autosave codesample emoticons help lists print searchreplace tabfocus textpattern',
+            menubar: 'file edit insert view format tools table help',
+            toolbar: 'undo redo | fontselect | fontsizeselect | bold italic underline | forecolor | backcolor | removeformat | numlist bullist',
+            min_height: 50,
+            max_height: 600,
+            toolbar_sticky: false,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            tabfocus_elements: ":prev,:next",
+            toolbar_items_size: "small",
+        }
+
+        tinymce.init(tinymceConfig);
+
+
         $(document).ready(function() {
 
             $("#btn-add-section").click(function() {
                 $("#sectionCount").val( +$("#sectionCount").val() + 1)
                 $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
+                tinymce.init(tinymceConfig);
             })
 
             $(function () {
                 $('[data-toggle="popover"]').popover()
             })
-
-
 
         })
     </script>

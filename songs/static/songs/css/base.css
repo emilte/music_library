@@ -7,8 +7,12 @@ html {
 body {
     background-image: url('/static/songs/images/background2.png');
     background-size: cover auto;
-    position: relative; /* Needed for natural element flow */
-    margin-top: 4.5em !important; /* Because of navbar (fixed) */
+
+    /* Needed for natural element flow */
+    position: relative;
+
+    /* Because of navbar (fixed) */
+    padding-top: 5.5em !important;
 
     color: white;
     background-color: #0d0d0d;
@@ -33,17 +37,27 @@ a:hover {
     color: red;
 }
 
-.white-box {
-    background: rgba(255,255,255,0.8);
-    border-radius: 1em;
-    padding: 1em;
+.cursor-pointer {
+    cursor: pointer;
 }
+
+/* override styles when printing */
+@media print {
+    .no-print {
+        display: none;
+    }
+
+    .print-style {
+        color: black;
+    }
+}
+
 
 #navbar {
-    padding-right: 5em;
+    padding-right: 4em;
 }
 
-#breadcrumbs {
+#breadcrumb {
     background-color: rgba(25,25,35,0.8);
 }
 
@@ -56,13 +70,4 @@ a:hover {
     background: rgba(20,20,40,0.5);
     /* Space between content and footer */
     margin-top: 2em;
-}
-
-#footer_NOT_IN_USE {
-    position: absolute !important; /* Taken out of DOM */
-    bottom: 0 !important; /* Absolute position at bottom of page */
-    background-color: #0d0d0d;
-    width: 100%;
-    border-top: 1px solid white;
-    left: 0;
 }

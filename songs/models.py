@@ -4,17 +4,17 @@ from django.db import models
 # End: imports -----------------------------------------------------------------
 
 class SongTag(models.Model):
-    navn = models.CharField(null=False, blank=False, max_length=100)
+    title = models.CharField(null=True, blank=False, max_length=100)
 
     def __str__(self):
-        return self.navn
+        return self.title
 
 class Song(models.Model):
-    tittel = models.CharField(max_length=150, null=False, blank=False)
-    artist = models.CharField(max_length=150, null=False, blank=False)
+    title = models.CharField(max_length=150, null=True, blank=False)
+    artist = models.CharField(max_length=150, null=True, blank=False)
     bpm = models.SmallIntegerField(blank=True, null=True)
-    spotify_URL = models.URLField(null=False, blank=False)
-    spotify_URI = models.CharField(max_length=300, null=False, blank=False)
+    spotify_URL = models.URLField(null=True, blank=False)
+    spotify_URI = models.CharField(max_length=300, null=True, blank=False)
     tags = models.ManyToManyField('songs.SongTag', blank=True)
 
     def __str__(self):

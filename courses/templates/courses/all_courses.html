@@ -41,14 +41,15 @@
                         <a class="default-theme-link user-theme-link" href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
 
                         <span class="dropdown">
-
-                            <img src="https://img.icons8.com/metro/20/FFFFFF/chevron-down.png" class="course-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="lni-chevron-down cursor-pointer default-theme-link ml-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                            {# <img src="https://img.icons8.com/metro/20/FFFFFF/chevron-down.png" class="course-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> #}
 
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{% url 'courses:edit_course' course.id %}"><img id="edit-pen" src="https://img.icons8.com/material/16/0000/edit.png"> Rediger kurs</a>
+
+                                <a class="dropdown-item" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
 
                                 <!-- Delete Course (button) -->
-                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#delete-course"><img src="https://img.icons8.com/material/24/000000/delete-sign--v1.png"> Slett kurs</a>
+                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#delete-course"><img src="https://img.icons8.com/material/14/000000/delete-sign--v1.png"> Slett kurs</a>
 
                             </div> <!-- END: dropdown-menu -->
                         </span>

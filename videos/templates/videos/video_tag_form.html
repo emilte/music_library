@@ -24,8 +24,8 @@
         <form class="form-inline" method="post">
             {% csrf_token %}
 
-            {{ form.navn }}
-            {{ form.navn.errors }}
+            {{ form.title }}
+            {{ form.title.errors }}
             <button class="btn btn-dark" type="submit">Lagre</button>
 
         </form>

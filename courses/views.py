@@ -57,6 +57,8 @@ class AddCourseView(View):
         courseForm = self.courseForm_class(data=request.POST)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
+        sectionForms = []
+
         if courseForm.is_valid():
             prefixes = request.POST.getlist("prefix")
 
@@ -72,7 +74,7 @@ class AddCourseView(View):
                     section.course = course
                     if course.start:
                         section.start = course.start + datetime.timedelta(minutes=duration)
-                        duration += section.varighet
+                        duration += section.duration
                     section.save()
 
                 return redirect('courses:course_view', courseID=course.id)
@@ -133,7 +135,7 @@ class EditCourseView(View):
                     section.course = course
                     if course.start:
                         section.start = course.start + datetime.timedelta(minutes=duration)
-                        duration += section.varighet
+                        duration += section.duration
                     section.save()
 
                 return redirect('courses:course_view', courseID=courseID)
@@ -233,7 +235,7 @@ class CreatePlaylistView(View):
         spotify_username = spotify.current_user()['uri'].split(':')[-1]
 
         # Title of playlist to be created
-        playlist_title = '{} ({})'.format(course.tittel, course.dato)
+        playlist_title = '{} ({})'.format(course.title, course.date)
 
         # Get existing playlists for users
         playlists = spotify.user_playlists(spotify_username)
@@ -271,7 +273,7 @@ class ExportView(View):
 
         document = Document()
 
-        document.add_heading(course.tittel, level=1)
+        document.add_heading(course.title, level=1)
 
         tag_names = ", ".join(course.getTags())
 
@@ -287,24 +289,24 @@ class ExportView(View):
 
 
         informasjon = "Instruktør (fører): {}\nInstruktør (følger): {}\nDato: {}\nNår: {} - {}\nHvor: {}\nTema: {}".format(
-            fører_navn, følger_navn, course.getDato(), course.getStart(), course.getSlutt(), course.sted, tag_names
+            fører_navn, følger_navn, course.getDate(), course.getStart(), course.getEnd(), course.place, tag_names
         )
         p = document.add_paragraph(informasjon)
 
         for section in course.sections.all():
             # p = document.add_paragraph("")
-            h = document.add_heading("{} ({} min) - {}".format(section.tittel, section.varighet, section.getStart()), level=2)
+            h = document.add_heading("{} ({} min) - {}".format(section.title, section.duration, section.getStart()), level=2)
 
             p = document.add_paragraph()
             run = p.add_run("Sang: {}".format(section.getSong()))
             run.italic = True
             run.font.size = docx.shared.Pt(9)
 
-            run = p.add_run("\n\n{}".format(section.beskrivelse))
+            run = p.add_run("\n\n{}".format(section.description))
 
 
         h = document.add_heading("Kommentarer: ", level=2)
-        p = document.add_paragraph(course.kommentarer)
+        p = document.add_paragraph(course.comments)
 
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         response['Content-Disposition'] = 'attachment; filename={}.docx'.format(course)

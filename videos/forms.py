@@ -8,35 +8,42 @@ from videos.models import *
 class VideoSearchForm(forms.Form):
     search = forms.CharField(required=False)
     tag = forms.ChoiceField(required=False)
-    vanskelighetsgrad = forms.ChoiceField(required=False)
+    difficulty = forms.ChoiceField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(VideoSearchForm, self).__init__(*args, **kwargs)
-        self.fields['search'].widget.attrs.update({'class': 'video-search-filter form-control', 'placeholder': 'Search...', 'autofocus': True})
+        self.fields['search'].widget.attrs.update({'class': 'video-search-filter form-control', 'placeholder': 'Søk...', 'autofocus': True})
 
         self.fields['tag'].choices = [(-1, '-----')]
-        self.fields['tag'].choices += [(tag.id, tag.navn) for tag in VideoTag.objects.all()]
+        self.fields['tag'].choices += [(tag.id, tag.title) for tag in VideoTag.objects.all()]
         self.fields['tag'].widget.attrs.update({'class': 'video-search-filter form-control'})
 
-        self.fields['vanskelighetsgrad'].choices = [(-1, '-----')]
-        self.fields['vanskelighetsgrad'].choices += [difficulty for difficulty in DIFFICULY_CHOISES]
-        self.fields['vanskelighetsgrad'].widget.attrs.update({'class': 'video-search-filter form-control'})
+        self.fields['difficulty'].choices = [(-1, '-----')]
+        self.fields['difficulty'].choices += [difficulty for difficulty in DIFFICULY_CHOISES]
+        self.fields['difficulty'].widget.attrs.update({'class': 'video-search-filter form-control'})
 
 
 class VideoForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(queryset=VideoTag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
-    #vanskelighetsgrad = forms.ChoiceField(choices=())
+    #difficulty = forms.ChoiceField(choices=())
 
     class Meta:
         model = Video
         fields = [
-            'navn',
+            'title',
             'youtube_URL',
-            'beskrivelse',
-            'fokuspunkt',
+            'description',
+            'focus',
             'tags',
-            'vanskelighetsgrad',
+            'difficulty',
         ]
+        labels = {
+            'title': 'Tittel',
+            'description': 'Beskrivelse',
+            'focus': 'Fokuspunkt',
+            'difficulty': 'Vanskelighetsgrad',
+        }
+
 
     class Media:
         css = {
@@ -55,7 +62,8 @@ class VideoTagForm(forms.ModelForm):
     class Meta:
         model = VideoTag
         exclude = []
+        labels = {'title': "Tittel"}
 
     def __init__(self, *args, **kwargs):
         super(VideoTagForm, self).__init__(*args, **kwargs)
-        self.fields['navn'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Navn'})
+        self.fields['title'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Title'})

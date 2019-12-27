@@ -150,7 +150,7 @@ class DeleteSongView(View):
 
     def post(self, request, songID):
         Song.objects.get(id=songID).delete()
-        success(request, "Du har vellykket slettet en sang, but why? :'(")
+        success(request, "Du har vellykket slettet en sang... Why tho? :'(")
         return redirect("songs:all_songs")
 
 

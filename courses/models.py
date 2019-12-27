@@ -5,50 +5,43 @@ from django.utils import timezone
 # End: imports -----------------------------------------------------------------
 
 class Course(models.Model):
-    tittel = models.CharField(max_length=140, null=True, blank=False, default="")
-    fører = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="male_courses")
-    følger = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="female_courses")
-    dato = models.DateField(null=True, blank=True)
+    title = models.CharField(max_length=140, null=True, blank=False, default="")
+    lead = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="male_courses")
+    follow = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="female_courses")
+    date = models.DateField(null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
-    slutt = models.DateTimeField(null=True, blank=True)
-    #varighet = models.TimeField(null=True, blank=True)
-    kommentarer = models.TextField(null=True, blank=True, default="")
-    sted = models.CharField(max_length=140, null=True, blank=True, default="")
+    end = models.DateTimeField(null=True, blank=True)
+    #duration = models.TimeField(null=True, blank=True)
+    comments = models.TextField(null=True, blank=True, default="")
+    place = models.CharField(max_length=140, null=True, blank=True, default="")
     tags = models.ManyToManyField('videos.VideoTag')
 
     def __str__(self):
-        return "{} ({})".format(self.tittel, self.getDato())
+        return "{} ({})".format(self.title, self.getDate())
 
-    def getDato(self):
-        try:
-            return self.dato.strftime("%d.%m.%y")
-        except:
-            return None
+    def getDate(self):
+        try: return self.date.strftime("%d.%m.%y")
+        except: return None
 
     def getStart(self):
-        try:
-            return self.start.strftime("%H:%M")
-        except:
-            return None
+        try: return self.start.strftime("%H:%M")
+        except: return None
 
-    def getSlutt(self):
-        try:
-            return self.slutt.strftime("%H:%M")
-        except:
-            return None
+    def getEnd(self):
+        try: return self.end.strftime("%H:%M")
+        except: return None
 
     def getTags(self):
-        return [navn[0] for navn in self.tags.all().values_list('navn') ]
+        return [name[0] for name in self.tags.all().values_list('name') ]
 
 
 
 class Section(models.Model):
     nr = models.IntegerField(null=True, blank=True)
-    tittel = models.CharField(max_length=140, null=True, blank=False, default="")
-    beskrivelse = models.TextField(null=True, blank=True, default="")
+    title = models.CharField(max_length=140, null=True, blank=False, default="")
+    description = models.TextField(null=True, blank=True, default="")
     start = models.TimeField(null=True, blank=True)
-    varighet = models.IntegerField(null=True, blank=False)
-    # varighet2 = models.IntegerField(null=True, blank=True)
+    duration = models.IntegerField(null=True, blank=False)
     #varighet2 = models.DurationField(null=True, blank=True)
     course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True, related_name="sections")
     song = models.ForeignKey('songs.Song', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections")
@@ -66,4 +59,4 @@ class Section(models.Model):
         return self.start.strftime("%H:%M")
 
     def getSong(self):
-        return self.song or "Ingen valgt"
+        return self.song or None

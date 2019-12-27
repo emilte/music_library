@@ -55,14 +55,14 @@
         {% csrf_token %}
         <div class="row form-group">
 
-            <!-- Search (input) -->
+            <!-- Søk (input) -->
             <div class="col-lg-4">
-                <label class="invisible">Search</label>
+                <label class="invisible">Søk</label>
                 <div class="input-group">
                     {{ form.search }}
-                    <button id="btn-search" class="btn btn-dark" type="button" name="button">Search</button>
+                    <button id="btn-search" class="btn btn-dark" type="button" name="button">Søk</button>
                 </div>
-            </div> <!-- End: Search (input) -->
+            </div> <!-- End: Søk (input) -->
 
             <!-- xxx -->
             <!-- Tag (select) -->
@@ -71,11 +71,11 @@
                 {{ form.tag }}
             </div> <!-- End: Tag (select) -->
 
-            <!-- vanskelighetsgrad (select) -->
+            <!-- difficulty (select) -->
             <div class="col-lg-3">
-                {{ form.vanskelighetsgrad.label_tag }}
-                {{ form.vanskelighetsgrad }}
-            </div> <!-- End: vanskelighetsgrad (select) -->
+                {{ form.difficulty.label_tag }}
+                {{ form.difficulty }}
+            </div> <!-- End: difficulty (select) -->
 
             <div class="col-lg-2">
                 <label class="invisible">Reset</label>
@@ -91,7 +91,7 @@
             {% for video in videos %}
             <li>
                 {{ video.id }}
-                <span class="default-theme-link user-theme-link" data-toggle="modal" data-target="#video-modal{{ video.id }}">{{ video.navn }}</span>
+                <span class="default-theme-link user-theme-link" data-toggle="modal" data-target="#video-modal{{ video.id }}">{{ video.title }}</span>
                 <a href="{% url 'videos:edit_video' video.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/FF0000/edit.png"></a>
 
                 <div id="video-modal{{ video.id }}" class="modal fade bd-example-modal-lg video-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -99,7 +99,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
 
-                                <h1 class="modal-title"><a class="text-danger" href="{% url 'videos:video_view' video.id %}">{{ video.navn }}</a></h1>
+                                <h1 class="modal-title"><a class="text-danger" href="{% url 'videos:video_view' video.id %}">{{ video.title }}</a></h1>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <img src="https://img.icons8.com/material/24/FFFFFF/delete-sign.png">
                                 </button>
@@ -113,17 +113,17 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col mb-3">
-                                            Vanskelighetsgrad: &nbsp {{ video.get_vanskelighetsgrad_display }}
+                                            Vanskelighetsgrad: &nbsp {{ video.get_difficulty_display }}
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col gray-box mb-3">
                                             <h4>Beskrivelse:</h4>
-                                            {{ video.beskrivelse | linebreaks }}
+                                            {{ video.description | linebreaks }}
                                         </div>
                                         <div class="col gray-box mb-3">
                                             <h4>Fokuspunkt:</h4>
-                                            {{ video.fokuspunkt | linebreaks }}
+                                            {{ video.focus | linebreaks }}
                                         </div>
                                     </div>
                                 </div>
