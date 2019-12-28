@@ -17,7 +17,8 @@ class Course(models.Model):
     tags = models.ManyToManyField('videos.VideoTag')
 
     def __str__(self):
-        return "{} ({})".format(self.getTitle(), self.getDate())
+        return "course"
+        # return "{} ({})".format(self.getTitle(), self.getDate())
 
     def getTitle(self):
         return self.title or None
@@ -54,7 +55,8 @@ class Section(models.Model):
         ordering = ['nr']
 
     def __str__(self):
-        return "Section ({}) in course: {}".format(self.getNr(), self.getCourse())
+        return "section"
+        # return "Section ({}) in course: {}".format(self.getNr(), self.getCourse())
         #return "{} - {}...".format(self.course.title[0:40], self.text[:40])
         #return "{} - ({}) {}...".format(self.course.title[0:40], self.nr, self.text[:40])
 
