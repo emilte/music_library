@@ -49,9 +49,11 @@ class CourseForm(forms.ModelForm):
             'lead': 'Fører',
             'follow': 'Følger',
             'date': 'Dato',
+            'start': 'Start',
             'end': 'Slutt',
             'comments': 'Kommentarer',
             'place': 'Sted',
+            'tags': 'Tags',
         }
 
     def __init__(self, *args, **kwargs):
@@ -81,11 +83,14 @@ class SectionForm(forms.ModelForm):
         model = Section
         exclude = []
         labels = {
+            'nr': 'Nr',
             'title': 'Tittel',
             'description': 'Beskrivelse',
+            'start': 'Start',
             'duration': 'Varighet',
             'course': 'Kurs',
             'song': 'Sang',
+            'video': 'Video',
         }
 
     def __init__(self, *args, **kwargs):
