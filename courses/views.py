@@ -46,10 +46,11 @@ class AddCourseView(View):
     def get(self, request):
         courseForm = self.courseForm_class()
         sectionForm = self.sectionForm_class()
+        sectionFormTemplate = self.sectionForm_class(prefix="template")
         return render(request, 'courses/course_form.html', {
             'courseForm': courseForm,
             'sectionForms': [],
-            'sectionFormTemplate': self.sectionForm_class(prefix="template"),
+            'sectionFormTemplate': sectionFormTemplate,
         })
 
     def post(self, request):
