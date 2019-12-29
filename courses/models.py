@@ -11,7 +11,6 @@ class Course(models.Model):
     date = models.DateField(null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
-    #duration = models.TimeField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True, default="")
     place = models.CharField(max_length=140, null=True, blank=True, default="")
     tags = models.ManyToManyField('videos.VideoTag')
