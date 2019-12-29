@@ -187,9 +187,9 @@
                         </div>
 
                         <div class="col-2">
-                            <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
-                            <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
-                            <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
+                            <button id="{{ sectionForm.prefix }}-btn-up" class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
+                            <button id="{{ sectionForm.prefix }}-btn-up" class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
+                            <button id="{{ sectionForm.prefix }}-btn-up" class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
                         </div>
 
                     </div>
@@ -316,7 +316,9 @@
         }
 
         function moveUp(element) {
+
             $(element).parent().insertBefore( $(element).parent().prev() );
+            // $(element).parent().insertBefore( $(element).parent().prev() );
         }
 
         function moveDown(element) {

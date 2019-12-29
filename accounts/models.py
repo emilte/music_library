@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ordering = ['email']
 
     def __str__(self):
-        return self.email
+        return self.get_full_name() or self.email
 
     def check_group_func(name):
         def check_group(user):
@@ -56,7 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return check_group
 
     def get_full_name(self):
-        return self.first_name + " " + self.last_name
+        if not self.first_name and not self.last_name:
+            return None
+        else:
+            return self.first_name + " " + self.last_name
 
     def get_short_name(self):
         return self.first_name

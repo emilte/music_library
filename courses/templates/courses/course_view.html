@@ -44,8 +44,8 @@
         </span>
 
         <div class="">
-            <div class=""><b>Instuktør (lead)</b>: {{ course.lead.get_full_name | default:'Ingen valgt' }}</div>
-            <div class=""><b>Instruktør (follow)</b>: {{ course.follow.get_full_name | default:'Ingen valgt'}}</div>
+            <div class=""><b>Instuktør (lead)</b>: {{ course.lead | default:'Ingen valgt' }}</div>
+            <div class=""><b>Instruktør (follow)</b>: {{ course.follow | default:'Ingen valgt'}}</div>
             <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
             <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
             <div class=""><b>Dato</b>: {{ course.date | date:'d. M Y (D)' | default:'TBA' }}</div>
