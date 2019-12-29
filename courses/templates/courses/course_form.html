@@ -153,7 +153,7 @@
 
             {% for sectionForm in sectionForms %}
 
-                <div class="jumbotron default-theme user-theme mt-3">
+                <div id="section" class="jumbotron default-theme user-theme mt-3">
 
                     <div class="row">
 
@@ -187,9 +187,9 @@
                         </div>
 
                         <div class="col-2">
-                            <button id="{{ sectionForm.prefix }}-btn-up" class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
-                            <button id="{{ sectionForm.prefix }}-btn-up" class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
-                            <button id="{{ sectionForm.prefix }}-btn-up" class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
+                            <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
+                            <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
+                            <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
                         </div>
 
                     </div>
@@ -259,7 +259,7 @@
         <!-- TEMPLATE -->
         <div id="sectionFormTemplate" class="d-none">
 
-            <div class="jumbotron default-theme user-theme">
+            <div id="section" class="jumbotron default-theme user-theme">
 
                 <div class="row">
 
@@ -310,23 +310,24 @@
     <script type="text/javascript">
 
         function removeSection(element) {
-            console.log(element)
+            // BUG with tinyMCE
+            var s = $(element).closest("#section");
             $("#sectionCount").val( +$("#sectionCount").val() - 1);
-            $(element).parent()[0].remove()
+            s.remove();
         }
 
         function moveUp(element) {
-
-            $(element).parent().insertBefore( $(element).parent().prev() );
-            // $(element).parent().insertBefore( $(element).parent().prev() );
+            var s = $(element).closest("#section");
+            s.insertBefore( $(s).prev() );
         }
 
         function moveDown(element) {
-            $(element).parent().insertAfter( $(element).parent().next() );
+            var s = $(element).closest("#section");
+            s.insertAfter( $(s).next() );
         }
 
-        var sectionFormTemplate = $("#sectionFormTemplate").html()
-        $("#sectionFormTemplate").remove()
+        var sectionFormTemplate = $("#sectionFormTemplate").html();
+        $("#sectionFormTemplate").remove();
 
         var tinymceConfig = {
             selector: "textarea.tinymce",
@@ -347,18 +348,18 @@
 
         tinymce.init(tinymceConfig);
 
+        $("#btn-add-section").click(function() {
+            $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
+            $("#sectionCount").val( +$("#sectionCount").val() + 1)
+            tinymce.init(tinymceConfig);
+        })
 
         $(document).ready(function() {
 
-            $("#btn-add-section").click(function() {
-                $("#sectionCount").val( +$("#sectionCount").val() + 1)
-                $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
-                tinymce.init(tinymceConfig);
-            })
 
-            $(function () {
-                $('[data-toggle="popover"]').popover()
-            })
+            // $(function () {
+            //     $('[data-toggle="popover"]').popover()
+            // })
 
         })
     </script>
