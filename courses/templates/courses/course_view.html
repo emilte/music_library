@@ -44,13 +44,13 @@
         </span>
 
         <div class="">
-            <div class=""><b>Instuktør (lead)</b>: {{ course.fører.get_full_name | default:'Ingen valgt' }}</div>
-            <div class=""><b>Instruktør (follow)</b>: {{ course.følger.get_full_name | default:'Ingen valgt'}}</div>
+            <div class=""><b>Instuktør (lead)</b>: {{ course.lead.get_full_name | default:'Ingen valgt' }}</div>
+            <div class=""><b>Instruktør (follow)</b>: {{ course.follow.get_full_name | default:'Ingen valgt'}}</div>
             <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
             <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
-            <div class=""><b>Dato</b>: {{ course.dato | date:'d. M Y (D)' | default:'TBA' }}</div>
+            <div class=""><b>Dato</b>: {{ course.date | date:'d. M Y (D)' | default:'TBA' }}</div>
             <div class=""><b>Når</b>: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.slutt | date:'H:i' | default:'TBA' }}</div>
-            <div class=""><b>Hvor</b>: {{ course.sted | default:'TBA' }}</div>
+            <div class=""><b>Hvor</b>: {{ course.place | default:'TBA' }}</div>
             <div class=""><b>Tags</b>:
                 {% for tag in course.tags.all %}
                     <span class="badge badge-light">{{ tag }}</span>
@@ -75,12 +75,12 @@
                         </span>
                     {% endif %}
 
-                    <div class="pl-4 border-left border-dark">{{ section.beskrivelse | safe }}</div>
+                    <div class="pl-4 border-left border-dark">{{ section.description | safe }}</div>
                 </div>
             {% endfor %}
 
-            {% if course.kommentarer %}
-                Kommentarer: {{ course.kommentarer | safe }}
+            {% if course.comments %}
+                Kommentarer: {{ course.comments | safe }}
             {% endif %}
         </div>
 
