@@ -10,6 +10,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.contrib import messages
 
 #from django.views import generic
 #from django.contrib.auth.decorators import login_required
@@ -69,7 +70,7 @@ class AddSongView(View):
         if form.is_valid():
             song = form.save()
             #update_songs_txt(song)
-            success(request, 'Du har klart å legge til en ny sang, good for you! :3')
+            messages.success(request, 'Du har klart å legge til en ny sang, good for you! :3')
             return redirect('songs:all_songs')
         else:
             return render(request, self.template, {'form': form})
@@ -150,7 +151,7 @@ class DeleteSongView(View):
 
     def post(self, request, songID):
         Song.objects.get(id=songID).delete()
-        success(request, "Du har vellykket slettet en sang... Why tho? :'(")
+        messages.success(request, "Du har vellykket slettet en sang... Why tho? :'(")
         return redirect("songs:all_songs")
 
 
