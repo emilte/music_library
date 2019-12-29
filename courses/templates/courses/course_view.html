@@ -20,7 +20,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle Kurs</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'courses:course_view' course.id  %}">{{ course.tittel }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:course_view' course.id  %}">{{ course.title }}</a></li>
 {% endblock %}
 
 {% block body %}
@@ -29,7 +29,7 @@
 
     <div class="course-wrapper jumbotron p-4 print-style">
 
-        <h1 class="d-inline">{{ course.tittel }}</h1>
+        <h1 class="d-inline">{{ course.title }}</h1>
 
         <span class="dropdown no-print">
 
@@ -61,7 +61,7 @@
         <div class="mt-5">
             {% for section in course.sections.all %}
                 <div class="mt-4">
-                    <b>{{ section.tittel }} ({{ section.varighet | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}</b>
+                    <b>{{ section.title }} ({{ section.varighet | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}</b>
 
                     {% if section.song %}
                         <span class="text-small-italic">
