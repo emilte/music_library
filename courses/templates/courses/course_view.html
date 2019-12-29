@@ -49,7 +49,7 @@
             <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
             <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
             <div class=""><b>Dato</b>: {{ course.date | date:'d. M Y (D)' | default:'TBA' }}</div>
-            <div class=""><b>Når</b>: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.slutt | date:'H:i' | default:'TBA' }}</div>
+            <div class=""><b>Når</b>: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.end | date:'H:i' | default:'TBA' }}</div>
             <div class=""><b>Hvor</b>: {{ course.place | default:'TBA' }}</div>
             <div class=""><b>Tags</b>:
                 {% for tag in course.tags.all %}
