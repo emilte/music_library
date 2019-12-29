@@ -61,7 +61,7 @@
         <div class="mt-5">
             {% for section in course.sections.all %}
                 <div class="mt-4">
-                    <b>{{ section.title }} ({{ section.varighet | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}</b>
+                    <b>{{ section.title }} ({{ section.duration | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}</b>
 
                     {% if section.song %}
                         <span class="text-small-italic">
