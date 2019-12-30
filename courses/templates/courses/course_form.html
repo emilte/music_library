@@ -155,10 +155,11 @@
 
                 <div id="section" class="jumbotron default-theme user-theme mt-3">
 
+                    <input type="hidden" name="prefix" value="{{ sectionForm.prefix }}">
+
                     <div class="row">
 
                         <div class="col-10">
-                            <input type="hidden" name="prefix" value="{{ sectionForm.prefix }}">
 
                             <div class="form-row">
                                 <div class="form-group col-md">
@@ -187,9 +188,9 @@
                         </div>
 
                         <div class="col-2">
-                            <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
-                            <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
-                            <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
+                            <button class="btn btn-dark section-btn-up" type="button" name="button">Opp</button>
+                            <button class="btn btn-dark section-btn-down" type="button" name="button">Ned</button>
+                            <button class="btn btn-dark section-btn-remove" type="button" name="button">Fjern</button>
                         </div>
 
                     </div>
@@ -198,7 +199,7 @@
 
         </div>
 
-        <button class="btn btn-dark border border-warning" id="btn-add-section" type="button" name="button" >
+        <button class="btn btn-dark border border-warning" id="section-btn-add" type="button" name="button" >
             <img src="https://img.icons8.com/material-rounded/25/FFAA00/plus-math.png">
             Legg til ny del
         </button>
@@ -259,12 +260,13 @@
         <!-- TEMPLATE -->
         <div id="sectionFormTemplate" class="d-none">
 
-            <div id="section" class="jumbotron default-theme user-theme">
+            <div id="section" class="jumbotron default-theme user-theme mt-3">
+
+                <input type="hidden" name="prefix" value="template">
 
                 <div class="row">
 
                     <div class="col-10">
-                        <input type="hidden" name="prefix" value="template">
 
                         <div class="form-row">
                             <div class="form-group col-md">
@@ -293,9 +295,9 @@
                     </div>
 
                     <div class="col-2">
-                        <button class="btn btn-dark section-btn-up" onclick="moveUp(this)" type="button" name="button">Opp</button>
-                        <button class="btn btn-dark section-btn-down" onclick="moveDown(this)" type="button" name="button">Ned</button>
-                        <button class="btn btn-dark section-btn-remove" onclick="removeSection(this)" type="button" name="button">Fjern</button>
+                        <button class="btn btn-dark section-btn-up" type="button" name="button">Opp</button>
+                        <button class="btn btn-dark section-btn-down" type="button" name="button">Ned</button>
+                        <button class="btn btn-dark section-btn-remove" type="button" name="button">Fjern</button>
                     </div>
 
                 </div>
@@ -326,41 +328,44 @@
             toolbar_items_size: "small",
         }
 
-        tinymce.init(tinymceConfig);
-
-        function removeSection(element) {
-            var s = $(element).closest("#section");
-            $("#sectionCount").val( +$("#sectionCount").val() - 1);
-            tinymce.remove( ".tinymce" );
-            s.remove();
-            tinymce.init(tinymceConfig);
-        }
-
-        function moveUp(element) {
-            var s = $(element).closest("#section");
-            s.insertBefore( $(s).prev() );
-            tinymce.remove( ".tinymce" );
-            tinymce.init(tinymceConfig);
-        }
-
-        function moveDown(element) {
-            var s = $(element).closest("#section");
-            s.insertAfter( $(s).next() );
-            tinymce.remove( ".tinymce" );
-            tinymce.init(tinymceConfig);
-        }
-
         var sectionFormTemplate = $("#sectionFormTemplate").html();
         $("#sectionFormTemplate").remove();
 
-
-        $("#btn-add-section").click(function() {
-            $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
-            $("#sectionCount").val( +$("#sectionCount").val() + 1)
-            tinymce.init(tinymceConfig);
-        })
+        tinymce.init(tinymceConfig);
 
         $(document).ready(function() {
+
+            function sleep(time) {
+                return new Promise((resolve) => setTimeout(resolve, time));
+            }
+
+            $('body').on("click", "#section-btn-add", function() {
+                $("#sectionCount").val( +$("#sectionCount").val() + 1)
+                $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            })
+
+            $('body').on("click", ".section-btn-remove", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                $("#sectionCount").val( +$("#sectionCount").val() - 1);
+                s.remove();
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
+
+            $('body').on("click", ".section-btn-up", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                s.insertBefore( s.prev() );
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
+
+            $('body').on("click", ".section-btn-down", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                s.insertAfter( s.next() );
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
 
         })
     </script>
