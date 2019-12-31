@@ -18,4 +18,4 @@ from videos.models import *
 
 # Register your models here.
 admin.site.register(Video)
-admin.site.register(VideoTag)
+# admin.site.register(VideoTag)

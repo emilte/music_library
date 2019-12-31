@@ -32,7 +32,46 @@
             </a>
         </div>
 
-        <br>
+        <form id="filter" class="container py-4" action="{% url 'courses:all_courses' %}" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <!-- Search (input) -->
+                <div class="col">
+                    {{ form.search.label_tag }}
+                    <div class="input-group">
+                        {{ form.search }}
+                        <button id="btn-search" class="btn btn-dark" type="submit" name="button">Søk</button>
+                    </div>
+                </div> <!-- End: Search (input) -->
+
+                <!-- xxx -->
+                <!-- Tag (select) -->
+                <div class="col">
+                    {{ form.tag.label_tag }}
+                    {{ form.tag }}
+                </div> <!-- End: Tag (select) -->
+
+                <!-- Tag (select) -->
+                <div class="col">
+                    {{ form.lead.label_tag }}
+                    {{ form.lead }}
+                </div> <!-- End: Tag (select) -->
+
+                <!-- Tag (select) -->
+                <div class="col">
+                    {{ form.follow.label_tag }}
+                    {{ form.follow }}
+                </div> <!-- End: Tag (select) -->
+
+                <div class="col">
+                    <label class="invisible">Reset</label>
+                    <div class="input-group">
+                        <a class="btn btn-secondary" href="{% url 'courses:all_courses' %}">Reset</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
 
         <div class="default-theme user-theme">
             <ol id="all-courses">
@@ -86,6 +125,10 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
+            $('.course-filter').change(function() {
+                $('form').submit();
+            });
+            
         });
     </script>
 {% endblock %}

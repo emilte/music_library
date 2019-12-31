@@ -3,6 +3,28 @@ from django.db import models
 
 # End: imports -----------------------------------------------------------------
 
+class Tag(models.Model):
+    title = models.CharField(null=True, blank=False, max_length=100)
+    context = models.CharField(null=True, blank=True, max_length=100)
+
+    def __str__(self):
+        return self.title
+
+    def context_list(self):
+        if self.context: return self.context.split(" ")
+        else: return []
+
+
+    def getQueryset(context_list=None):
+        a = Tag.objects.all()
+        if not context_list:
+            return a
+
+        q = a.filter(context=None)
+        for c in context_list:
+            q = q | a.filter(context__icontains=c)
+        return q
+
 class SongTag(models.Model):
     title = models.CharField(null=True, blank=False, max_length=100)
 

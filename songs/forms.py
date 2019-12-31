@@ -1,7 +1,7 @@
 # imports
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from songs.models import *
+from songs import models as song_models
 
 # End: imports -----------------------------------------------------------------
 
@@ -14,10 +14,10 @@ class SongSearchForm(forms.Form):
     max_bpm = forms.IntegerField(required=False, min_value=0, max_value=200)
 
     def __init__(self, *args, **kwargs):
-        super(SongSearchForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
         self.fields['search'].widget.attrs.update({'class': 'search-option form-control', 'placeholder': 'Søk...'})
         self.fields['tag'].choices = [(-1, '-----')]
-        self.fields['tag'].choices += [(tag.id, tag.navn) for tag in SongTag.objects.all()]
+        self.fields['tag'].choices += [(tag.id, tag.title) for tag in song_models.Tag.getQueryset(["song"])]
         self.fields['tag'].widget.attrs.update({'class': 'search-option form-control'})
         self.fields['check_min'].widget.attrs.update({'id': 'check-min', 'class': 'search-option'})
         self.fields['min_bpm'].widget.attrs.update({'id': 'bpm-min', 'class': 'search-option form-control', 'placeholder': 'Fra'})
@@ -25,10 +25,10 @@ class SongSearchForm(forms.Form):
         self.fields['max_bpm'].widget.attrs.update({'id': 'bpm-max', 'class': 'search-option form-control', 'placeholder': 'Til'})
 
 class SongForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(queryset=SongTag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
+    tags = forms.ModelMultipleChoiceField(queryset=song_models.Tag.getQueryset(["song"]), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
 
     class Meta:
-        model = Song
+        model = song_models.Song
         fields = [
             'title',
             'artist',
@@ -49,25 +49,39 @@ class SongForm(forms.ModelForm):
         js = ['/admin/jsi18n/']
 
     def __init__(self, *args, **kwargs):
-        super(SongForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
-
-class SongTagForm(forms.ModelForm):
+class TagForm(forms.ModelForm):
 
     class Meta:
-        model = SongTag
+        model = song_models.Tag
         exclude = []
         labels = {
             'title': 'Tittel',
         }
 
     def __init__(self, *args, **kwargs):
-        super(SongTagForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+        self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
+
+class SongTagForm(forms.ModelForm):
+
+    class Meta:
+        model = song_models.SongTag
+        exclude = []
+        labels = {
+            'title': 'Tittel',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(type(self), self).__init__(*args, **kwargs)
         self.fields['navn'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Tittel'})
 
 class DocumentForm(forms.ModelForm):
     class Meta:
-        model = File
+        model = song_models.File
         fields = ['description', 'file']

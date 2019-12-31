@@ -20,6 +20,7 @@ from django.views import View
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from accounts.models import SpotifyToken
+from courses import forms as course_forms
 
 import os
 import spotipy.oauth2 as oauth2
@@ -67,6 +68,8 @@ class AddCourseView(View):
 
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
                 course = courseForm.save()
+                course.last_editor = request.user
+                course.save()
                 duration = 0
                 # Add current sections
                 for i in range(len(sectionForms)):
@@ -126,6 +129,8 @@ class EditCourseView(View):
 
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
                 course = courseForm.save()
+                course.last_editor = request.user
+                course.save()
                 course.sections.all().delete() # reset sections
 
                 duration = 0
@@ -157,10 +162,37 @@ allCourses_dec = [
 @method_decorator(allCourses_dec, name='dispatch')
 class AllCoursesView(View):
     template = 'courses/all_courses.html'
+    form = course_forms.CourseFilterForm
 
     def get(self, request):
         courses = Course.objects.all()
-        return render(request, self.template, {'courses': courses})
+        form = self.form()
+        return render(request, self.template, {'form': form, 'courses': courses})
+
+    def post(self, request):
+        courses = Course.objects.all()
+        form = self.form(data=request.POST)
+        if form.is_valid():
+            courses = self.course_filter(form, courses)
+        return render(request, self.template, {'form': form, 'courses': courses})
+
+    def course_filter(self, form, queryset):
+        search = form.cleaned_data['search']
+        tag = form.cleaned_data['tag']
+        lead = form.cleaned_data['lead']
+        follow = form.cleaned_data['follow']
+
+        if search != "":
+            queryset = queryset.filter(title__icontains=search)
+        if tag != '-1':
+            queryset = queryset.filter(tags__id=tag)
+        if lead != '-1':
+            queryset = queryset.filter(lead=lead)
+        if follow != '-1':
+            queryset = queryset.filter(follow=follow)
+
+        return queryset
+
 
 
 course_dec = [
@@ -223,7 +255,7 @@ class CreatePlaylistView(View):
 
         if not token_info:
             auth_url = sp_oauth.get_authorize_url()
-            messages.error(request, 'Due to no connection to Spotify, the playlist was not created. Please try again')
+            messages.error(request, 'Error. Dette skjer første gang du kobler til Spotify. Prøv igjen.')
             return redirect(auth_url+'&show_dialog=true')
 
 

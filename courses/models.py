@@ -1,8 +1,15 @@
 # imports
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 # End: imports -----------------------------------------------------------------
+
+class CourseTag(models.Model):
+    title = models.CharField(null=True, blank=False, max_length=100)
+
+    def __str__(self):
+        return self.title
 
 class Course(models.Model):
     title = models.CharField(max_length=140, null=True, blank=False, default="")
@@ -13,7 +20,10 @@ class Course(models.Model):
     end = models.DateTimeField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True, default="")
     place = models.CharField(max_length=140, null=True, blank=True, default="")
-    tags = models.ManyToManyField('videos.VideoTag')
+    # tags = models.ManyToManyField('videos.VideoTag')
+    tags = models.ManyToManyField('songs.Tag')
+    last_edited = models.DateTimeField(auto_now=True, null=True, blank=True)
+    last_editor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="last_edited_courses")
 
     def __str__(self):
         return "{} ({})".format(self.getTitle(), self.getDate())
@@ -34,7 +44,7 @@ class Course(models.Model):
         except: return None
 
     def getTags(self):
-        return [name[0] for name in self.tags.all().values_list('name') ]
+        return [title[0] for title in self.tags.all().values_list('title') ]
 
 
 

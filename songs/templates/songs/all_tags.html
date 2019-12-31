@@ -1,0 +1,38 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+
+{% block title %}Alle tags{% endblock %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{% static "songs/css/song_styles.css" %}">
+
+    <style>
+        {{ request.user.settings.song_theme.as_css }}
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'songs:all_tags' %}">Alle Tags</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="default-theme user-theme">
+
+        <h1>Alle Tags:</h1>
+
+        <div class="">
+            {% for tag in tags %}
+                <span class="">
+                    <a href="{% url 'songs:edit_tag' tag.id %}">{{ tag.title }}</a>
+                    {% for context in tag.context_list %}
+                        <span class="badge badge-pill badge-secondary">{{ context }}</span>
+                    {% endfor %}
+
+                </span>
+                <br>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

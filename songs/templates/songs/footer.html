@@ -20,7 +20,6 @@
 
             <hr class="clearfix w-100 d-md-none">
 
-
             <!-- Grid column -->
             <div class="col-md-3 mx-auto">
 
@@ -30,6 +29,21 @@
                 <ul class="list-unstyled">
                     <li><a href="{% url 'courses:all_courses' %}">Alle kurs</a></li>
                     <li><a href="{% url 'courses:add_course' %}">Legg til kurs</a></li>
+                </ul>
+            </div>
+            <!-- End: Grid column 4 -->
+
+            <hr class="clearfix w-100 d-md-none">
+
+            <!-- Grid column -->
+            <div class="col-md-3 mx-auto">
+
+                <!-- Links -->
+                <h5 class="font-weight-bold text-uppercase mt-3 mb-4">Tags</h5>
+
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'songs:all_tags' %}">Alle tags</a></li>
+                    <li><a href="{% url 'songs:add_tag' %}">Legg til tag</a></li>
                 </ul>
             </div>
             <!-- End: Grid column 4 -->

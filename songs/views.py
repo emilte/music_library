@@ -11,6 +11,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.contrib import messages
+from songs import forms as song_forms
+from songs import models as song_models
 
 #from django.views import generic
 #from django.contrib.auth.decorators import login_required
@@ -59,7 +61,7 @@ addSong_dec = [
 @method_decorator(addSong_dec, name='dispatch')
 class AddSongView(View):
     template = 'songs/song_form.html'
-    form_class = SongForm
+    form_class = song_forms.SongForm
 
     def get(self, request):
         form = self.form_class()
@@ -84,15 +86,15 @@ editSong_dec = [
 @method_decorator(editSong_dec, name='dispatch')
 class EditSongView(View):
     template = 'songs/song_form.html'
-    form_class = SongForm
+    form_class = song_forms.SongForm
 
     def get(self, request, songID):
-        song = Song.objects.get(id=songID)
+        song = song_models.Song.objects.get(id=songID)
         form = self.form_class(instance=song)
         return render(request, self.template, {'form': form})
 
     def post(self, request, songID):
-        song = Song.objects.get(id=songID)
+        song = song_models.Song.objects.get(id=songID)
         form = self.form_class(request.POST, instance=song)
         if form.is_valid():
             song = form.save()
@@ -107,16 +109,16 @@ allSongs_dec = [
 @method_decorator(allSongs_dec, name='dispatch')
 class AllSongsView(View):
     template = 'songs/all_songs.html'
-    form_class = SongSearchForm
+    form_class = song_forms.SongSearchForm
 
     def get(self, request):
         form = self.form_class()
-        songs = Song.objects.all()
+        songs = song_models.Song.objects.all()
         return render(request, self.template, {'form': form, 'songs': songs.order_by('bpm')})
 
     def post(self, request):
         form = self.form_class(data=request.POST)
-        songs = Song.objects.all()
+        songs = song_models.Song.objects.all()
         if form.is_valid():
             songs = self.search_song_filter(form=form, queryset=songs)
         return render(request, self.template, {'form': form, 'songs': songs.order_by('bpm')})
@@ -150,7 +152,7 @@ deleteSong_dec = [
 class DeleteSongView(View):
 
     def post(self, request, songID):
-        Song.objects.get(id=songID).delete()
+        song_models.Song.objects.get(id=songID).delete()
         messages.success(request, "Du har vellykket slettet en sang... Why tho? :'(")
         return redirect("songs:all_songs")
 
@@ -168,6 +170,47 @@ class ForbiddenView(View):
 
     def get(self, request):
         return render(request, self.template)
+
+
+class AddTag(View):
+    template = 'songs/tag_form.html'
+    form_class = song_models.Tag
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('songs:all_tags')
+        return render(request, self.template, {'form': form})
+
+class EditTag(View):
+    template = 'songs/tag_form.html'
+    form_class = song_forms.TagForm
+
+    def get(self, request, tagID):
+        tag = song_models.Tag.objects.get(id=tagID)
+        form = self.form_class(instance=tag)
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, tagID):
+        tag = song_models.Tag.objects.get(id=tagID)
+        form = self.form_class(request.POST, instance=tag)
+
+        if form.is_valid():
+            form.save()
+            return redirect('songs:all_tags')
+        return render(request, self.template, {'form': form})
+
+class AllTags(View):
+    template = 'songs/all_tags.html'
+
+    def get(self, request):
+        tags = song_models.Tag.objects.all()
+        return render(request, self.template, {'tags': tags})
 
 
 

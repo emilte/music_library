@@ -3,7 +3,11 @@ from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from courses.models import *
 from videos.models import *
+from songs import models as song_models
 import json
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # End: imports -----------------------------------------------------------------
 
@@ -29,7 +33,9 @@ MIN_FORMATS = [
 ]
 
 class CourseForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(queryset=VideoTag.objects.all(), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
+    q = song_models.Tag.getQueryset(["course"])
+
+    tags = forms.ModelMultipleChoiceField(queryset=q, widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
     date = forms.DateField(input_formats=DATE_FORMATS, required=False)
     start = forms.DateTimeField(input_formats=TIME_FORMATS, required=False)
     end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False)
@@ -43,7 +49,7 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        exclude = []
+        exclude = ['last_edited', 'last_editor']
         labels = {
             'title': 'Tittel',
             'lead': 'Fører',
@@ -106,3 +112,33 @@ class SectionForm(forms.ModelForm):
 
         # self.fields['description'].widget.attrs.update({'rows': '7', 'class': 'tinymce'})
         self.fields['description'].widget.attrs.update({'class': 'tinymce'})
+
+class CourseFilterForm(forms.Form):
+    search = forms.CharField(required=False, label="Søk")
+    tag = forms.ChoiceField(required=False)
+    lead = forms.ChoiceField(required=False, label="Instruktør (lead)")
+    follow = forms.ChoiceField(required=False, label="Instruktør (follow)")
+
+    class Meta:
+        labels = {
+            'search': 'Søk',
+            'tag': 'Tag',
+            'lead': 'Instruktør (lead)',
+            'follow': 'Instruktør (follow)',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(type(self), self).__init__(*args, **kwargs)
+        self.fields['search'].widget.attrs.update({'class': 'course-filter form-control', 'placeholder': 'Søk på tittel...', 'autofocus': True})
+
+        self.fields['tag'].choices = [(-1, '-----')]
+        self.fields['tag'].choices += [(tag.id, tag.title) for tag in song_models.Tag.getQueryset(["course"])]
+        self.fields['tag'].widget.attrs.update({'class': 'course-filter form-control'})
+
+        self.fields['lead'].choices = [(-1, '-----')]
+        self.fields['lead'].choices += [(lead.id, lead) for lead in User.objects.all()]
+        self.fields['lead'].widget.attrs.update({'class': 'course-filter form-control'})
+
+        self.fields['follow'].choices = [(-1, '-----')]
+        self.fields['follow'].choices += [(follow.id, follow) for follow in User.objects.all()]
+        self.fields['follow'].widget.attrs.update({'class': 'course-filter form-control'})

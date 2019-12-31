@@ -46,9 +46,20 @@ class SongManager(admin.ModelAdmin):
     search_fields = ['title', 'artist']
     ordering = ['bpm', 'title']
     readonly_fields = []
+
+class TagManager(admin.ModelAdmin):
+    fieldsets = (
+        (None, {'fields': ['title', 'context'] } ),
+    )
+    list_display = ['title', 'context']
+    list_filter = []
+    search_fields = ['title', 'context']
+    ordering = ['title']
+    readonly_fields = []
 # End: managers ----------------------------------------------------------------
 
 # Register your models here.
 admin.site.register(Song, SongManager)
-admin.site.register(SongTag)
-admin.site.register(File)
+# admin.site.register(SongTag)
+admin.site.register(Tag, TagManager)
+# admin.site.register(File)
