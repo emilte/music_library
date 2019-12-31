@@ -9,8 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
-CUSTOM_SETTINGS = ["heroku_settings", "allauth_settings"] # heroku_settings
-# CUSTOM_SETTINGS = ["dev_settings", "allauth_settings", "local_settings"] # local_settings
+# CUSTOM_SETTINGS = ["heroku_settings", "allauth_settings"] # heroku_settings
+CUSTOM_SETTINGS = ["dev_settings", "allauth_settings", "local_settings"] # local_settings
 
 DEBUG = False
 ALLOWED_HOSTS = []
@@ -157,15 +157,15 @@ except:
     print("== local_settings was not imported ==")
 
 try:
-    if "heroku_settings" in CUSTOM_SETTINGS:
-        print("== IMPORTED: heroku_settings ==")
-        from .heroku_settings import *
     if "dev_settings" in CUSTOM_SETTINGS:
         print("== IMPORTED: dev_settings ==")
         from .dev_settings import *
     if "allauth_settings" in CUSTOM_SETTINGS:
         print("== IMPORTED: allauth_settings ==")
         from .allauth_settings import *
+    if "heroku_settings" in CUSTOM_SETTINGS:
+        print("== IMPORTED: heroku_settings ==")
+        from .heroku_settings import *
 except Exception as e:
     print(e)
     print("== custom_settings was not imported ==")
