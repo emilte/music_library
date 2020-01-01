@@ -13,11 +13,11 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'songs:bpm_calc' %}">BPM Calc</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'songs:bpm_calc' %}">BPM Kalkulator</a></li>
 {% endblock %}
 
 {% block body %}
-    <h1>BPM Calculator</h1>
+    <h1>BPM Kalkulator</h1>
     {% if request.user_agent.is_touch_capable %}
         <div id="touch-div" class="">
             <input id="touch" type="image" src="https://img.icons8.com/nolan/120/006F30/unchecked-circle.png" name="" value="">

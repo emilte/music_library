@@ -6,9 +6,9 @@ from songs import models as song_models
 # End: imports -----------------------------------------------------------------
 
 class VideoFilterForm(forms.Form):
-    search = forms.CharField(required=False)
+    search = forms.CharField(required=False, label="Søk")
     tag = forms.ChoiceField(required=False)
-    difficulty = forms.ChoiceField(required=False)
+    difficulty = forms.ChoiceField(required=False, label="Vanskelighetsgrad")
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
