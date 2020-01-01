@@ -162,7 +162,7 @@ try:
         from .allauth_settings import *
 except Exception as e:
     print(e)
-    print("== custom_settings was not imported ==")
+    print("== allauth_settings was not imported ==")
 
 try:
     if "heroku_settings" in CUSTOM_SETTINGS:
@@ -170,8 +170,7 @@ try:
         from .heroku_settings import *
 except Exception as e:
     print(e)
-    print("== custom_settings was not imported ==")
-    pass
+    print("== heroku_settings was not imported ==")
 
 try:
     if "dev_settings" in CUSTOM_SETTINGS:
@@ -179,7 +178,7 @@ try:
         from .dev_settings import *
 except Exception as e:
     print(e)
-    print("== custom_settings was not imported ==")
+    print("== dev_settings was not imported ==")
 
 
 checklist = {
@@ -191,7 +190,7 @@ checklist = {
     # 'INSTALLED_APPS': INSTALLED_APPS,
 }
 
-def check_settings():
+def check_settings(settings):
     try:
         print("|\n== CHECK SETTINGS ==")
         for k, v in settings.items():
