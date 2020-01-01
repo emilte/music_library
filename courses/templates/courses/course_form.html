@@ -97,11 +97,11 @@
 
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    {{ courseForm.title.label }}
+                    {{ courseForm.title.label_tag }}
                     {{ courseForm.title }}
                 </div>
                 <div class="form-group col-md-5">
-                    {{ courseForm.place.label }}
+                    {{ courseForm.place.label_tag }}
                     {{ courseForm.place }}
                 </div>
                 <div class="error">
@@ -111,15 +111,15 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-2">
-                    {{ courseForm.date.label }}
+                    {{ courseForm.date.label_tag }}
                     {{ courseForm.date }}
                 </div>
                 <div class="form-group col-md-1">
-                    {{ courseForm.start.label }}
+                    {{ courseForm.start.label_tag }}
                     {{ courseForm.start }}
                 </div>
                 <div class="form-group col-md-1">
-                    {{ courseForm.end.label }}
+                    {{ courseForm.end.label_tag }}
                     {{ courseForm.end }}
                 </div>
             </div>
@@ -130,12 +130,12 @@
             </div>
             <div class="form-row mb-1">
                 <div class="form-group col-md-4">
-                    {{ courseForm.lead.label }}
+                    {{ courseForm.lead.label_tag }}
                     {{ courseForm.lead }}
                     {{ courseForm.lead.errors }}
                 </div>
                 <div class="form-group col-md-4">
-                    {{ courseForm.follow.label }}
+                    {{ courseForm.follow.label_tag }}
                     {{ courseForm.follow }}
                     {{ courseForm.follow.errors }}
                 </div>
@@ -163,24 +163,25 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md">
-                                    {{ sectionForm.title.label }}
+                                    {{ sectionForm.title.label_tag }}
                                     {{ sectionForm.title }}
                                     {{ sectionForm.title.errors }}
                                 </div>
                                 <div class="form-group col-md-2">
-                                    {{ sectionForm.duration.label }}
+                                    {{ sectionForm.duration.label_tag }}
                                     {{ sectionForm.duration }}
                                     {{ sectionForm.duration.errors }}
                                 </div>
                                 <div class="form-group col-md">
-                                    {{ sectionForm.song.label }}
+                                    {{ sectionForm.song.label_tag }}
+                                    <a class="btn btn-success btn-sm" target="_blank" href="{% url 'songs:add_song' %}"><i class="lni-spotify-original"></i> Legg til</a>
                                     {{ sectionForm.song }}
                                     {{ sectionForm.song.errors }}
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md">
-                                    {{ sectionForm.description.label }}
+                                    {{ sectionForm.description.label_tag }}
                                     {{ sectionForm.description }}
                                     {{ sectionForm.description.errors }}
                                 </div>
@@ -206,7 +207,7 @@
 
         <div class="form-row mt-4">
             <div class="form-group col-md-6">
-                {{ courseForm.comments.label }}
+                {{ courseForm.comments.label_tag }}
                 {{ courseForm.comments }}
                 {{ courseForm.comments.errors }}
             </div>
@@ -234,7 +235,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label_tag="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -270,24 +271,25 @@
 
                         <div class="form-row">
                             <div class="form-group col-md">
-                                {{ sectionFormTemplate.title.label }}
+                                {{ sectionFormTemplate.title.label_tag }}
                                 {{ sectionFormTemplate.title }}
                                 {{ sectionFormTemplate.title.errors }}
                             </div>
                             <div class="form-group col-md-2">
-                                {{ sectionFormTemplate.duration.label }}
+                                {{ sectionFormTemplate.duration.label_tag }}
                                 {{ sectionFormTemplate.duration }}
                                 {{ sectionFormTemplate.duration.errors }}
                             </div>
                             <div class="form-group col-md">
-                                {{ sectionFormTemplate.song.label }}
+                                {{ sectionFormTemplate.song.label_tag }}
+                                <a class="btn btn-success btn-sm" target="_blank" href="{% url 'songs:add_song' %}"><i class="lni-spotify-original"></i> Legg til</a>
                                 {{ sectionFormTemplate.song }}
                                 {{ sectionFormTemplate.song.errors }}
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md">
-                                {{ sectionFormTemplate.description.label }}
+                                {{ sectionFormTemplate.description.label_tag }}
                                 {{ sectionFormTemplate.description }}
                                 {{ sectionFormTemplate.description.errors }}
                             </div>

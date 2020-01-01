@@ -32,11 +32,11 @@
             </a>
         </div>
 
-        <form id="filter" class="container py-4" action="{% url 'courses:all_courses' %}" method="post">
+        <form id="filter" class="py-4" action="{% url 'courses:all_courses' %}" method="post">
             {% csrf_token %}
             <div class="row">
                 <!-- Search (input) -->
-                <div class="col">
+                <div class="col-md">
                     {{ form.search.label_tag }}
                     <div class="input-group">
                         {{ form.search }}
@@ -46,19 +46,19 @@
 
                 <!-- xxx -->
                 <!-- Tag (select) -->
-                <div class="col">
+                <div class="col-md">
                     {{ form.tag.label_tag }}
                     {{ form.tag }}
                 </div> <!-- End: Tag (select) -->
 
                 <!-- Tag (select) -->
-                <div class="col">
+                <div class="col-lg">
                     {{ form.lead.label_tag }}
                     {{ form.lead }}
                 </div> <!-- End: Tag (select) -->
 
                 <!-- Tag (select) -->
-                <div class="col">
+                <div class="col-lg">
                     {{ form.follow.label_tag }}
                     {{ form.follow }}
                 </div> <!-- End: Tag (select) -->
@@ -74,6 +74,9 @@
 
 
         <div class="default-theme user-theme">
+            <div class="text-right text-warning">
+                Antall: {{ courses.count }}
+            </div>
             <ol id="all-courses">
                 {% for course in courses %}
                     <li>
@@ -128,7 +131,7 @@
             $('.course-filter').change(function() {
                 $('form').submit();
             });
-            
+
         });
     </script>
 {% endblock %}
