@@ -174,7 +174,7 @@ class ForbiddenView(View):
 
 class AddTag(View):
     template = 'songs/tag_form.html'
-    form_class = song_models.Tag
+    form_class = song_forms.TagForm
 
     def get(self, request):
         form = self.form_class()
