@@ -20,6 +20,7 @@ from django.contrib.auth import get_user_model
 from songs import models as song_models
 from videos import models as video_models
 from courses import forms as course_forms
+from courses import models as course_models
 from accounts import models as account_models
 
 User = get_user_model()
@@ -100,7 +101,7 @@ class EditCourseView(View):
     sectionForm_class = course_forms.SectionForm
 
     def get(self, request, courseID):
-        course = Course.objects.get(id=courseID)
+        course = course_models.Course.objects.get(id=courseID)
         sections = list(course.sections.all())
         courseForm = self.courseForm_class(instance=course)
         sectionForms = [self.sectionForm_class(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
@@ -113,17 +114,17 @@ class EditCourseView(View):
         })
 
     def post(self, request, courseID):
-        course = Course.objects.get(id=courseID)
+        course = course_models.Course.objects.get(id=courseID)
         sections = list(course.sections.all())
         sectionForms = [self.sectionForm_class(prefix=i+1, instance=sections[i]) for i in range(len(sections))]
 
-        courseForm = CourseForm(request.POST, instance=course)
+        courseForm = self.courseForm_class(request.POST, instance=course)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
         if courseForm.is_valid():
             prefixes = request.POST.getlist("prefix")
 
-            sectionForms = [SectionForm( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
+            sectionForms = [self.sectionForm_class( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
 
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
                 course = courseForm.save()
@@ -163,12 +164,12 @@ class AllCoursesView(View):
     form = course_forms.CourseFilterForm
 
     def get(self, request):
-        courses = Course.objects.all()
+        courses = course_models.Course.objects.all()
         form = self.form()
         return render(request, self.template, {'form': form, 'courses': courses})
 
     def post(self, request):
-        courses = Course.objects.all()
+        courses = course_models.Course.objects.all()
         form = self.form(data=request.POST)
         if form.is_valid():
             courses = self.course_filter(form, courses)
@@ -202,7 +203,7 @@ class CourseView(View):
     template = 'courses/course_view.html'
 
     def get(self, request, courseID, ):
-        course = Course.objects.get(id=courseID)
+        course = course_models.Course.objects.get(id=courseID)
         return render(request, self.template, {'course': course})
 
 
@@ -214,7 +215,7 @@ deleteCourse_dec = [
 class DeleteCourseView(View):
 
     def post(self, request, courseID):
-        Course.objects.get(id=courseID).delete()
+        course_models.Course.objects.get(id=courseID).delete()
         messages.success(request, 'Course was successfully deleted')
         return redirect('courses:all_courses')
 
@@ -228,7 +229,7 @@ genPlaylist_dec = [
 class CreatePlaylistView(View):
 
     def get(self, request, courseID):
-        course = Course.objects.get(id=courseID)
+        course = course_models.Course.objects.get(id=courseID)
 
         # Auth client
         sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE)
@@ -300,7 +301,7 @@ class ExportView(View):
 
     def get(self, request, courseID):
 
-        course = Course.objects.get(id=courseID)
+        course = course_models.Course.objects.get(id=courseID)
 
         document = docx.Document()
 
