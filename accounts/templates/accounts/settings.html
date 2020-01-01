@@ -21,16 +21,28 @@
 
 {% block body %}
 
-    <div class="default-theme user-theme">
-        <h1>Innstillinger:</h1>
+    <div class="">
 
-        <form class="" method="post">
-            {% csrf_token %}
-            {{ form.as_table }}
+        <div class="row">
+            <div class="col">
+                <div class="default-theme user-theme">
+                    <h1>Innstillinger:</h1>
 
-            <br>
-            <button type="submit" class="btn btn-primary btn-block">Lagre</button>
-        </form>
+                    <form class="" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+
+                        <button type="submit" class="btn btn-primary btn-block mt-4">Lagre</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                Ingen temaer å velge mellom? -->
+                <a class="btn btn-dark" href="{% url 'admin:accounts_theme_add' %}">Lag nytt tema</a>
+            </div>
+        </div>
+
     </div>
+
 
 {% endblock %}

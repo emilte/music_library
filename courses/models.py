@@ -7,8 +7,8 @@ from django.conf import settings
 
 class Course(models.Model):
     title = models.CharField(max_length=140, null=True, blank=False, default="")
-    lead = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="male_courses")
-    follow = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="female_courses")
+    lead = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="lead_courses")
+    follow = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="follow_courses")
     date = models.DateField(null=True, blank=True)
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)

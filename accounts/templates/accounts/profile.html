@@ -17,25 +17,28 @@
 {% endblock %}
 
 {% block body %}
-    <div id="title" class="text-center">
-        <h1>{{ user.get_full_name }}</h1>
+    <div class="">
+
+        <div id="title" class="text-center">
+            <h1>{{ user }}</h1>
+        </div>
+
+        <div class="default-theme user-theme">
+            <h4>Personlig informasjon:</h4>
+            <p>
+                <div>Email: {{ user.email }}</div>
+                <div>Mobil: {{ user.phone_number }}</div>
+                <hr class="border border-light">
+                <div>Antall kurs som lead: {{ user.lead_courses.count }}</div>
+                <div>Antall kurs som follow: {{ user.follow_courses.count }}</div>
+            </p>
+        </div>
+
+        <div class="text-right mt-4">
+            <a class="btn btn-secondary" href="{% url 'accounts:settings' %}">Innstillinger</a>
+            <a class="btn btn-secondary" href="{% url 'accounts:edit_profile' %}">Rediger profil</a>
+            <a class="btn btn-danger" href="/accounts/logout">Logg ut</a>
+        </div>
+
     </div>
-
-    <div class="default-theme user-theme">
-        <h4>Personlig informasjon:</h4>
-        <p>
-            <div>Email: {{ user.email }}</div>
-            <div>Mobil: {{ user.phone_number }}</div>
-            <div>Spotify username: {{ user.spotify_username }}</div>
-        </p>
-    </div>
-
-    <br>
-
-    <div class="float-right">
-        <a class="btn btn-secondary" href="{% url 'accounts:settings' %}">Innstillinger</a>
-        <a class="btn btn-secondary" href="{% url 'accounts:edit_profile' %}">Rediger profil</a>
-        <a class="btn btn-danger" href="/accounts/logout">Logg ut</a>
-    </div>
-
 {% endblock %}

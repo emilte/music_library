@@ -51,7 +51,7 @@
                     </div>
                 </span>
 
-                <hr>
+                <hr class="no-print">
 
                 <div class="">
                     <div class=""><b>Instuktør (lead)</b>: {{ course.lead | default:'Ingen valgt' }}</div>
@@ -63,7 +63,7 @@
                     <div class=""><b>Hvor</b>: {{ course.place | default:'TBA' }}</div>
                     <div class=""><b>Tags</b>:
                         {% for tag in course.tags.all %}
-                        <span class="badge badge-light">{{ tag }}</span>
+                        <span class="badge badge-info">{{ tag }}</span>
                         {% endfor %}
                     </div>
                 </div>

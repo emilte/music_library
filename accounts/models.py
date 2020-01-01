@@ -30,7 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True)
     first_name = models.CharField(max_length=60, null=False, blank=False)
     last_name = models.CharField(max_length=150, null=False, blank=False)
-    spotify_username = models.CharField(max_length=150, null=True, blank=True)
+    spotify_username = models.CharField(max_length=150, null=True, blank=True) # Obsolete
     phone_number = models.CharField(max_length=13, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

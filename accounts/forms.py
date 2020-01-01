@@ -15,11 +15,10 @@ class SignUpForm(UserCreationForm):
             'first_name',
             'last_name',
             'phone_number',
-            'spotify_username',
         ]
 
     def __init__(self, *args, **kwargs):
-        super(SignUpForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
@@ -34,11 +33,16 @@ class EditUserForm(forms.ModelForm):
             'first_name',
             'last_name',
             'phone_number',
-            'spotify_username',
         ]
+        labels = {
+            'first_name': 'Fornavn',
+            'last_name': 'Etternavn',
+            'phone_number': 'Mobilnummer',
+        }
+
 
     def __init__(self, *args, **kwargs):
-        super(EditUserForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
@@ -52,10 +56,16 @@ class SettingsForm(forms.ModelForm):
     class Meta:
         model = Settings
         exclude = ['user']
+        # labels = {
+        #     'account_theme': 'Bruker-tema',
+        #     'video_theme': 'Turbibliotek-tema',
+        #     'course_theme': 'Kurs-tema',
+        #     'song_theme': 'Musikk-tema',
+        # }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
-        super(SettingsForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
 
         if user:
             themes = self.public_themes | Theme.objects.filter(user=user)
@@ -96,7 +106,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         model = User
 
     def __init__(self, *args, **kwargs):
-        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
         self.fields['old_password'].widget.attrs.update({'class': 'form-control'})
         self.fields['new_password1'].widget.attrs.update({'class': 'form-control'})
         self.fields['new_password2'].widget.attrs.update({'class': 'form-control'})
