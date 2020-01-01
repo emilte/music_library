@@ -148,7 +148,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+SITE_ID = 3
 
 # Custom settings that overwrite this.
 try:
@@ -163,7 +163,6 @@ try:
 except Exception as e:
     print(e)
     print("== custom_settings was not imported ==")
-    pass
 
 try:
     if "heroku_settings" in CUSTOM_SETTINGS:
@@ -181,24 +180,24 @@ try:
 except Exception as e:
     print(e)
     print("== custom_settings was not imported ==")
-    pass
-
 
 
 checklist = {
     'DEBUG': DEBUG,
-    # 'SITE_ID': SITE_ID,
+    'SITE_ID': SITE_ID,
     # 'DATABASES': DATABASES,
     # 'SECRET_KEY': SECRET_KEY,
     # 'SPOTIFY_CLIENT_ID': SPOTIFY_CLIENT_ID,
     # 'INSTALLED_APPS': INSTALLED_APPS,
 }
 
-def check_settings(settings=None):
-    if settings:
+def check_settings():
+    try:
         print("|\n== CHECK SETTINGS ==")
         for k, v in settings.items():
             print("{} = {}".format(k, v))
         print('|')
+    except Exception as e:
+        print(e)
 
 check_settings(checklist)
