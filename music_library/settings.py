@@ -156,13 +156,9 @@ try:
 except:
     print("== local_settings was not imported ==")
 
-try:
-    if "allauth_settings" in CUSTOM_SETTINGS:
-        print("== IMPORTED: allauth_settings ==")
-        from .allauth_settings import *
-except Exception as e:
-    print(e)
-    print("== allauth_settings was not imported ==")
+if "allauth_settings" in CUSTOM_SETTINGS:
+    from .allauth_settings import *
+    print("== IMPORTED: allauth_settings ==")
 
 try:
     if "heroku_settings" in CUSTOM_SETTINGS:
