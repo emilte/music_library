@@ -13,10 +13,8 @@ urlpatterns = [
     path('delete/<int:songID>', views.DeleteSongView.as_view(), name="delete_song"),
     path('bpm_calc/', views.BPMView.as_view(), name="bpm_calc"),
 
-    # path('gen/', views.gen, name='gen'),
     path('tags/add', views.AddTag.as_view(), name="add_tag"),
     path('tags/edit/<int:tagID>', views.EditTag.as_view(), name="edit_tag"),
     path('tags/all', views.AllTags.as_view(), name="all_tags"),
-    # path('tag/edit/<int:tagID>', views.edit_song_tag, name="edit_song_tag"),
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]

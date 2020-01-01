@@ -25,11 +25,6 @@ class Tag(models.Model):
             q = q | a.filter(context__icontains=c)
         return q
 
-class SongTag(models.Model):
-    title = models.CharField(null=True, blank=False, max_length=100)
-
-    def __str__(self):
-        return self.title
 
 class Song(models.Model):
     title = models.CharField(max_length=150, null=True, blank=False)
@@ -37,7 +32,7 @@ class Song(models.Model):
     bpm = models.SmallIntegerField(blank=True, null=True)
     spotify_URL = models.URLField(null=True, blank=False)
     spotify_URI = models.CharField(max_length=300, null=True, blank=False)
-    tags = models.ManyToManyField('songs.SongTag', blank=True)
+    tags = models.ManyToManyField('songs.Tag', blank=True)
 
     def __str__(self):
         return "{} - {} ({} bpm)".format(self.title, self.artist, self.bpm)

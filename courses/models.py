@@ -5,12 +5,6 @@ from django.conf import settings
 
 # End: imports -----------------------------------------------------------------
 
-class CourseTag(models.Model):
-    title = models.CharField(null=True, blank=False, max_length=100)
-
-    def __str__(self):
-        return self.title
-
 class Course(models.Model):
     title = models.CharField(max_length=140, null=True, blank=False, default="")
     lead = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True, blank=True, related_name="male_courses")

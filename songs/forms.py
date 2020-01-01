@@ -68,19 +68,6 @@ class TagForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
 
-class SongTagForm(forms.ModelForm):
-
-    class Meta:
-        model = song_models.SongTag
-        exclude = []
-        labels = {
-            'title': 'Tittel',
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(type(self), self).__init__(*args, **kwargs)
-        self.fields['navn'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Tittel'})
-
 class DocumentForm(forms.ModelForm):
     class Meta:
         model = song_models.File

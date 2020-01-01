@@ -60,6 +60,5 @@ class TagManager(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Song, SongManager)
-# admin.site.register(SongTag)
 admin.site.register(Tag, TagManager)
 # admin.site.register(File)
