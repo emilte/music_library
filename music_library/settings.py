@@ -156,25 +156,23 @@ try:
 except:
     print("== local_settings was not imported ==")
 
+if "dev_settings" in CUSTOM_SETTINGS:
+    from .dev_settings import *
+    print("== IMPORTED: dev_settings ==")
+    # print("== dev_settings was not imported ==")
+
 if "allauth_settings" in CUSTOM_SETTINGS:
     from .allauth_settings import *
     print("== IMPORTED: allauth_settings ==")
 
 try:
     if "heroku_settings" in CUSTOM_SETTINGS:
-        print("== IMPORTED: heroku_settings ==")
         from .heroku_settings import *
+        print("== IMPORTED: heroku_settings ==")
 except Exception as e:
     print(e)
     print("== heroku_settings was not imported ==")
 
-try:
-    if "dev_settings" in CUSTOM_SETTINGS:
-        print("== IMPORTED: dev_settings ==")
-        from .dev_settings import *
-except Exception as e:
-    print(e)
-    print("== dev_settings was not imported ==")
 
 
 checklist = {
