@@ -19,7 +19,7 @@ class VideoFilterForm(forms.Form):
         self.fields['tag'].widget.attrs.update({'class': 'video-search-filter form-control'})
 
         self.fields['difficulty'].choices = [(-1, '-----')]
-        self.fields['difficulty'].choices += [difficulty for difficulty in DIFFICULY_CHOISES]
+        self.fields['difficulty'].choices += [difficulty for difficulty in video_models.DIFFICULY_CHOISES]
         self.fields['difficulty'].widget.attrs.update({'class': 'video-search-filter form-control'})
 
 

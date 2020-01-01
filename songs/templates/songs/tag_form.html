@@ -30,9 +30,15 @@
 
             {% for field in form %}
                 <div class="mb-4">
+
+
                     {{ field.label_tag }}
                     {{ field }}
-                    {{ form.field.errors }}
+                    {{ field.errors }}
+                    <div class="text-info small mt-1">
+                        {{ field.help_text }}
+
+                    </div>
 
                 </div>
             {% endfor %}

@@ -40,6 +40,11 @@ class SongForm(forms.ModelForm):
         labels = {
             'title': 'Tittel',
         }
+        help_texts = {
+            'bpm': 'Helst antall partall per minutt',
+            'spotify_URL': 'Høyre klikk på sang -> Share -> Copy Song Link',
+            'spotify_URI': 'Høyre klikk på sang -> Share -> Copy Spotify URI',
+        }
 
     class Media:
         css = {
@@ -61,12 +66,16 @@ class TagForm(forms.ModelForm):
         labels = {
             'title': 'Tittel',
         }
+        help_texts = {
+            'context': 'Mellomrom-separerte nøkkelord for å relatere tag til kategori (Blank for ikke spesifikk type). Bruk: song, course eller video.'
+        }
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
+        self.fields['context'].widget.attrs.update({'placeholder': 'Eg: song course video'})
 
 class DocumentForm(forms.ModelForm):
     class Meta:

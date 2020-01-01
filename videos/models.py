@@ -11,15 +11,6 @@ DIFFICULY_CHOISES = [
 ]
 # End: coises ------------------------------------------------------------------
 
-class VideoTag(models.Model):
-    title = models.CharField(null=True, blank=False, max_length=100)
-
-    class Meta:
-        ordering = ["title"]
-
-    def __str__(self):
-        return self.title
-
 class Video(models.Model):
     title = models.CharField(max_length=150, null=True, blank=False)
     youtube_URL = models.URLField(null=True, blank=False)

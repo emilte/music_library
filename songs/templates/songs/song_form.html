@@ -44,6 +44,9 @@
             display: none;
         }
 
+        .tooltip-inner {
+            background: green;
+        }
 
         {{ request.user.settings.song_theme.as_css }}
 
@@ -75,6 +78,7 @@
                 </div>
                 <div class="col-md-2 mb-5">
                     {{ form.bpm.label_tag }}
+                    <i class="lni-question-circle cursor-pointer custom-tooltip" data-toggle="tooltip" title="{{ form.bpm.help_text }}"></i>
                     {{ form.bpm }}
                     {{ form.bpm.errors }}
                 </div>
@@ -82,11 +86,13 @@
             <div class="form-row">
                 <div class="col-md mb-3">
                     {{ form.spotify_URL.label_tag }}
+                    <i class="lni-question-circle cursor-pointer" data-toggle="tooltip" title="{{ form.spotify_URL.help_text }}"></i>
                     {{ form.spotify_URL }}
                     {{ form.spotify_URL.errors }}
                 </div>
                 <div class="col-md mb-3">
                     {{ form.spotify_URI.label_tag }}
+                    <i class="lni-question-circle cursor-pointer" data-toggle="tooltip" title="{{ form.spotify_URI.help_text }}"></i>
                     {{ form.spotify_URI }}
                     <span class="error">{{ form.spotify_URI.errors }}</span>
                 </div>
@@ -134,3 +140,16 @@
     </div>
 
 {% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            // Initialize tooltip from bootstrap
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        })
+
+    </script>
+{% endblock script %}

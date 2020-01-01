@@ -93,7 +93,7 @@ class AllVideos(View):
 
     def get(self, request):
         form = self.form_class()
-        videos = Video.objects.all()
+        videos = video_models.Video.objects.all()
 
         return render(request, self.template, {
             'form': form,
@@ -102,7 +102,7 @@ class AllVideos(View):
 
     def post(self, request):
         form = self.form_class(data=request.POST)
-        videos = Video.objects.all()
+        videos = video_models.Video.objects.all()
 
         if form.is_valid():
             videos = video_search_filter(form=form, queryset=videos)
@@ -122,7 +122,7 @@ class VideoView(View):
     template = 'videos/video_view.html'
 
     def get(self, request, videoID):
-        videos = video_models.Video.objects.get(id=videoID)
+        video = video_models.Video.objects.get(id=videoID)
         return render(request, self.template, {'video': video})
 
 

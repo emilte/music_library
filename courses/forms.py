@@ -54,8 +54,8 @@ class CourseForm(forms.ModelForm):
         exclude = ['last_edited', 'last_editor']
         labels = {
             'title': 'Tittel',
-            'lead': 'Fører',
-            'follow': 'Følger',
+            'lead': 'Instruktør (lead)',
+            'follow': 'Instruktør (follow)',
             'date': 'Dato',
             'start': 'Start',
             'end': 'Slutt',
