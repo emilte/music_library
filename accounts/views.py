@@ -1,19 +1,23 @@
 # imports
+import spotipy.oauth2 as oauth2
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import Q
+from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required, user_passes_test
-from django.db.models import Q
-from django.urls import reverse
-from accounts.forms import * # EmailForm, SignUpForm, CustomAuthenticationForm, EditUserForm, CustomPasswordChangeForm
-from accounts.models import User
-from django.views import View
-import spotipy.oauth2 as oauth2
-from django.conf import settings
-from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
 
+from accounts import models as account_models
+from accounts import forms as account_forms
+
+User = get_user_model()
 # End: imports -----------------------------------------------------------------
 
 profile_dec = [
@@ -32,7 +36,7 @@ class ProfileView(View):
 @method_decorator(profile_dec, name='dispatch')
 class EditProfileView(View):
     template = "accounts/edit_profile.html"
-    form_class = EditUserForm
+    form_class = account_forms.EditUserForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(instance=request.user)
@@ -48,7 +52,7 @@ class EditProfileView(View):
 
 class SignUpView(View):
     template = "accounts/registration_form.html"
-    form_class = SignUpForm
+    form_class = account_forms.SignUpForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -86,7 +90,7 @@ class LogoutUserView(View):
 @method_decorator(profile_dec, name='dispatch')
 class SettingsView(View):
     template = "accounts/settings.html"
-    form_class = SettingsForm
+    form_class = account_forms.SettingsForm
 
     def get(self, request, *args, **kwargs):
         settings, created = Settings.objects.get_or_create(user=request.user)
@@ -106,7 +110,7 @@ class SettingsView(View):
 @method_decorator(profile_dec, name='dispatch')
 class ChangePasswordView(View):
     template = "accounts/change_password.html"
-    form_class = CustomPasswordChangeForm
+    form_class = account_forms.CustomPasswordChangeForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(request.user)
@@ -145,7 +149,7 @@ def callback(request):
     response = request.build_absolute_uri()
     sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE)
 
-    sp_token, created = SpotifyToken.objects.get_or_create(user=request.user)
+    sp_token, created = account_models.SpotifyToken.objects.get_or_create(user=request.user)
 
     code = sp_oauth.parse_response_code(response)
     token_info = sp_oauth.get_access_token(code)

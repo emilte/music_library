@@ -1,7 +1,7 @@
 # imports
 from django.urls import path
-from courses import views
 from django.views.i18n import JavaScriptCatalog
+from courses import views
 # End: imports -----------------------------------------------------------------
 
 app_name = 'courses'

@@ -1,30 +1,28 @@
 # imports
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from courses.forms import *
-from django.db.models import Q
+import os
 import json
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
-from django.contrib.auth.models import Permission
-from songs.models import *
-from videos.models import *
-from docx import Document
 import docx
 import spotipy
-import spotipy.util as util
 import datetime
-from django.contrib.messages import error, success
-from django.contrib import messages
-from accounts.models import User
-from django.views import View
-from django.contrib.auth.decorators import permission_required
-from django.utils.decorators import method_decorator
-from accounts.models import SpotifyToken
-from courses import forms as course_forms
-
-import os
+import spotipy.util as util
 import spotipy.oauth2 as oauth2
+
+from django.views import View
+from django.db.models import Q
 from django.conf import settings
+from django.contrib import messages
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
+from django.contrib.auth import get_user_model
+
+from songs import models as song_models
+from videos import models as video_models
+from courses import forms as course_forms
+from accounts import models as account_models
+
+User = get_user_model()
 
 # End: imports -----------------------------------------------------------------
 
@@ -41,8 +39,8 @@ addCourse_dec = [
 @method_decorator(addCourse_dec, name='dispatch')
 class AddCourseView(View):
     template = 'courses/course_form.html'
-    courseForm_class = CourseForm
-    sectionForm_class = SectionForm
+    courseForm_class = course_forms.CourseForm
+    sectionForm_class = course_forms.SectionForm
 
     def get(self, request):
         courseForm = self.courseForm_class()
@@ -98,8 +96,8 @@ editCourse_dec = [
 @method_decorator(editCourse_dec, name='dispatch')
 class EditCourseView(View):
     template = 'courses/course_form.html'
-    courseForm_class = CourseForm
-    sectionForm_class = SectionForm
+    courseForm_class = course_forms.CourseForm
+    sectionForm_class = course_forms.SectionForm
 
     def get(self, request, courseID):
         course = Course.objects.get(id=courseID)
@@ -217,7 +215,7 @@ class DeleteCourseView(View):
 
     def post(self, request, courseID):
         Course.objects.get(id=courseID).delete()
-        success(request, 'Course was successfully deleted')
+        messages.success(request, 'Course was successfully deleted')
         return redirect('courses:all_courses')
 
 
@@ -235,7 +233,7 @@ class CreatePlaylistView(View):
         # Auth client
         sp_oauth = oauth2.SpotifyOAuth(settings.SPOTIFY_CLIENT_ID, settings.SPOTIFY_CLIENT_SECRET, settings.SPOTIFY_REDIRECT_URI, scope=settings.SPOTIFY_SCOPE)
 
-        sp_token, created = SpotifyToken.objects.get_or_create(user=request.user)
+        sp_token, created = account_models.SpotifyToken.objects.get_or_create(user=request.user)
 
         token_info = None
         if sp_token.info:
@@ -289,7 +287,7 @@ class CreatePlaylistView(View):
         # Add tracks to playlist
         spotify.user_playlist_replace_tracks(user=spotify_username, playlist_id=playlist['id'], tracks=tracks)
 
-        success(request, "Playlist was created, and it's lit!")
+        messages.success(request, "Playlist was created, and it's lit!")
         return redirect('courses:course_view', courseID=courseID)
 
 
@@ -304,7 +302,7 @@ class ExportView(View):
 
         course = Course.objects.get(id=courseID)
 
-        document = Document()
+        document = docx.Document()
 
         document.add_heading(course.title, level=1)
 

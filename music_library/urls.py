@@ -13,13 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from songs import views
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
-from django.conf import settings
 from django.conf.urls.static import static
-from songs import views
-
 from django.views.i18n import JavaScriptCatalog
+
 
 app_name = 'root'
 
@@ -28,7 +29,6 @@ urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('', views.HomeView.as_view(), name="home"),
     path('forbidden/', views.ForbiddenView.as_view(), name="forbidden"),
-
 
     path('songs/', include('songs.urls')),
     path('account/', include('accounts.urls')),

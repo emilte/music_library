@@ -1,10 +1,15 @@
+# imports
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django import forms
-from accounts.models import *
 from django.forms.widgets import PasswordInput, TextInput
 from django.contrib.auth import get_user_model
 
+from accounts.models import *
+from accounts import models as account_models
+
 User = get_user_model()
+
+# End: imports -----------------------------------------------------------------
 
 class SignUpForm(UserCreationForm):
 
@@ -47,14 +52,14 @@ class EditUserForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
 
 class SettingsForm(forms.ModelForm):
-    public_themes = Theme.objects.filter(user=None)
+    public_themes = account_models.Theme.objects.filter(user=None)
     account_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
     video_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
     course_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
     song_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
 
     class Meta:
-        model = Settings
+        model = account_models.Settings
         exclude = ['user']
         # labels = {
         #     'account_theme': 'Bruker-tema',

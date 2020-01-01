@@ -1,28 +1,25 @@
 # imports
 from __future__ import print_function
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
-from songs.forms import *
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 import json
+
 from django.views import View
-from django.utils.decorators import method_decorator
-from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth import get_user_model
+
 from songs import forms as song_forms
 from songs import models as song_models
 
-#from django.views import generic
-#from django.contrib.auth.decorators import login_required
+User = get_user_model()
 
 # End: imports -----------------------------------------------------------------
 
 # Functions
-User = get_user_model()
-
-
 
 def update_songs_txt(song, title=None):
     tags = song.tags.values_list('navn')

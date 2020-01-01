@@ -1,10 +1,11 @@
 # imports
+import json
+
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.conf import settings
-import json
 # End: imports -----------------------------------------------------------------
 
 class UserManager(BaseUserManager):

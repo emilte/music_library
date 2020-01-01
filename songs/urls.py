@@ -1,7 +1,7 @@
 # imports
 from django.urls import path
-from songs import views
 from django.views.i18n import JavaScriptCatalog
+from songs import views
 # End: imports -----------------------------------------------------------------
 
 app_name = 'songs'

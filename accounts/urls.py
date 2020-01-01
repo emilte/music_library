@@ -1,9 +1,10 @@
 # imports
 from django.urls import path
 from django.contrib.auth.views import LoginView
-from accounts import views
-from accounts.forms import CustomAuthForm
 from django.views.generic import TemplateView
+
+from accounts.forms import CustomAuthForm
+from accounts import views
 # End: imports -----------------------------------------------------------------
 
 app_name = 'accounts' # Necessary for url naming. eg {% url 'accounts:signin' %}

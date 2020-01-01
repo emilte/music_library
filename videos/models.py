@@ -24,7 +24,7 @@ class Video(models.Model):
     title = models.CharField(max_length=150, null=True, blank=False)
     youtube_URL = models.URLField(null=True, blank=False)
     embedded = models.URLField(null=True, blank=True)
-    tags = models.ManyToManyField('videos.VideoTag')
+    tags = models.ManyToManyField('songs.Tag')
     description = models.TextField(null=True, blank=True)
     focus = models.TextField(null=True, blank=True)
     difficulty = models.IntegerField(choices=DIFFICULY_CHOISES, default=1)

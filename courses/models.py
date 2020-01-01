@@ -1,7 +1,7 @@
 # imports
 from django.db import models
-from django.utils import timezone
 from django.conf import settings
+from django.utils import timezone
 
 # End: imports -----------------------------------------------------------------
 
@@ -57,8 +57,6 @@ class Section(models.Model):
 
     def __str__(self):
         return "Section ({}) in course: {}".format(self.getNr(), self.getCourse())
-        #return "{} - {}...".format(self.course.title[0:40], self.text[:40])
-        #return "{} - ({}) {}...".format(self.course.title[0:40], self.nr, self.text[:40])
 
     def getCourse(self):
         return self.course or None

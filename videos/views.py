@@ -1,14 +1,15 @@
 # imports
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
-from videos.forms import *
-from videos.models import *
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 import json
-#from django.views import generic
-#from django.contrib.auth.decorators import login_required
 
+from django.views import View
+from django.db.models import Q
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+
+from videos import forms as video_forms
+from videos import models as video_models
 # End: imports -----------------------------------------------------------------
 
 # Functions:
@@ -31,96 +32,107 @@ def video_search_filter(form, queryset):
 # End: Functions ---------------------------------------------------------------
 
 # Create your views here.
-@login_required
-def all_videos(request):
-    # if not request.user.has_perm("videos.view_video"):
-    #     return redirect("forbidden")
 
-    form = VideoSearchForm()
-    videos = Video.objects.all()
+add_video_dec = [
+    login_required,
+    permission_required('videos.create_video', login_url='forbidden')
+]
+@method_decorator(add_video_dec, name='dispatch')
+class AddVideo(View):
+    template = 'videos/video_form.html'
+    form_class = video_forms.VideoForm
 
-    if request.method == "POST":
-        form = VideoSearchForm(data=request.POST)
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(data=request.POST)
+
+        if form.is_valid():
+            video = form.save()
+            video.embed()
+            return redirect('videos:all_videos')
+
+        return render(request, self.template, {'form': form})
+
+
+edit_video_dec = [
+    login_required,
+    permission_required('videos.change_video', login_url='forbidden')
+]
+@method_decorator(edit_video_dec, name='dispatch')
+class EditVideo(View):
+    template = 'videos/video_form.html'
+    form_class = video_forms.VideoForm
+
+    def get(self, request, videoID):
+        video = video_models.Video.objects.get(id=videoID)
+        form = self.form_class(instance=video)
+        return render(request, self.template, {'form': form})
+
+    def post(self, request, videoID):
+        video = video_models.Video.objects.get(id=videoID)
+        form = self.form_class(data=request.POST, instance=video)
+
+        if form.is_valid():
+            video = form.save()
+            video.embed()
+            return redirect('videos:all_videos')
+
+        return render(request, self.template, {'form': form, 'videoID': videoID})
+
+view_video_dec = [
+    login_required,
+    permission_required('videos.view_video', login_url='forbidden')
+]
+@method_decorator(view_video_dec, name='dispatch')
+class AllVideos(View):
+    template = 'videos/all_videos.html'
+    form_class = video_forms.VideoFilterForm
+
+    def get(self, request):
+        form = self.form_class()
+        videos = Video.objects.all()
+
+        return render(request, self.template, {
+            'form': form,
+            'videos': videos,
+        })
+
+    def post(self, request):
+        form = self.form_class(data=request.POST)
+        videos = Video.objects.all()
+
         if form.is_valid():
             videos = video_search_filter(form=form, queryset=videos)
 
-    return render(request, 'videos/all_videos.html', {
-        'form': form,
-        'videos': videos,
-    })
+        return render(request, self.template, {
+            'form': form,
+            'videos': videos,
+        })
 
-@login_required
-def add_video(request):
-    if not request.user.has_perm("videos.add_video"):
-        return redirect("forbidden")
 
-    form = VideoForm()
-    if request.method == 'POST':
-        form = VideoForm(request.POST)
-        if form.is_valid():
-            video = form.save()
-            video.embed()
-            return redirect('videos:all_videos')
+view_video_dec = [
+    login_required,
+    permission_required('videos.view_video', login_url='forbidden')
+]
+@method_decorator(view_video_dec, name='dispatch')
+class VideoView(View):
+    template = 'videos/video_view.html'
 
-    return render(request, 'videos/video_form.html', {'form': form})
+    def get(self, request, videoID):
+        videos = video_models.Video.objects.get(id=videoID)
+        return render(request, self.template, {'video': video})
 
-@login_required
-def edit_video(request, videoID):
-    if not request.user.has_perm("videos.change_video"):
-        return redirect("forbidden")
 
-    video = Video.objects.get(id=videoID)
-    form = VideoForm(instance=video)
-    if request.method == 'POST':
-        form = VideoForm(request.POST, instance=video)
-        if form.is_valid():
-            video = form.save()
-            video.embed()
-            return redirect('videos:all_videos')
-    # GET or form failed
-    return render(request, 'videos/video_form.html', {'form': form, "videoID": videoID})
+delete_video_dec = [
+    login_required,
+    permission_required('videos.delete_video', login_url='forbidden')
+]
+@method_decorator(delete_video_dec, name='dispatch')
+class DeleteVideo(View):
 
-@login_required
-def delete_video(request, videoID):
-    if not request.user.has_perm("videos.delete_video"):
-        return redirect("forbidden")
-
-    video = Video.objects.get(id=videoID).delete()
-    return redirect("videos:all_videos")
-
-@login_required
-def add_video_tag(request):
-    # if not request.user.has_perm("videos.add_video_tag"):
-    #     return redirect("forbidden")
-
-    form = VideoTagForm()
-    if request.method == 'POST':
-        form = VideoTagForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    # GET or form failed
-    return render(request, 'videos/video_tag_form.html', {'form': form})
-
-@login_required
-def edit_video_tag(request, tagID):
-    # if not request.user.has_perm("videos.change_video_tag"):
-    #     return redirect("forbidden")
-
-    tag = VideoTag.objects.get(id=tagID)
-    form = VideoTagForm(instance=tag)
-    if request.method == 'POST':
-        form = VideoTagForm(request.POST, instance=tag)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    # GET or form failed
-    return render(request, 'videos/video_tag_form.html', {'form': form})
-
-@login_required
-def video_view(request, videoID):
-    # if not request.user.has_perm("videos.view_video"):
-    #     return redirect("forbidden")
-
-    video = Video.objects.get(id=videoID)
-    return render(request, 'videos/video_view.html', {'video': video})
+    def post(self, request, videoID):
+        video_models.Video.objects.get(id=videoID).delete()
+        return redirect("videos:all_videos")

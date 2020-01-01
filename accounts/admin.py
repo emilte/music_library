@@ -1,9 +1,10 @@
 # imports
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
-from accounts.models import *
 from django.contrib.auth.models import Permission
-# End: imports
+
+from accounts.models import *
+# End: imports -----------------------------------------------------------------
 
 # Actions for Admin-site:
 def make_staff(modeladmin, request, queryset):

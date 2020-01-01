@@ -1,11 +1,13 @@
 # imports
+import json
+
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from courses.models import *
-from videos.models import *
-from songs import models as song_models
-import json
 from django.contrib.auth import get_user_model
+
+from songs import models as song_models
+from videos import models as video_models
+from courses import models as course_models
 
 User = get_user_model()
 
@@ -48,7 +50,7 @@ class CourseForm(forms.ModelForm):
         js = ['/admin/jsi18n/']
 
     class Meta:
-        model = Course
+        model = course_models.Course
         exclude = ['last_edited', 'last_editor']
         labels = {
             'title': 'Tittel',
@@ -63,7 +65,7 @@ class CourseForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(CourseForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
@@ -86,7 +88,7 @@ class SectionForm(forms.ModelForm):
     # duration = forms.TimeField(input_formats=MIN_FORMATS, required=False)
 
     class Meta:
-        model = Section
+        model = course_models.Section
         exclude = []
         labels = {
             'nr': 'Nr',
@@ -100,7 +102,7 @@ class SectionForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(SectionForm, self).__init__(*args, **kwargs)
+        super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
