@@ -4,7 +4,7 @@ from django.db import models
 # End: imports -----------------------------------------------------------------
 
 class Tag(models.Model):
-    title = models.CharField(null=True, blank=False, max_length=100)
+    title = models.CharField(null=True, blank=False, max_length=100, unique=True)
     context = models.CharField(null=True, blank=True, max_length=100)
 
     def __str__(self):

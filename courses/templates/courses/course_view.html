@@ -115,7 +115,7 @@
             {% endif %}
 
             <div class="float-right font-italic small no-print">
-                Sist redigert av: {{ course.last_editor | default:'Ukjent' }} {{ course.last_edited | date:'(d. M Y)' }}
+                Sist redigert av: {{ course.last_editor | default:'Ukjent' }} {{ course.last_edited | date:'(d. M Y - H:i)' }}
             </div>
         </div>
 
