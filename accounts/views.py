@@ -29,7 +29,8 @@ class ProfileView(View):
     template = "accounts/profile.html"
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template)
+        courses = request.user.getCourses()
+        return render(request, self.template, {'courses': courses})
 
 
 
