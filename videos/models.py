@@ -1,6 +1,9 @@
 # imports
 from django.db import models
+from django.conf import settings
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 # End: imports -----------------------------------------------------------------
 
 # choises:
@@ -20,6 +23,9 @@ class Video(models.Model):
     focus = models.TextField(null=True, blank=True)
     difficulty = models.IntegerField(choices=DIFFICULY_CHOISES, default=1)
 
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
+    created = models.DateTimeField(null=True, blank=True, editable=False)
+
     def embed(self):
         video_id = "no id"
         if self.youtube_URL == None:
@@ -37,3 +43,8 @@ class Video(models.Model):
 
     def __str__(self):
         return "{}".format(self.title)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = timezone.now()
+        return super(type(self), self).save(*args, **kwargs)
