@@ -2,10 +2,10 @@
 import json
 
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.conf import settings
 # End: imports -----------------------------------------------------------------
 
 class UserManager(BaseUserManager):
@@ -56,6 +56,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             return user.groups.filter(name=name).exists()
         return check_group
 
+    def getCourses(self):
+        return self.lead_courses.all() | self.follow_courses.all()
+
     def get_full_name(self):
         if not self.first_name and not self.last_name:
             return None
@@ -66,12 +69,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 class Theme(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="themes")
     name = models.CharField(max_length=140, default="Default name")
 
     background_color = models.CharField(max_length=140)
     link_color = models.CharField(max_length=140)
     link_hover_color = models.CharField(max_length=140)
+
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
+    created = models.DateTimeField(null=True, blank=True, editable=False)
 
     class Meta:
         ordering = ['user', 'name']
@@ -96,6 +102,11 @@ class Theme(models.Model):
         """.format(self.background_color, self.link_color, self.link_hover_color)
         return css
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = timezone.now()
+        return super(type(self), self).save(*args, **kwargs)
+
 
 class Settings(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="settings")
@@ -111,6 +122,24 @@ class Settings(models.Model):
 
     def __str__(self):
         return "Settings for {}".format(self.user)
+
+class Instructor(models.Model):
+    TYPES = [
+        (0, '------'),
+        (1, 'lead'),
+        (2, 'follow'),
+        (3, 'hjelpeinstruktør'),
+        (4, 'annet'),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False, related_name="instructor_set")
+    type = models.IntegerField(choices=TYPES, default=0)
+
+    class Meta:
+        ordering = ['type']
+
+    def __str__(self):
+        return f"{self.user} ({self.get_type_display()})"
+
 
 class SpotifyToken(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="spotify_token")
