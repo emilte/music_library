@@ -87,6 +87,9 @@
     </form>
 
     <div id="table-videos" class="default-theme user-theme">
+        <div class="text-right text-danger">
+            Antall: {{ videos.count }}
+        </div>
         <ul class="list-style-none">
             {% for video in videos %}
             <li>
