@@ -55,9 +55,15 @@ class UserAdmin(auth_admin.UserAdmin):
     filter_horizontal = ['groups', 'user_permissions']
     actions = [make_normal_user, make_staff, make_superuser]
 
+class InstructorManager(admin.ModelAdmin):
+    list_display = ['user', 'type']
+
+    search_fields = ['user'] # Test
+
 # Register your models here.
 admin.site.register(User, UserAdmin)
 admin.site.register(Permission)
 admin.site.register(Theme)
 admin.site.register(Settings)
+admin.site.register(Instructor, InstructorManager)
 admin.site.register(SpotifyToken)
