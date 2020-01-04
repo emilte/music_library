@@ -18,7 +18,27 @@
 {% endblock %}
 
 {% block wiki_page %}
-    {% if perms.page.view_private_page %}
+
+    {% if page.private %}
+
+        {% if perms.page.view_private_page %}
+            <div class="">
+
+                <div class="d-flex">
+                    <div class="h2 border-bottom">{{ page.title }}</div>
+                    <div class="ml-auto"><a class="btn btn-secondary btn-sm" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
+                </div>
+
+                {{ page.content | safe }}
+
+            </div>
+        {% else %}
+            <div class="h2 text-danger">
+                Du har ikke rettigheter til å se denne siden
+            </div>
+        {% endif %}
+
+    {% else %}
         <div class="">
 
             <div class="d-flex">
@@ -28,10 +48,6 @@
 
             {{ page.content | safe }}
 
-        </div>
-    {% else %}
-        <div class="h2 text-danger">
-            Du har ikke rettigheter til å se denne siden
         </div>
     {% endif %}
 
