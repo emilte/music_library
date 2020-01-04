@@ -68,6 +68,7 @@ a:hover {
 
 #content-wrapper {
     min-height: 56.9vh !important;
+    max-width: 1250px;
 }
 
 

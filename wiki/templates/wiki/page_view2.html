@@ -1,0 +1,47 @@
+{% extends 'wiki/dashboard.html' %}
+{% load static %}
+
+{% block title %}Wiki{% endblock %}
+
+{% block head %}
+
+    {# <link rel="stylesheet" href="{% static "videos/video_styles.css" %}"> #}
+
+    <style media="screen">
+
+    </style>
+
+{% endblock %}
+
+{% block wiki_breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'wiki:page_view' page.path %}">{{ page.title }}</a></li>
+{% endblock %}
+
+{% block wiki_page %}
+    {% if perms.page.view_private_page %}
+        <div class="">
+
+            <div class="d-flex">
+                <div class="h2 border-bottom">{{ page.title }}</div>
+                <div class="ml-auto"><a class="btn btn-secondary btn-sm" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
+            </div>
+
+            {{ page.content | safe }}
+
+        </div>
+    {% else %}
+        <div class="h2 text-danger">
+            Du har ikke rettigheter til å se denne siden
+        </div>
+    {% endif %}
+
+
+{% endblock wiki_page %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        });
+    </script>
+{% endblock %}

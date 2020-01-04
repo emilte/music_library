@@ -1,0 +1,164 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+
+{% block title %}wiki{% endblock %}
+
+{% block head %}
+
+    {# <link rel="stylesheet" href="{% static "videos/video_styles.css" %}"> #}
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+
+    <style media="screen">
+        .sidebar-right {
+            position: fixed;
+            bottom: 20%;
+            right: 10px;
+            z-index: 100;
+            /* width: 10px; */
+        }
+
+        #private-toggle {
+            position:
+        }
+    </style>
+
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'wiki:dashboard' %}">Wiki</a></li>
+    {% if modelID %}
+        <li class="breadcrumb-item"><a href="{% url 'wiki:edit_page' modelID %}">Rediger side</a></li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'wiki:add_page' %}">Ny side</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="">
+
+        <div class="jumbotron bg-dark p-3">
+
+            <div class="">
+                <form class="" method="post">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md">
+                            {% if modelID %}
+                                <span class="h2">Rediger side:</span>
+                            {% else %}
+                                <span class="h2">Opprett side:</span>
+                            {% endif %}
+                            <hr class="border">
+                        </div>
+                        <div class="col-md">
+                            <div class="float-right">{{ form.private }}</div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="col-md">
+                            {{ form.title.label_tag }}
+                            {{ form.title }}
+                            <div class="font-italic small">
+                                {{ form.title.help_text }}
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            {{ form.folder.label_tag }}
+                            {{ form.folder }}
+                            <div class="font-italic small">
+                                {{ form.folder.help_text }}
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            {{ form.path.label_tag }}
+                            {{ form.path }}
+                            <div class="font-italic small">
+                                {{ form.path.help_text }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="text-danger">{{ form.title.errors }}</div>
+                        <div class="text-danger">{{ form.folder.errors }}</div>
+                        <div class="text-danger">{{ form.path.errors }}</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md">
+                            {{ form.content.label_tag }}
+                            {{ form.content }}
+                            <div class="font-italic small">
+                                {{ form.content.help_text }}
+                            </div>
+                            <div class="text-danger">{{ form.content.errors }}</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary btn-block mt-4" type="submit" name="button">Lagre</button>
+
+                    <div class="sidebar-right">
+                        <div class=""><button id="btn-submit-float" class="btn btn-secondary" type="button" name="button">Lagre</button></div>
+                        <div class="mt-2"><button id="btn-abort-float" class="btn btn-secondary" onclick="window.history.back()" type="button">Avbryt</button></div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <script type="text/javascript">
+
+        var tinymceConfig = {
+            selector: "textarea.tinymce",
+            plugins: 'advlist autoresize autosave codesample emoticons help lists print searchreplace tabfocus textpattern',
+            menubar: 'file edit insert view format tools table help',
+            toolbar: 'undo redo | formatselect | fontselect | fontsizeselect | bold italic underline | forecolor | backcolor | removeformat | numlist bullist',
+            min_height: 500,
+            // max_height: 9999999999,
+            toolbar_sticky: false,
+            autosave_ask_before_unload: true,
+            autosave_interval: "30s",
+            autosave_prefix: "{path}{query}-{id}-",
+            autosave_restore_when_empty: false,
+            autosave_retention: "2m",
+            tabfocus_elements: ":prev,:next",
+            toolbar_items_size: "small",
+        }
+
+        tinymce.init(tinymceConfig);
+
+
+        $(document).ready(function() {
+            $('#btn-submit-float').click(function() {
+                $('form').submit();
+            })
+
+            // https://www.bootstraptoggle.com/
+            $(function() { // Init custom toggle functionality
+                $('#private-toggle').bootstrapToggle({
+                    on: 'Privat',
+                    off: 'Offentlig',
+                    size: 'small',
+                    onstyle: 'danger',
+                    offstyle: 'success',
+                });
+            })
+        });
+    </script>
+{% endblock %}

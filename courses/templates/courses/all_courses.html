@@ -82,7 +82,7 @@
             <ol id="all-courses">
                 {% for course in courses %}
                     <li>
-                        <a class="default-theme-link user-theme-link" href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
+                        <a class="default-theme-link user-theme-link" href="{% url 'courses:course_view' course.id %}">{{ course.title }} ({{ course.date | default:'Ingen dato' }})</a>
 
                         <span class="dropdown">
                             <i class="lni-chevron-down cursor-pointer default-theme-link ml-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>

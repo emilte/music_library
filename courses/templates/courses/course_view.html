@@ -46,8 +46,8 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
                         <a class="dropdown-item" href="{% url 'courses:create_playlist' course.id %}"><i class="lni-spotify-original"></i> Lag spotify liste</a>
-                        <div class="dropdown-item cursor-pointer" onclick="window.print()"><i class="lni-download"></i> Eksporter (.pdf)</div>
-                        <a class="dropdown-item" href="{% url 'courses:export_course' course.id %}"><i class="lni-download"></i> Eksporter (.docx)</a>
+                        <div class="dropdown-item cursor-pointer" onclick="window.print()"><i class="lni-download"></i> Eksporter (pdf)</div>
+                        <a class="dropdown-item" href="{% url 'courses:export_course' course.id %}"><i class="lni-download"></i> Eksporter (docx)</a>
                     </div>
                 </span>
 
@@ -73,7 +73,7 @@
                 <div class="float-right">
                     <a class="btn btn-dark btn-sm" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
                     <a class="btn btn-success btn-sm" href="{% url 'courses:create_playlist' course.id %}"><i class="lni-spotify-original"></i> Lag spotify liste</a>
-                    <div class="btn btn-dark btn-sm" onclick="window.print()"><i class="lni-download"></i> Eksporter (.pdf)</div>
+                    <div class="btn btn-dark btn-sm" onclick="window.print()"><i class="lni-download"></i> Eksporter (pdf)</div>
                 </div>
             </div>
 

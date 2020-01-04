@@ -7,7 +7,7 @@ class SectionManager(admin.ModelAdmin):
     list_display = ['title', 'course', 'nr']
     list_display_links = ['title', 'course']
     ordering = ['course', 'nr']
-    readonly_fields = ['nr', 'description']
+    readonly_fields = ['course', 'nr', 'description']
 
 class CourseManager(admin.ModelAdmin):
     list_display = ['title', 'lead', 'follow', 'date', 'place']
