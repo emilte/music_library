@@ -69,18 +69,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 class Theme(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="themes")
-    name = models.CharField(max_length=140, default="Default name")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="themes", verbose_name="Opprettet av")
+    name = models.CharField(max_length=140, null=True, blank="False", verbose_name="Navn")
 
-    background_color = models.CharField(max_length=140)
-    link_color = models.CharField(max_length=140)
-    link_hover_color = models.CharField(max_length=140)
+    background_color = models.CharField(max_length=140, verbose_name="Bakgrunnsfarge")
+    link_color = models.CharField(max_length=140, verbose_name="Link farge")
+    link_hover_color = models.CharField(max_length=140, verbose_name="Link hover farge")
 
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, verbose_name="Opprettet av")
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
 
     class Meta:
         ordering = ['user', 'name']
+        verbose_name = "Tema"
+        verbose_name_plural = "Temaer"
 
     def __str__(self):
         if self.user:
@@ -121,7 +122,7 @@ class Settings(models.Model):
         verbose_name_plural = "Instillinger"
 
     def __str__(self):
-        return "Settings for {}".format(self.user)
+        return "Instillinger for {}".format(self.user)
 
 class Instructor(models.Model):
     TYPES = [

@@ -94,7 +94,7 @@ class SettingsView(View):
     form_class = account_forms.SettingsForm
 
     def get(self, request, *args, **kwargs):
-        settings, created = Settings.objects.get_or_create(user=request.user)
+        settings, created = account_models.Settings.objects.get_or_create(user=request.user)
         form = self.form_class(instance=settings, user=request.user)
 
         return render(request, self.template, {'form': form})
