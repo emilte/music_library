@@ -34,8 +34,8 @@
                             <div class="">Uten mappe</div>
                         {% endif %}
 
-                        <div class="border-bottom border-secondary pb-2">
-                            {% for page in single_pages %}
+                        {% for page in single_pages %}
+                            <div class="border-bottom border-secondary pb-2">
                                 {% if page.private %}
                                     {% if perms.view_private_page %}
                                         <div class="">
@@ -47,11 +47,8 @@
                                         <a href="{% url 'wiki:page_view' page.path %}">{{ page.title | truncatechars:30 }}</a>
                                     </div>
                                 {% endif %}
-
-
-
-                            {% endfor %}
-                        </div>
+                            </div>
+                        {% endfor %}
 
                         <div class="mt-4">
                             {% for folder in folders %}
