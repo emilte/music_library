@@ -16,16 +16,16 @@ DIFFICULY_CHOISES = [
 # End: coises ------------------------------------------------------------------
 
 class Video(models.Model):
-    title = models.CharField(max_length=150, null=True, blank=False)
+    title = models.CharField(max_length=150, null=True, blank=False, verbose_name="Tittel")
     youtube_URL = models.URLField(null=True, blank=False)
     embedded = models.URLField(null=True, blank=True)
     tags = models.ManyToManyField('songs.Tag')
-    description = models.TextField(null=True, blank=True)
-    focus = models.TextField(null=True, blank=True)
-    difficulty = models.IntegerField(choices=DIFFICULY_CHOISES, default=1)
+    description = models.TextField(null=True, blank=True, verbose_name="Beskrivelse")
+    focus = models.TextField(null=True, blank=True, verbose_name="Fokuspunkt")
+    difficulty = models.IntegerField(choices=DIFFICULY_CHOISES, default=1, verbose_name="Vanskelighetsgrad")
 
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
-    created = models.DateTimeField(null=True, blank=True, editable=False)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, verbose_name="Opprettet av")
+    created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
 
     def embed(self):
         video_id = "no id"

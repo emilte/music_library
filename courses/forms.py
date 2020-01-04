@@ -51,18 +51,7 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = course_models.Course
-        exclude = ['last_edited', 'last_editor']
-        labels = {
-            'title': 'Tittel',
-            'lead': 'Instruktør (lead)',
-            'follow': 'Instruktør (follow)',
-            'date': 'Dato',
-            'start': 'Start',
-            'end': 'Slutt',
-            'comments': 'Kommentarer',
-            'place': 'Sted',
-            'tags': 'Tags',
-        }
+        exclude = []
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
@@ -90,16 +79,6 @@ class SectionForm(forms.ModelForm):
     class Meta:
         model = course_models.Section
         exclude = []
-        labels = {
-            'nr': 'Nr',
-            'title': 'Tittel',
-            'description': 'Beskrivelse',
-            'start': 'Start',
-            'duration': 'Varighet',
-            'course': 'Kurs',
-            'song': 'Sang',
-            'video': 'Video',
-        }
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
@@ -112,7 +91,6 @@ class SectionForm(forms.ModelForm):
         self.fields['start'].widget.attrs.update({'placeholder': 'hh:mm', 'readonly': '1'})
         self.fields['start'].widget.format = "%H:%M"
 
-        # self.fields['description'].widget.attrs.update({'rows': '7', 'class': 'tinymce'})
         self.fields['description'].widget.attrs.update({'class': 'tinymce'})
 
 class CourseFilterForm(forms.Form):
@@ -120,14 +98,6 @@ class CourseFilterForm(forms.Form):
     tag = forms.ChoiceField(required=False)
     lead = forms.ChoiceField(required=False, label="Instruktør (lead)")
     follow = forms.ChoiceField(required=False, label="Instruktør (follow)")
-
-    class Meta:
-        labels = {
-            'search': 'Søk',
-            'tag': 'Tag',
-            'lead': 'Instruktør (lead)',
-            'follow': 'Instruktør (follow)',
-        }
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)

@@ -10,11 +10,6 @@ class PageForm(forms.ModelForm):
     class Meta:
         model = wiki_models.Page
         exclude = []
-        labels = {
-            'title': 'Tittel',
-            'content': 'Innhold',
-            'folder': 'Mappe',
-        }
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
@@ -28,12 +23,7 @@ class FolderForm(forms.ModelForm):
 
     class Meta:
         model = wiki_models.Page
-        fields = [
-            'title',
-        ]
-        labels = {
-            'title': 'Tittel',
-        }
+        exclude = []
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)

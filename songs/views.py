@@ -121,7 +121,7 @@ class AllSongsView(View):
         return render(request, self.template, {'form': form, 'songs': songs.order_by('bpm')})
 
 
-    def search_song_filter(form, queryset):
+    def search_song_filter(self, form, queryset):
         search = form.cleaned_data['search']
         tag = form.cleaned_data['tag']
         check_min = form.cleaned_data['check_min']

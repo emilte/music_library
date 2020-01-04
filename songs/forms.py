@@ -6,7 +6,7 @@ from songs import models as song_models
 # End: imports -----------------------------------------------------------------
 
 class SongSearchForm(forms.Form):
-    search = forms.CharField(required=False)
+    search = forms.CharField(required=False, label="Søk")
     tag = forms.ChoiceField(required=False)
     check_min = forms.BooleanField(required=False, initial=True)
     min_bpm = forms.IntegerField(required=False, min_value=0, max_value=200)
@@ -29,22 +29,7 @@ class SongForm(forms.ModelForm):
 
     class Meta:
         model = song_models.Song
-        fields = [
-            'title',
-            'artist',
-            'bpm',
-            'tags',
-            'spotify_URL',
-            'spotify_URI',
-        ]
-        labels = {
-            'title': 'Tittel',
-        }
-        help_texts = {
-            'bpm': 'Helst antall partall per minutt',
-            'spotify_URL': 'Høyre klikk på sang -> Share -> Copy Song Link',
-            'spotify_URI': 'Høyre klikk på sang -> Share -> Copy Spotify URI',
-        }
+        exclude = []
 
     class Media:
         css = {
@@ -63,19 +48,13 @@ class TagForm(forms.ModelForm):
     class Meta:
         model = song_models.Tag
         exclude = []
-        labels = {
-            'title': 'Tittel',
-        }
-        help_texts = {
-            'context': 'Mellomrom-separerte nøkkelord for å relatere tag til kategori (Blank for ikke spesifikk type). Bruk: song, course eller video.'
-        }
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
-        self.fields['context'].widget.attrs.update({'placeholder': 'Eg: song course video'})
+        self.fields['context'].widget.attrs.update({'placeholder': 'Eks: song course video'})
 
 class DocumentForm(forms.ModelForm):
     class Meta:

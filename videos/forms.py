@@ -29,20 +29,7 @@ class VideoForm(forms.ModelForm):
 
     class Meta:
         model = video_models.Video
-        fields = [
-            'title',
-            'youtube_URL',
-            'description',
-            'focus',
-            'tags',
-            'difficulty',
-        ]
-        labels = {
-            'title': 'Tittel',
-            'description': 'Beskrivelse',
-            'focus': 'Fokuspunkt',
-            'difficulty': 'Vanskelighetsgrad',
-        }
+        exclude = []
 
 
     class Media:

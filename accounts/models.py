@@ -29,14 +29,14 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True)
-    first_name = models.CharField(max_length=60, null=False, blank=False)
-    last_name = models.CharField(max_length=150, null=False, blank=False)
+    first_name = models.CharField(max_length=60, null=False, blank=False, verbose_name="Fornavn")
+    last_name = models.CharField(max_length=150, null=False, blank=False, verbose_name="Etternavn")
     spotify_username = models.CharField(max_length=150, null=True, blank=True) # Obsolete
-    phone_number = models.CharField(max_length=13, blank=True)
+    phone_number = models.CharField(max_length=13, blank=True, verbose_name="Mobilnummer")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(default=timezone.now, blank=True, editable=False)
+    date_joined = models.DateTimeField(default=timezone.now, blank=True, editable=False, verbose_name="Opprettet")
 
     objects = UserManager()
 
@@ -76,8 +76,8 @@ class Theme(models.Model):
     link_color = models.CharField(max_length=140)
     link_hover_color = models.CharField(max_length=140)
 
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False)
-    created = models.DateTimeField(null=True, blank=True, editable=False)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, verbose_name="Opprettet av")
+    created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
 
     class Meta:
         ordering = ['user', 'name']
@@ -109,16 +109,16 @@ class Theme(models.Model):
 
 
 class Settings(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="settings")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="settings", verbose_name="Tilhører")
 
-    account_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_account")
-    video_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_video")
-    course_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_course")
-    song_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_song")
+    account_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_account", verbose_name="Bruker tema")
+    video_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_video", verbose_name="Turbibliotek tema")
+    course_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_course", verbose_name="Kurs tema")
+    song_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_song", verbose_name="Musikk tema")
 
     class Meta:
-        verbose_name = "settings"
-        verbose_name_plural = "settings"
+        verbose_name = "Instilling"
+        verbose_name_plural = "Instillinger"
 
     def __str__(self):
         return "Settings for {}".format(self.user)
@@ -136,6 +136,8 @@ class Instructor(models.Model):
 
     class Meta:
         ordering = ['type']
+        verbose_name = "Instruktør"
+        verbose_name_plural = "Instruktører"
 
     def __str__(self):
         return f"{self.user} ({self.get_type_display()})"
