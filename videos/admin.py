@@ -15,6 +15,7 @@ from videos.models import *
 # managers:
 class VideoAdmin(admin.ModelAdmin):
     list_display = ['title', 'difficulty']
+    list_editable = ['difficulty']
     list_filter = ['tags', 'difficulty']
     search_fields = ['title', 'creator__email', 'creator__first_name', 'creator__last_name']
     ordering = ['difficulty', 'title']
