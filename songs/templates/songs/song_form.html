@@ -55,90 +55,73 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'songs:all_songs' %}">Alle sanger</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Rediger sang</a></li>
+    {% if songID %}
+        <li class="breadcrumb-item"><a href="{% url 'songs:edit_song' songID %}">Rediger sang</a></li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Legg til sang</a></li>
+    {% endif %}
 {% endblock %}
 
 {% block body %}
-    <h1>Sang:</h1>
+    <div class="">
 
-    <div class="default-theme user-theme">
+        <h1>Sang:</h1>
 
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-row">
-                <div class="col-md-5 mb-3">
-                    {{ form.title.label_tag }}
-                    {{ form.title }}
-                    {{ form.title.errors }}
+        <div class="default-theme user-theme">
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-md-5 mb-3">
+                        {{ form.title.label_tag }}
+                        {{ form.title }}
+                        {{ form.title.errors }}
+                    </div>
+                    <div class="col-md-5 mb-3">
+                        {{ form.artist.label_tag }}
+                        {{ form.artist }}
+                        {{ form.artist.errors }}
+                    </div>
+                    <div class="col-md-2 mb-5">
+                        {{ form.bpm.label_tag }}
+                        <i class="lni-question-circle cursor-pointer custom-tooltip" data-toggle="tooltip" title="{{ form.bpm.help_text }}"></i>
+                        {{ form.bpm }}
+                        {{ form.bpm.errors }}
+                    </div>
                 </div>
-                <div class="col-md-5 mb-3">
-                    {{ form.artist.label_tag }}
-                    {{ form.artist }}
-                    {{ form.artist.errors }}
+                <div class="form-row">
+                    <div class="col-md mb-3">
+                        {{ form.spotify_URL.label_tag }}
+                        <i class="lni-question-circle cursor-pointer" data-toggle="tooltip" title="{{ form.spotify_URL.help_text }}"></i>
+                        {{ form.spotify_URL }}
+                        {{ form.spotify_URL.errors }}
+                    </div>
+                    <div class="col-md mb-3">
+                        {{ form.spotify_URI.label_tag }}
+                        <i class="lni-question-circle cursor-pointer" data-toggle="tooltip" title="{{ form.spotify_URI.help_text }}"></i>
+                        {{ form.spotify_URI }}
+                        <span class="error">{{ form.spotify_URI.errors }}</span>
+                    </div>
                 </div>
-                <div class="col-md-2 mb-5">
-                    {{ form.bpm.label_tag }}
-                    <i class="lni-question-circle cursor-pointer custom-tooltip" data-toggle="tooltip" title="{{ form.bpm.help_text }}"></i>
-                    {{ form.bpm }}
-                    {{ form.bpm.errors }}
+                <br>
+                <div class="form-row">
+                    {{ form.tags }}
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md mb-3">
-                    {{ form.spotify_URL.label_tag }}
-                    <i class="lni-question-circle cursor-pointer" data-toggle="tooltip" title="{{ form.spotify_URL.help_text }}"></i>
-                    {{ form.spotify_URL }}
-                    {{ form.spotify_URL.errors }}
+
+                <div class="row">
+                    <div class="col-md-4 mt-4">
+                        <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                    </div>
+                    <div class="col mt-4">
+                        <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                    </div>
                 </div>
-                <div class="col-md mb-3">
-                    {{ form.spotify_URI.label_tag }}
-                    <i class="lni-question-circle cursor-pointer" data-toggle="tooltip" title="{{ form.spotify_URI.help_text }}"></i>
-                    {{ form.spotify_URI }}
-                    <span class="error">{{ form.spotify_URI.errors }}</span>
-                </div>
-            </div>
-            <br>
-            <div class="form-row">
-                {{ form.tags }}
-            </div>
 
-            <div class="row">
-                <div class="col-md">
-                    <button class="btn btn-block btn-dark" type="submit">Lagre</button>
-                </div>
-                {% if songID %}
-                        <!-- Delete Song (button) -->
-                        <button type="button" class="btn btn-block btn-danger col-md-4" data-toggle="modal" data-target="#delete-song">Slett</button>
+            </form>
 
-                        <!-- Delete Song (modal) -->
-                        <div class="modal fade text-dark" id="delete-song" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Er du helt sikker på at du vil slette sangen?</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-
-                                    <div class="modal-body"><p>Da blir den borte for alltid :'(</p></div>
-
-                                    <div class="modal-footer">
-                                        <!-- Delete Song confirmed (button) -->
-                                        <a class="btn btn-danger" href="{% url 'songs:delete_song' songID %}">Slett sang</a>
-                                        <!-- Cancel (button) -->
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- End: Delete Song (modal) -->
-                {% endif %}
-            </div>
-        </form>
+        </div>
 
     </div>
-
 {% endblock %}
 
 {% block script %}

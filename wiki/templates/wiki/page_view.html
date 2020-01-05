@@ -5,9 +5,11 @@
 
 {% block head %}
 
-    {# <link rel="stylesheet" href="{% static "videos/video_styles.css" %}"> #}
+    <link rel="stylesheet" href="{% static "wiki/wiki_styles.css" %}">
 
     <style media="screen">
+
+        {{ request.user.settings.wiki_theme.as_css }}
 
     </style>
 

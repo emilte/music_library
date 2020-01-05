@@ -6,8 +6,17 @@
         #touch {
             outline: none;
         }
-        #touch-div {
-            text-align: center;
+        #touch {
+            position: absolute;
+            top: 12em;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #form-wrapper {
+            margin-top: 7em;
         }
     </style>
 {% endblock %}
@@ -18,13 +27,16 @@
 
 {% block body %}
     <h1>BPM Kalkulator</h1>
+
     {% if request.user_agent.is_touch_capable %}
         <div id="touch-div" class="">
-            <input id="touch" type="image" src="https://img.icons8.com/nolan/120/006F30/unchecked-circle.png" name="" value="">
+            <img id="touch" class="" src="https://img.icons8.com/nolan/120/006F30/unchecked-circle.png" alt="">
         </div>
     {% endif %}
 
-    <div class="container">
+
+
+    <div id="form-wrapper" class="container">
         <form>
             <div class="row form-group">
                 <label class="col-sm-2 col-form-label" for="whole">Nearest whole</label>
@@ -70,10 +82,8 @@
         var msecsPrevious = 0;
 
         function TapForBPM(e) {
-            console.log("Yes");
             timeSeconds = new Date;
             msecs = timeSeconds.getTime();
-            console.log($('#timeout').val());
             if ((msecs - msecsPrevious) > 1000 * $('#timeout').val()) {
                 count = 0;
             }

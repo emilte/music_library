@@ -27,8 +27,8 @@
             <h1>{{ user }}</h1>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-7">
+        <div class="row mt-2">
+            <div class="col-md-7 mt-2">
                 <div class="default-theme user-theme">
                     <h4>Personlig informasjon:</h4>
                     <p>
@@ -41,20 +41,23 @@
                 </div>
             </div>
 
-            <div class="col-md">
+            <div class="col-md mt-2">
+
                 <div class="btn btn-dark btn-block btn-sm" data-toggle="collapse" data-target="#my-courses" aria-expanded="false" aria-controls="my-courses">
                     Mine kurs ({{ courses.count }})
-                    <i class="lni-chevron-down cursor-pointer default-theme-link ml-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                    <i class="lni-chevron-down cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                 </div>
 
-                <div id="my-courses" class="collapse overflow-auto">
-                    {% for course in courses %}
-                        <div class="">
-                            <a href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
-                        </div>
-                    {% endfor %}
-
+                <div id="my-courses" class="collapse">
+                    <div class="overflow-auto default-theme user-theme rounded-top p-3">
+                        {% for course in courses %}
+                            <div class="">
+                                <a href="{% url 'courses:course_view' course.id %}">{{ course }}</a>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
+
             </div>
         </div>
 

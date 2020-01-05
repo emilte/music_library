@@ -24,6 +24,7 @@
     <div class="">
 
         <div class="row">
+
             <div class="col">
                 <div class="default-theme user-theme">
                     <h1>Innstillinger:</h1>
@@ -32,14 +33,24 @@
                         {% csrf_token %}
                         {{ form }}
 
-                        <button type="submit" class="btn btn-primary btn-block mt-4">Lagre</button>
+                        <div class="row">
+                            <div class="col-md-4 mt-4">
+                                <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">Avbryt</button>
+                            </div>
+                            <div class="col mt-4">
+                                <button type="submit" class="btn btn-primary btn-block">Lagre</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
+
             <div class="col">
                 Ingen temaer å velge mellom? -->
                 <a class="btn btn-dark" target="_blank" href="{% url 'admin:accounts_theme_add' %}">Lag nytt tema</a>
             </div>
+
+
         </div>
 
     </div>

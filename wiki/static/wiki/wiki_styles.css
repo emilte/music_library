@@ -1,12 +1,13 @@
 .default-theme {
-    background-color: rgba(200,0,100,0.2);
+    background-color: rgba(255,255,255,0.9);
+    color: black;
     border-radius: 1em;
     padding: 1em;
 }
-.default-theme-link {
-    color: rgb(255, 150, 150);
+.default-theme a {
+    color: blue;
 }
-.default-theme-link:hover {
+.default-theme a:hover {
     cursor: pointer;
-    color: rgba(255, 150, 150, 0.6);
+    color: navy;
 }

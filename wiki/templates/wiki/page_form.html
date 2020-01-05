@@ -5,10 +5,9 @@
 
 {% block head %}
 
-    {# <link rel="stylesheet" href="{% static "videos/video_styles.css" %}"> #}
-
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="{% static "wiki/wiki_styles.css" %}">
 
     <style media="screen">
         .sidebar-right {
@@ -19,9 +18,8 @@
             /* width: 10px; */
         }
 
-        #private-toggle {
-            position:
-        }
+        {{ request.user.settings.wiki_theme.as_css }}
+
     </style>
 
 {% endblock %}
@@ -38,7 +36,7 @@
 {% block body %}
     <div class="">
 
-        <div class="jumbotron bg-dark p-3">
+        <div class="default-theme user-theme p-3">
 
             <div class="">
                 <form class="" method="post">
@@ -104,7 +102,14 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-secondary btn-block mt-4" type="submit" name="button">Lagre</button>
+                    <div class="row">
+                        <div class="col-md-4 mt-4">
+                            <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                        </div>
+                        <div class="col mt-4">
+                            <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                        </div>
+                    </div>
 
                     <div class="sidebar-right">
                         <div class=""><button id="btn-submit-float" class="btn btn-secondary" type="button" name="button">Lagre</button></div>

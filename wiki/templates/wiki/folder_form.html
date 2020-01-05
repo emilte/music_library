@@ -1,24 +1,30 @@
 {% extends 'songs/base.html' %}
 {% load static %}
 
-{% block title %}wiki{% endblock %}
+{% block title %}Wiki mappe{% endblock %}
 
 {% block head %}
 
-    {# <link rel="stylesheet" href="{% static "videos/video_styles.css" %}"> #}
+    <link rel="stylesheet" href="{% static "wiki/wiki_styles.css" %}">
 
     <style media="screen">
 
-    </style>
+        #form-wrapper {
+            max-width: 500px;
+        }
 
-{% endblock %}
+        {{ request.user.settings.wiki_theme.as_css }}
+
+    </style>
+{% endblock head %}
+
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'wiki:dashboard' %}">Wiki</a></li>
     {% if modelID %}
         <li class="breadcrumb-item"><a href="{% url 'wiki:edit_folder' modelID %}">Rediger mappe</a></li>
     {% else %}
-        <li class="breadcrumb-item"><a href="{% url 'wiki:add_folder' %}">Ny mappe</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'wiki:add_folder' %}">Opprett mappe</a></li>
     {% endif %}
 {% endblock %}
 
@@ -26,16 +32,27 @@
     <div class="">
 
 
-        <div class="jumbotron bg-dark p-3">
-            <h1>dfdfd</h1>
+        <div id="form-wrapper" class="default-theme user-theme p-3">
 
-            <div class="">
+            {% if modelID %}
+                <div class="h2">Rediger mappe</div>
+            {% else %}
+                <div class="h2">Opprett mappe</div>
+            {% endif %}
 
-                <form class="" method="post">
-                    <button class="btn btn-dark" type="submit" name="button">Lagre</button>
-                </form>
+            <form class="" method="post">
 
-            </div>
+                {{ form }}
+
+                <div class="row">
+                    <div class="col-md-4 mt-4">
+                        <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                    </div>
+                    <div class="col mt-4">
+                        <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                    </div>
+                </div>
+            </form>
 
         </div>
 

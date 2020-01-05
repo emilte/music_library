@@ -1,17 +1,7 @@
 {% extends 'wiki/dashboard.html' %}
 {% load static %}
 
-{% block title %}Wiki{% endblock %}
-
-{% block head %}
-
-    {# <link rel="stylesheet" href="{% static "videos/video_styles.css" %}"> #}
-
-    <style media="screen">
-
-    </style>
-
-{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block wiki_breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'wiki:page_view' page.path %}">{{ page.title }}</a></li>
@@ -25,11 +15,15 @@
             <div class="">
 
                 <div class="d-flex">
-                    <div class="h2 border-bottom">{{ page.title }}</div>
-                    <div class="ml-auto"><a class="btn btn-secondary btn-sm" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
+                    <div class="h2 border-bottom border-secondary">{{ page.title }}</div>
+                    <div class="ml-auto"><a class="btn btn-dark btn-sm text-light" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
                 </div>
 
                 {{ page.content | safe }}
+
+                <div class="text-right font-italic small">
+                    Sist redigert av: {{ page.last_editor | default:'Ukjent' }} {{ page.last_edited | date:'(d. M Y - H:i)' }}
+                </div>
 
             </div>
         {% else %}
@@ -42,11 +36,15 @@
         <div class="">
 
             <div class="d-flex">
-                <div class="h2 border-bottom">{{ page.title }}</div>
-                <div class="ml-auto"><a class="btn btn-secondary btn-sm" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
+                <div class="h2 border-bottom border-secondary">{{ page.title }}</div>
+                <div class="ml-auto"><a class="btn btn-dark btn-sm text-light" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
             </div>
 
             {{ page.content | safe }}
+
+            <div class="text-right font-italic small">
+                Sist redigert av: {{ page.last_editor | default:'Ukjent' }} {{ page.last_edited | date:'(d. M Y - H:i)' }}
+            </div>
 
         </div>
     {% endif %}

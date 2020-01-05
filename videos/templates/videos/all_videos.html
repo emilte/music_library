@@ -17,11 +17,7 @@
         #btn-video-div {
             position: sticky;
             top: 3.6em;
-        }
-        @media (max-width: 576px) {
-            #table-videos {
-                font-size: 70%;
-            }
+            z-index: 5;
         }
 
         .modal-content {
@@ -47,7 +43,7 @@
     <div id="btn-video-div" class="">
         <a class="btn btn-secondary" href="{% url 'videos:add_video' %}">
             <img src="https://img.icons8.com/material-rounded/25/FF0000/plus-math.png">
-            Legg til Video
+            Opprett video
         </a>
     </div>
 
@@ -87,15 +83,16 @@
     </form>
 
     <div id="table-videos" class="default-theme user-theme">
-        <div class="text-right text-danger">
+        <div class="text-right">
             Antall: {{ videos.count }}
         </div>
         <ul class="list-style-none">
             {% for video in videos %}
             <li>
-                {{ video.id }}
-                <span class="default-theme-link user-theme-link" data-toggle="modal" data-target="#video-modal{{ video.id }}">{{ video.title }}</span>
-                <a href="{% url 'videos:edit_video' video.id %}"><img id="edit-pen" src="https://img.icons8.com/material/14/FF0000/edit.png"></a>
+                <span class="cursor-pointer" data-toggle="modal" data-target="#video-modal{{ video.id }}">#{{ video.id }} {{ video.title }}</span>
+                <a href="{% url 'videos:edit_video' video.id %}">
+                    <img id="edit-pen" src="https://img.icons8.com/material/14/FF0000/edit.png">
+                </a>
 
                 <div id="video-modal{{ video.id }}" class="modal fade bd-example-modal-lg video-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">

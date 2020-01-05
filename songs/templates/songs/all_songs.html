@@ -12,11 +12,7 @@
         #btn-song-div {
             position: sticky;
             top: 3.6em;
-        }
-        @media (max-width: 576px) {
-            #table-songs {
-                font-size: 60%;
-            }
+            z-index: 5;
         }
 
         {{ request.user.settings.song_theme.as_css }}
@@ -90,7 +86,7 @@
         </form>
 
         <div id="table-songs" class="default-theme user-theme">
-            <div class="text-right text-success">
+            <div class="text-right">
                 Antall: {{ songs.count }}
             </div>
             <ol>

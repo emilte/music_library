@@ -154,3 +154,28 @@ class EditPage(GenericEditModel):
     form_class = wiki_forms.PageForm
     redirect_name = 'wiki:dashboard'
     model = wiki_models.Page
+
+
+
+add_folder_dec = [
+    login_required,
+    permission_required('wiki.create_folder', login_url='forbidden')
+]
+@method_decorator(add_folder_dec, name='dispatch')
+class AddFolder(GenericAddModel):
+    template = 'wiki/folder_form.html'
+    form_class = wiki_forms.FolderForm
+    redirect_name = 'wiki:dashboard'
+
+
+
+edit_folder_dec = [
+    login_required,
+    permission_required('wiki.change_folder', login_url='forbidden')
+]
+@method_decorator(edit_folder_dec, name='dispatch')
+class EditFolder(GenericEditModel):
+    template = 'wiki/folder_form.html'
+    form_class = wiki_forms.FolderForm
+    redirect_name = 'wiki:dashboard'
+    model = wiki_models.Folder

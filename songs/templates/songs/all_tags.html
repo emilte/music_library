@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{% static "songs/css/song_styles.css" %}">
 
     <style>
+        #btn-add-tag {
+            position: sticky;
+            top: 3.7em;
+            z-index: 5;
+        }
+
         {{ request.user.settings.song_theme.as_css }}
     </style>
 {% endblock %}
@@ -20,6 +26,13 @@
     <div class="default-theme user-theme">
 
         <h1>Alle Tags:</h1>
+
+        <div id="btn-add-tag" class="">
+            <a  class="btn btn-secondary" href="{% url 'songs:add_tag' %}">
+                <img src="https://img.icons8.com/material-rounded/25/000000/plus-math.png">
+                Legg til tag
+            </a>
+        </div>
 
         <div class="">
             {% for tag in tags %}

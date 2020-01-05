@@ -22,10 +22,11 @@ class PageForm(forms.ModelForm):
 class FolderForm(forms.ModelForm):
 
     class Meta:
-        model = wiki_models.Page
+        model = wiki_models.Folder
         exclude = []
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+        self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})

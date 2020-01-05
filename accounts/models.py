@@ -69,12 +69,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 class Theme(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="themes", verbose_name="Opprettet av")
-    name = models.CharField(max_length=140, null=True, blank="False", verbose_name="Navn")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="themes", verbose_name="Eier", help_text="Dersom eier er satt, vil temaet være privat")
+    name = models.CharField(max_length=140, null=True, blank=False, verbose_name="Navn")
 
-    background_color = models.CharField(max_length=140, verbose_name="Bakgrunnsfarge")
-    link_color = models.CharField(max_length=140, verbose_name="Link farge")
-    link_hover_color = models.CharField(max_length=140, verbose_name="Link hover farge")
+    css_help_text = "CSS: blue, rgba(0,0,255, 0.5)"
+    background_color = models.CharField(max_length=140, null=True, blank=True, verbose_name="Bakgrunnsfarge", help_text=css_help_text)
+    text_color = models.CharField(max_length=140, null=True, verbose_name="Tekst farge", help_text=css_help_text)
+    link_color = models.CharField(max_length=140, null=True, verbose_name="Link farge", help_text=css_help_text)
+    link_hover_color = models.CharField(max_length=140, null=True, verbose_name="Link hover farge", help_text=css_help_text)
 
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
 
@@ -85,11 +87,25 @@ class Theme(models.Model):
 
     def __str__(self):
         if self.user:
-            return "{} ({})".format(self.name, self.user.get_full_name())
+            return f"{self.name}"
         else:
             return "{} ({})".format(self.name, "Public")
 
     def as_css(self):
+        css = """.user-theme {{
+            background-color: {0};
+            color: {1};
+        }}
+        .user-theme a {{
+            color: {2};
+        }}
+        .user-theme a:hover {{
+            color: {3};
+        }}
+        """.format(self.background_color or 'sd', self.text_color, self.link_color, self.link_hover_color)
+        return css
+
+    def as_css_backup(self):
         css = """.user-theme {{
             background-color: {0};
         }}
@@ -116,6 +132,7 @@ class Settings(models.Model):
     video_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_video", verbose_name="Turbibliotek tema")
     course_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_course", verbose_name="Kurs tema")
     song_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_song", verbose_name="Musikk tema")
+    wiki_theme = models.ForeignKey(Theme, on_delete=models.DO_NOTHING, null=True, blank=True, related_name="settings_as_wiki", verbose_name="Wiki tema")
 
     class Meta:
         verbose_name = "Instilling"

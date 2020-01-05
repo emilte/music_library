@@ -109,7 +109,7 @@
                 <div class="text-muted mt-5 font-italic no-print">
                     <hr>
                     <div class="">Kommentarer:</div>
-                    <div class="">{{ course.comments | safe }}</div>
+                    <div class="">{{ course.comments | safe | linebreaks }}</div>
                     <hr>
                 </div>
             {% endif %}

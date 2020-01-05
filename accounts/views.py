@@ -100,7 +100,7 @@ class SettingsView(View):
         return render(request, self.template, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        settings, created = Settings.objects.get_or_create(user=request.user)
+        settings, created = account_models.Settings.objects.get_or_create(user=request.user)
         form = self.form_class(request.POST, instance=settings, user=request.user)
         if form.is_valid():
             settings = form.save()

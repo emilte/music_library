@@ -64,39 +64,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md">
-                    <button class="btn btn-block btn-dark" type="submit">Lagre</button>
+                <div class="col-md-4 mt-4">
+                    <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
                 </div>
-                {% if videoID %}
-                    <div class="col-md-4">
-                        <!-- Delete Video (button) -->
-                        <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#delete-video">Slett</button>
-
-                        <!-- Delete Video (modal) -->
-                        <div class="modal fade text-dark" id="delete-video" tabindex="-1" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Er du helt sikker på at du vil slette videoen?</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-
-                                    <div class="modal-body"><p>Da blir den borte for alltid :'(</p></div>
-
-                                    <div class="modal-footer">
-                                        <!-- Delete Video confirmed (button) -->
-                                        <a class="btn btn-danger" href="{% url 'videos:delete_video' videoID %}">Slett video</a>
-                                        <!-- Cancel (button) -->
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- End: Delete Video (modal) -->
-                    </div>
-                {% endif %}
+                <div class="col mt-4">
+                    <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                </div>
             </div>
         </form>
     </div>
