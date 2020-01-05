@@ -1,7 +1,8 @@
 # imports
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django import forms
+from django.db.models import Q
 from django.forms.widgets import PasswordInput, TextInput
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from django.contrib.auth import get_user_model
 
 from accounts.models import *
@@ -34,7 +35,6 @@ class EditUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
-            'email',
             'first_name',
             'last_name',
             'phone_number',
@@ -52,35 +52,24 @@ class EditUserForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
 
 class SettingsForm(forms.ModelForm):
-    public_themes = account_models.Theme.objects.filter(user=None)
-    account_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
-    video_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
-    course_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
-    song_theme = forms.ModelChoiceField(queryset=public_themes, required=False)
 
     class Meta:
         model = account_models.Settings
         exclude = ['user']
-        # labels = {
-        #     'account_theme': 'Bruker-tema',
-        #     'video_theme': 'Turbibliotek-tema',
-        #     'course_theme': 'Kurs-tema',
-        #     'song_theme': 'Musikk-tema',
-        # }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(type(self), self).__init__(*args, **kwargs)
-
-        if user:
-            themes = self.public_themes | Theme.objects.filter(user=user)
-            self.fields['account_theme'].queryset = themes
-            self.fields['video_theme'].queryset = themes
-            self.fields['course_theme'].queryset = themes
-            self.fields['song_theme'].queryset = themes
-
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+        themes = Theme.objects.filter( Q(user=None) | Q(user=user) )
+
+        self.fields['account_theme'].queryset = themes
+        self.fields['video_theme'].queryset = themes
+        self.fields['course_theme'].queryset = themes
+        self.fields['song_theme'].queryset = themes
+
 
 # Possible to customise login:
 class CustomAuthenticationForm(AuthenticationForm): # Not currently in use. Can be passed to login view
