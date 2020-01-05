@@ -36,29 +36,23 @@ class BPMFilter(admin.SimpleListFilter):
 
 
 # managers:
-class SongManager(admin.ModelAdmin):
-    fieldsets = (
-        (None, {'fields': ['title', 'artist', 'bpm'] } ),
-        ('Links', {'fields': ['spotify_URL', 'spotify_URI'] } ),
-    )
+class SongAdmin(admin.ModelAdmin):
     list_display = ['title', 'artist', 'bpm']
     list_filter = [BPMFilter, 'tags']
     search_fields = ['title', 'artist']
     ordering = ['bpm', 'title']
-    readonly_fields = []
+    readonly_fields = ['created', 'creator']
+    filter_horizontal = ['tags']
 
-class TagManager(admin.ModelAdmin):
-    fieldsets = (
-        (None, {'fields': ['title', 'context'] } ),
-    )
+
+class TagAdmin(admin.ModelAdmin):
     list_display = ['title', 'context']
-    list_filter = []
     search_fields = ['title', 'context']
     ordering = ['title']
-    readonly_fields = []
+    readonly_fields = ['created', 'creator']
 # End: managers ----------------------------------------------------------------
 
 # Register your models here.
-admin.site.register(Song, SongManager)
-admin.site.register(Tag, TagManager)
+admin.site.register(Song, SongAdmin)
+admin.site.register(Tag, TagAdmin)
 # admin.site.register(File)

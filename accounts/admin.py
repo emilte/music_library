@@ -55,15 +55,27 @@ class UserAdmin(auth_admin.UserAdmin):
     filter_horizontal = ['groups', 'user_permissions']
     actions = [make_normal_user, make_staff, make_superuser]
 
-class InstructorManager(admin.ModelAdmin):
+class InstructorAdmin(admin.ModelAdmin):
     list_display = ['user', 'type']
+    list_filter = ['type']
+    search_fields = ['user__email', 'user__first_name', 'user__last_name'] # Test
 
-    search_fields = ['user'] # Test
+class ThemeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'user', 'background_color', 'text_color', 'link_color', 'link_hover_color']
+    list_editable = ['background_color', 'text_color', 'link_color', 'link_hover_color']
+    search_fields = ['name', 'user__email', 'user__first_name', 'user__last_name']
+    readonly_fields = ["created"]
+
+class SettingsAdmin(admin.ModelAdmin):
+    list_display = ['user', 'account_theme', 'song_theme', 'course_theme', 'wiki_theme', 'video_theme']
+    list_editable = ['account_theme', 'song_theme', 'course_theme', 'wiki_theme', 'video_theme']
+    readonly_fields = ['user']
+    search_fields = ["user__email", 'user__first_name', "user__last_name", 'account_theme__name', 'song_theme__name', 'course_theme__name', 'video_theme__name', 'wiki_theme__name']
 
 # Register your models here.
 admin.site.register(User, UserAdmin)
 admin.site.register(Permission)
-admin.site.register(Theme)
-admin.site.register(Settings)
-admin.site.register(Instructor, InstructorManager)
+admin.site.register(Theme, ThemeAdmin)
+admin.site.register(Settings, SettingsAdmin)
+admin.site.register(Instructor, InstructorAdmin)
 admin.site.register(SpotifyToken)
