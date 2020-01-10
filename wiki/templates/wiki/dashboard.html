@@ -45,8 +45,8 @@
                                 <div class=""><b>Uten mappe</b></div>
                             {% endif %}
 
-                            <div class="border-bottom border-secondary pb-1">
-                                {% for page in single_pages %}
+                            {% for page in single_pages %}
+                                <div class="border-bottom border-secondary pb-1">
                                     <div class="mt-1">
                                         {% if page.private %}
                                             {% if perms.view_private_page %}
@@ -60,8 +60,8 @@
                                             </div>
                                         {% endif %}
                                     </div>
-                                {% endfor %}
-                            </div>
+                                </div>
+                            {% endfor %}
 
                             <div class="">
                                 {% for folder in folders %}

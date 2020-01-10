@@ -31,30 +31,30 @@
     <div id="content-wrapper" class="container">
 
         <!-- Messages -->
-        <div class="no-print">
+        <div class="no-print mb-2">
             {% for message in messages %}
                 {% if 'success' in message.tags %}
-                    <div class="container bg-success rounded mb-1">
+                    <div class="p-1 bg-success rounded mb-1">
                         {{ message }}
                         <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
                     </div>
                 {% elif 'error' in message.tags %}
-                    <div class="container bg-danger rounded mb-1">
+                    <div class="p-1 bg-danger rounded mb-1">
                         {{ message }}
                         <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
                     </div>
                 {% elif 'warning' in message.tags %}
-                    <div class="container bg-warning text-dark rounded mb-1">
+                    <div class="p-1 bg-warning text-dark rounded mb-1">
                         {{ message }}
                         <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
                     </div>
                 {% elif 'info' in message.tags %}
-                    <div class="container bg-info rounded mb-1">
+                    <div class="p-1 bg-info rounded mb-1">
                         {{ message }}
                         <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
                     </div>
                 {% elif 'debug' in message.tags %}
-                    <div class="container bg-primary rounded mb-1">
+                    <div class="p-1 bg-primary rounded mb-1">
                         {{ message }}
                         <i class="btn-message-remove cursor-pointer lni-cross-circle float-right pt-1"></i>
                     </div>
