@@ -3,10 +3,10 @@
     border-radius: 1em;
     padding: 1em;
 }
-.default-theme-link {
-    color: rgb(255, 150, 150);
+.default-theme a {
+    color: rgba(255, 150, 150, 1);
 }
-.default-theme-link:hover {
+.default-theme a:hover {
     cursor: pointer;
     color: rgba(255, 150, 150, 0.6);
 }
