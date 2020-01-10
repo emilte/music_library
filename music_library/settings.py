@@ -55,9 +55,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Imported apps
-    'django_user_agents',
-    'django_extensions',
-    'tinymce', # For HTMLField
+    'django_user_agents', # Recognises devices and touch capabilities
+    'django_extensions', # Extended CLI commands
+    'tinymce', # For HTMLField (obsolete, tinyMCE is used another way)
+    'django_select2', # For improved ChoiceField widgets
 
     # Own apps
     'accounts',

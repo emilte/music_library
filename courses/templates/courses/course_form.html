@@ -6,6 +6,7 @@
     <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
 
     {{ courseForm.media }}
+    {{ courseForm.media.css }}
 
     <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
 
@@ -104,7 +105,7 @@
                     {{ courseForm.place.label_tag }}
                     {{ courseForm.place }}
                 </div>
-                <div class="error">
+                <div class="text-danger">
                     {{ courseForm.title.errors }}
                     {{ courseForm.place.errors }}
                 </div>
@@ -114,20 +115,36 @@
                     {{ courseForm.date.label_tag }}
                     {{ courseForm.date }}
                 </div>
-                <div class="form-group col-md-1">
+                <div class="form-group col-md-2">
                     {{ courseForm.start.label_tag }}
                     {{ courseForm.start }}
                 </div>
-                <div class="form-group col-md-1">
+                <div class="form-group col-md-2">
                     {{ courseForm.end.label_tag }}
                     {{ courseForm.end }}
                 </div>
             </div>
-            <div class="error">
+            <div class="text-danger">
                 {{ courseForm.date.errors }}
                 {{ courseForm.start.errors }}
                 {{ courseForm.end.errors }}
             </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    {{ courseForm.bulk.label_tag }}
+                    {{ courseForm.bulk }}
+                </div>
+                <div class="form-group col-md-1">
+                    {{ courseForm.day.label_tag }}
+                    {{ courseForm.day }}
+                </div>
+            </div>
+            <div class="text-danger">
+                {{ courseForm.bulk.errors }}
+                {{ courseForm.day.errors }}
+            </div>
+
             <div class="form-row mb-1">
                 <div class="form-group col-md-4">
                     {{ courseForm.lead.label_tag }}
@@ -140,6 +157,15 @@
                     {{ courseForm.follow.errors }}
                 </div>
             </div>
+
+            <div class="form-row mb-1">
+                <div class="form-group col-md">
+                    {{ courseForm.instructors.label_tag }}
+                    {{ courseForm.instructors }}
+                    {{ courseForm.instructors.errors }}
+                </div>
+            </div>
+
             <div class="form-row">
                 {{ courseForm.tags }}
             </div>
@@ -316,6 +342,9 @@
 {% endblock %}
 
 {% block script %}
+
+    {{ courseForm.media.js }}
+    
     <script type="text/javascript">
 
         var tinymceConfig = {

@@ -40,6 +40,7 @@ urlpatterns = [
 
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('tinymce/', include('tinymce.urls')),
+    path('select2/', include('django_select2.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

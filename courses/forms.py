@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 from songs import models as song_models
 from videos import models as video_models
 from courses import models as course_models
+from django_select2 import forms as select2_forms
 
 User = get_user_model()
 
@@ -38,20 +39,35 @@ class CourseForm(forms.ModelForm):
     q = song_models.Tag.getQueryset(["course"])
 
     tags = forms.ModelMultipleChoiceField(queryset=q, widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
-    date = forms.DateField(input_formats=DATE_FORMATS, required=False)
-    start = forms.DateTimeField(input_formats=TIME_FORMATS, required=False)
-    end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False)
+    date = forms.DateField(input_formats=DATE_FORMATS, required=False, label="Dato")
+    start = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Start")
+    end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Slutt")
 
-    class Media:
-        css = {
-            'all': ['admin/css/widgets.css'], # 'css/uid-manage-form.css'
-        }
-        # Adding this javascript is crucial
-        js = ['/admin/jsi18n/']
+    instructors = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=select2_forms.Select2MultipleWidget)
+    #
+    # class Media:
+    #     css = {
+    #         'all': ['admin/css/widgets.css'], # 'css/uid-manage-form.css'
+    #     }
+    #     # Adding this javascript is crucial
+    #     js = ['/admin/jsi18n/']
 
     class Meta:
         model = course_models.Course
-        exclude = []
+        fields = [
+            'title',
+            'place',
+            'date',
+            'start',
+            'end',
+            'lead',
+            'follow',
+            'comments',
+            'tags',
+            'instructors',
+            'bulk',
+            'day',
+        ]
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)

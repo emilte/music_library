@@ -27,6 +27,11 @@ class Video(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, verbose_name="Opprettet av")
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
 
+    class Meta:
+        ordering = ['id']
+        verbose_name = "Video"
+        verbose_name_plural = "Videoer"
+
     def embed(self):
         video_id = "no id"
         if self.youtube_URL == None:
