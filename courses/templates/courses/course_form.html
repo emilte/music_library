@@ -6,7 +6,6 @@
     <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
 
     {{ courseForm.media }}
-    {{ courseForm.media.css }}
 
     <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
 
@@ -158,17 +157,10 @@
                 </div>
             </div>
 
-            <div class="form-row mb-1">
-                <div class="form-group col-md">
-                    {{ courseForm.instructors.label_tag }}
-                    {{ courseForm.instructors }}
-                    {{ courseForm.instructors.errors }}
-                </div>
-            </div>
-
             <div class="form-row">
                 {{ courseForm.tags }}
             </div>
+            
             <a class="btn btn-secondary btn-sm" target="_blank" href="{% url 'songs:add_tag' %}"><i class="lni-tag"></i> Ny tag</a>
         </div>
 
@@ -343,8 +335,7 @@
 
 {% block script %}
 
-    {{ courseForm.media.js }}
-    
+
     <script type="text/javascript">
 
         var tinymceConfig = {

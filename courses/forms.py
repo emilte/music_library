@@ -44,13 +44,13 @@ class CourseForm(forms.ModelForm):
     end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Slutt")
 
     instructors = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=select2_forms.Select2MultipleWidget)
-    #
-    # class Media:
-    #     css = {
-    #         'all': ['admin/css/widgets.css'], # 'css/uid-manage-form.css'
-    #     }
-    #     # Adding this javascript is crucial
-    #     js = ['/admin/jsi18n/']
+
+    class Media:
+        css = {
+            'all': ['admin/css/widgets.css'], # 'css/uid-manage-form.css'
+        }
+        # Adding this javascript is crucial
+        js = ['/admin/jsi18n/']
 
     class Meta:
         model = course_models.Course
