@@ -18,7 +18,7 @@
             /* width: 10px; */
         }
 
-        {{ request.user.settings.wiki_theme.as_css }}
+        {{ request.user.settings.wiki_theme.as_css | safe }}
 
     </style>
 

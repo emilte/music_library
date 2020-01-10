@@ -10,7 +10,7 @@
             min-width: 200px;
             max-width: 500px;
         }
-        {{ request.user.settings.account_theme.as_css }}
+        {{ request.user.settings.account_theme.as_css | safe }}
     </style>
 {% endblock head %}
 

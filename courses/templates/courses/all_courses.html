@@ -18,7 +18,7 @@
             top: 3.6em;
             z-index: 5;
         }
-        {{ request.user.settings.course_theme.as_css }}
+        {{ request.user.settings.course_theme.as_css | safe }}
     </style>
 {% endblock %}
 
@@ -82,7 +82,7 @@
 
 
         <div class="default-theme user-theme">
-            <div class="text-right text-warning">
+            <div class="text-right">
                 Antall: {{ courses.count }}
             </div>
             <ol id="all-courses">

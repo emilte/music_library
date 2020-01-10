@@ -15,7 +15,7 @@
             z-index: 5;
         }
 
-        {{ request.user.settings.song_theme.as_css }}
+        {{ request.user.settings.song_theme.as_css | safe }}
     </style>
 {% endblock %}
 

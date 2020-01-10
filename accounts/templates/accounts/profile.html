@@ -11,7 +11,7 @@
             max-height: 200px;
         }
 
-        {{ request.user.settings.account_theme.as_css }}
+        {{ request.user.settings.account_theme.as_css | safe }}
 
     </style>
 {% endblock head %}

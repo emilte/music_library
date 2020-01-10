@@ -7,7 +7,7 @@
 
     <style media="screen">
 
-        {{ request.user.settings.account_theme.as_css }}
+        {{ request.user.settings.account_theme.as_css | safe }}
 
         #form {
             max-width: 35em;
