@@ -128,11 +128,11 @@ class Theme(models.Model):
 class Settings(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="settings", verbose_name="Tilhører")
 
-    account_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_account", verbose_name="Bruker tema")
-    video_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_video", verbose_name="Turbibliotek tema")
-    course_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_course", verbose_name="Kurs tema")
-    song_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_song", verbose_name="Musikk tema")
-    wiki_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_wiki", verbose_name="Wiki tema")
+    account_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_account", verbose_name="Bruker-tema")
+    video_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_video", verbose_name="Turbibliotek-tema")
+    course_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_course", verbose_name="Kurs-tema")
+    song_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_song", verbose_name="Musikk-tema")
+    wiki_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_wiki", verbose_name="Wiki-tema")
 
     class Meta:
         verbose_name = "Instilling"
