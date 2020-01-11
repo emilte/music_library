@@ -69,6 +69,7 @@ class Section(models.Model):
     start = models.TimeField(null=True, blank=True)
     duration = models.FloatField(default="7.5", null=True, blank=False, verbose_name="Varighet")
     song = models.ForeignKey('songs.Song', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections", verbose_name="Sang")
+    song2 = models.ForeignKey('songs.Song', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections_song2", verbose_name="Sang")
     video = models.ForeignKey('videos.Video', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections", verbose_name="Video")
     nr = models.IntegerField(null=True, blank=True)
 

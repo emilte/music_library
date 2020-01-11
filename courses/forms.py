@@ -94,7 +94,7 @@ class SectionForm(forms.ModelForm):
 
     class Meta:
         model = course_models.Section
-        exclude = []
+        exclude = ['nr']
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
@@ -108,6 +108,7 @@ class SectionForm(forms.ModelForm):
         self.fields['start'].widget.format = "%H:%M"
 
         self.fields['description'].widget.attrs.update({'class': 'tinymce'})
+
 
 class CourseFilterForm(forms.Form):
     search = forms.CharField(required=False, label="Søk")

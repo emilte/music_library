@@ -84,6 +84,12 @@
                         </div>
                     {% endif %}
 
+                    {% if section.song2 %}
+                        <div class="font-italic small mb-2">
+                            Sang: <a target="_blank" href="{{ section.song2.spotify_URL }}">{{ section.song2 }}</a>
+                        </div>
+                    {% endif %}
+
                     <div class="pl-4 border-left border-secondary">
                         {{ section.description | safe }}
                     </div>

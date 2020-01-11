@@ -198,16 +198,24 @@
                                         {{ sectionForm.duration.label_tag }}
                                         {{ sectionForm.duration }}
                                     </div>
+                                </div>
+                                <div class="form-row">
                                     <div class="form-group col-md">
                                         {{ sectionForm.song.label_tag }}
                                         <a class="btn btn-success text-light btn-sm" target="_blank" href="{% url 'songs:add_song' %}"><i class="lni-spotify-original"></i> Ny sang</a>
+                                        <span class="small font-italic">Obs: Må lagre og refreshe</span>
                                         {{ sectionForm.song }}
+                                    </div>
+                                    <div class="form-group col-md">
+                                        {{ sectionForm.song2.label_tag }}
+                                        {{ sectionForm.song2 }}
                                     </div>
                                 </div>
                                 <div class="bg-danger rounded">
                                     {{ sectionForm.title.errors }}
                                     {{ sectionForm.duration.errors }}
                                     {{ sectionForm.song.errors }}
+                                    {{ sectionForm.song2.errors }}
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md">
@@ -219,9 +227,9 @@
                             </div>
 
                             <div class="col-2">
-                                <button class="btn btn-dark section-btn-up" type="button" name="button">Opp</button>
-                                <button class="btn btn-dark section-btn-down" type="button" name="button">Ned</button>
-                                <button class="btn btn-dark section-btn-remove" type="button" name="button">Fjern</button>
+                                <button class="btn btn-dark section-btn-up btn-sm" type="button" name="button">Opp</button>
+                                <button class="btn btn-dark section-btn-down btn-sm" type="button" name="button">Ned</button>
+                                <button class="btn btn-dark section-btn-remove btn-sm" type="button" name="button">Fjern</button>
                             </div>
 
                         </div>
@@ -274,16 +282,24 @@
                                 {{ sectionFormTemplate.duration.label_tag }}
                                 {{ sectionFormTemplate.duration }}
                             </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group col-md">
                                 {{ sectionFormTemplate.song.label_tag }}
-                                <a class="btn btn-success btn-sm" target="_blank" href="{% url 'songs:add_song' %}"><i class="lni-spotify-original"></i> Ny sang</a>
+                                <a class="btn btn-success text-light btn-sm" target="_blank" href="{% url 'songs:add_song' %}"><i class="lni-spotify-original"></i> Ny sang</a>
+                                <span class="small font-italic">Obs: Må lagre og refreshe</span>
                                 {{ sectionFormTemplate.song }}
+                            </div>
+                            <div class="form-group col-md">
+                                {{ sectionFormTemplate.song2.label_tag }}
+                                {{ sectionFormTemplate.song2 }}
                             </div>
                         </div>
                         <div class="bg-danger rounded">
                             {{ sectionFormTemplate.title.errors }}
                             {{ sectionFormTemplate.duration.errors }}
                             {{ sectionFormTemplate.song.errors }}
+                            {{ sectionFormTemplate.song2.errors }}
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md">
@@ -295,9 +311,9 @@
                     </div>
 
                     <div class="col-2">
-                        <button class="btn btn-dark section-btn-up" type="button" name="button">Opp</button>
-                        <button class="btn btn-dark section-btn-down" type="button" name="button">Ned</button>
-                        <button class="btn btn-dark section-btn-remove" type="button" name="button">Fjern</button>
+                        <button class="btn btn-dark section-btn-up btn-sm" type="button" name="button">Opp</button>
+                        <button class="btn btn-dark section-btn-down btn-sm" type="button" name="button">Ned</button>
+                        <button class="btn btn-dark section-btn-remove btn-sm" type="button" name="button">Fjern</button>
                     </div>
 
                 </div>

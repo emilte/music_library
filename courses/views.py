@@ -288,7 +288,7 @@ class CreatePlaylistView(View):
         # Add tracks to playlist
         spotify.user_playlist_replace_tracks(user=spotify_username, playlist_id=playlist['id'], tracks=tracks)
 
-        messages.success(request, "Playlist was created, and it's lit!")
+        messages.success(request, f"{playlist_title} har blitt laget på Spotify kontoen din")
         return redirect('courses:course_view', courseID=courseID)
 
 
