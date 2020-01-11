@@ -42,6 +42,8 @@
 
             <form class="" method="post">
 
+                {% csrf_token %}
+
                 {{ form }}
 
                 <div class="row">
