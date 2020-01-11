@@ -1,5 +1,10 @@
 {% extends 'songs/base.html' %}
-{% block title %}Edit song{% endblock %}
+{% if songID %}
+    {% block title %}Rediger sang{% endblock %}
+{% else %}
+    {% block title %}Opprett sang{% endblock %}
+{% endif %}
+
 {% load static %}
 
 {% block head %}
@@ -58,7 +63,7 @@
     {% if songID %}
         <li class="breadcrumb-item"><a href="{% url 'songs:edit_song' songID %}">Rediger sang</a></li>
     {% else %}
-        <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Legg til sang</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'songs:add_song' %}">Opprett sang</a></li>
     {% endif %}
 {% endblock %}
 

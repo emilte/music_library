@@ -1,5 +1,5 @@
 {% extends 'songs/base.html' %}
-{% block title %}Add course{% endblock %}
+{% block title %}{{ course.title }}{% endblock %}
 {% load static %}
 
 {% block head %}
@@ -19,13 +19,11 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle Kurs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle kurs</a></li>
     <li class="breadcrumb-item"><a href="{% url 'courses:course_view' course.id  %}">{{ course.title }}</a></li>
 {% endblock %}
 
 {% block body %}
-
-    <h1>{{ saved }}</h1>
 
     <div class="course-wrapper jumbotron p-4 print-style">
 

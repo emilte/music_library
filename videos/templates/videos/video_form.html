@@ -1,7 +1,7 @@
 {% extends 'songs/base.html' %}
 {% load static %}
 
-{% block title %}Add/edit video{% endblock %}
+{% block title %}Video{% endblock %}
 
 {% block head %}
     <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
@@ -16,12 +16,12 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'videos:all_videos' %}">Turbibliotek</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Rediger Video</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Opprett video</a></li>
 {% endblock %}
 
 {% block body %}
     <div class="default-theme user-theme">
-        <h1>Rediger Video</h1>
+        <h1>Rediger video</h1>
 
         <form method="post">
             {% csrf_token %}

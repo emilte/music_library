@@ -1,5 +1,5 @@
 {% extends 'songs/base.html' %}
-{% block title %}Add/edit video{% endblock %}
+{% block title %}Video #{{ video.id }}{% endblock %}
 {% load static %}
 
 {% block head %}
@@ -17,7 +17,7 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'videos:all_videos' %}">Turbibliotek</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">{{ video }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'videos:add_video' %}">Video #{{ video.id }}</a></li>
 {% endblock %}
 
 {% block body %}

@@ -1,5 +1,10 @@
 {% extends 'songs/base.html' %}
-{% block title %}Add course{% endblock %}
+{% if courseID %}
+    {% block title %}Rediger kurs{% endblock %}
+{% else %}
+    {% block title %}Opprett kurs{% endblock %}
+{% endif %}
+
 {% load static %}
 
 {% block head %}
@@ -74,11 +79,11 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle Kurs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle kurs</a></li>
     {% if courseID %}
-        <li class="breadcrumb-item"><a href="{% url 'courses:edit_course' courseID %}">Rediger Kurs</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'courses:edit_course' courseID %}">Rediger kurs</a></li>
     {% else %}
-        <li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Legg til Kurs</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'courses:add_course' %}">Opprett kurs</a></li>
     {% endif %}
 {% endblock %}
 
