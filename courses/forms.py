@@ -43,7 +43,7 @@ class CourseForm(forms.ModelForm):
     start = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Start")
     end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Slutt")
 
-    instructors = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=select2_forms.Select2MultipleWidget)
+    # instructors = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=select2_forms.Select2MultipleWidget)
 
     class Media:
         css = {
@@ -64,7 +64,7 @@ class CourseForm(forms.ModelForm):
             'follow',
             'comments',
             'tags',
-            'instructors',
+            # 'instructors',
             'bulk',
             'day',
         ]
