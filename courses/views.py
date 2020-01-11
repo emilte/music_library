@@ -315,7 +315,7 @@ class ExportView(View):
             fører_navn = 'Ingen instruktør valgt'
 
         if course.follow:
-            følger_navn = course.følger.get_full_name()
+            følger_navn = course.follow.get_full_name()
         else:
             følger_navn = 'Ingen instruktør valgt'
 
