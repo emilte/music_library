@@ -15,6 +15,15 @@
             margin-left: auto;
             margin-right: auto;
         }
+        #touch-text {
+            position: absolute;
+            top: 18.9em;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
         #form-wrapper {
             margin-top: 7em;
         }
@@ -32,33 +41,38 @@
         <div id="touch-div" class="">
             <img id="touch" class="" src="https://img.icons8.com/nolan/120/006F30/unchecked-circle.png" alt="">
         </div>
+        <div id="touch-text" class="text-center small">
+            Trykk her
+        </div>
     {% endif %}
-
 
 
     <div id="form-wrapper" class="container">
         <form>
+            <div class="small font-italic mb-2">
+                Museklikk eller tastetrykk for å starte
+            </div>
             <div class="row form-group">
-                <label class="col-sm-2 col-form-label" for="whole">Nearest whole</label>
-                <div class="col-sm-4">
+                <label class="col-md-2 col-form-label" for="whole">Nærmeste hele</label>
+                <div class="col-md-4">
                     <input id="whole" class="form-control" readonly type="text" name="T_WHOLE">
                 </div>
             </div>
             <div class="row form-group">
-                <label class="col-sm-2 col-form-label" for="avg">Average BPM</label>
-                <div class="col-sm-4">
+                <label class="col-md-2 col-form-label" for="avg">Gjennomsnitt BPM</label>
+                <div class="col-md-4">
                     <input id="avg" class="form-control" readonly type="text" name="T_AVG">
                 </div>
             </div>
             <div class="row form-group">
-                <label class="col-sm-2 col-form-label" for="tap">Timing laps</label>
-                <div class="col-sm-4">
+                <label class="col-md-2 col-form-label" for="tap">Antall klikk</label>
+                <div class="col-md-4">
                     <input id="tap" class="form-control" readonly type="text" name="T_TAP">
                 </div>
             </div>
             <div class="row form-group">
-                <label class="col-sm-2 col-form-label" for="timeout">Timeout</label>
-                <div class="col-sm-4">
+                <label class="col-md-2 col-form-label" for="timeout">Tidsavbrudd</label>
+                <div class="col-md-4">
                     <select id="timeout" class="form-control">
                         <option>1</option>
                         <option selected>2</option>
@@ -69,7 +83,6 @@
                 </div>
             </div>
         </form>
-        <small>Tap any button on keyboard to start</small>
     </div>
 
 {% endblock %}
@@ -115,6 +128,7 @@
                 $('#touch').animate({height: "+=5"}, 50)
                 $('#touch').animate({height: "-=5"}, 50)
             });
+            $(window).click(TapForBPM);
 
         })
     </script>
