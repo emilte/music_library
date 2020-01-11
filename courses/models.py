@@ -67,7 +67,7 @@ class Section(models.Model):
     course = models.ForeignKey('courses.Course', on_delete=models.CASCADE, null=True, blank=True, related_name="sections", verbose_name="Kurs")
     description = models.TextField(null=True, blank=True, verbose_name="Beskrivelse")
     start = models.TimeField(null=True, blank=True)
-    duration = models.FloatField(default="7.5", null=True, blank=False, verbose_name="Varighet")
+    duration = models.FloatField(default=7.5, null=True, blank=False, verbose_name="Varighet")
     song = models.ForeignKey('songs.Song', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections", verbose_name="Sang")
     song2 = models.ForeignKey('songs.Song', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections_song2", verbose_name="Sang")
     video = models.ForeignKey('videos.Video', on_delete=models.SET_NULL, null=True, blank=True, related_name="sections", verbose_name="Video")
