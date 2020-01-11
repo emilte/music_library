@@ -309,12 +309,12 @@ class ExportView(View):
 
         tag_names = ", ".join(course.getTags())
 
-        if course.fører:
-            fører_navn = course.fører.get_full_name()
+        if course.lead:
+            fører_navn = course.lead.get_full_name()
         else:
             fører_navn = 'Ingen instruktør valgt'
 
-        if course.følger:
+        if course.follow:
             følger_navn = course.følger.get_full_name()
         else:
             følger_navn = 'Ingen instruktør valgt'
