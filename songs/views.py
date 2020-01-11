@@ -130,7 +130,7 @@ class AllSongsView(View):
         max_bpm = form.cleaned_data['max_bpm']
 
         if search != "":
-            queryset = queryset.filter( Q(tittel__icontains=search) | Q(artist__icontains=search) )
+            queryset = queryset.filter( Q(title__icontains=search) | Q(artist__icontains=search) )
         if tag != '-1':
             queryset = queryset.filter(tags__id=tag)
         if check_min and min_bpm != None:
