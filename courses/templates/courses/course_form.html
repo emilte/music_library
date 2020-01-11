@@ -87,7 +87,16 @@
 
     <div class="body-wrapper rounded p-3">
 
-        <h1>Rediger kurs:</h1>
+        {% if courseID %}
+            <div class="h2">
+                Rediger kurs:
+            </div>
+        {% else %}
+            <div class="h2">
+                Opprett kurs:
+            </div>
+        {% endif %}
+
 
         {{ courseForm.non_field_errors }}
 
