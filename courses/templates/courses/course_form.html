@@ -1,9 +1,5 @@
 {% extends 'songs/base.html' %}
-{% if courseID %}
-    {% block title %}Rediger kurs{% endblock %}
-{% else %}
-    {% block title %}Opprett kurs{% endblock %}
-{% endif %}
+{% block title %}Kurs{% endblock %}
 
 {% load static %}
 

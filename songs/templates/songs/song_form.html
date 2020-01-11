@@ -1,9 +1,5 @@
 {% extends 'songs/base.html' %}
-{% if songID %}
-    {% block title %}Rediger sang{% endblock %}
-{% else %}
-    {% block title %}Opprett sang{% endblock %}
-{% endif %}
+{% block title %}Sang{% endblock %}
 
 {% load static %}
 
