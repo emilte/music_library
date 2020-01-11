@@ -69,7 +69,7 @@ class AddSongView(View):
         if form.is_valid():
             song = form.save()
             #update_songs_txt(song)
-            messages.success(request, 'Du har klart å legge til en ny sang, good for you! :3')
+            messages.success(request, 'Du har klart å legge til en ny sang, så flink! :3')
             return redirect('songs:all_songs')
         else:
             return render(request, self.template, {'form': form})
