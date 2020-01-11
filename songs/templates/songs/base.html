@@ -28,7 +28,7 @@
 
     {% include "songs/navbar.html" %}
 
-    <div id="content-wrapper" class="container">
+    <div id="content-wrapper" class="container p-1">
 
         <!-- Messages -->
         <div class="no-print mb-2">
@@ -87,7 +87,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
 
     {% block script %}{% endblock %}
-    
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('.btn-message-remove').on('click', function() {

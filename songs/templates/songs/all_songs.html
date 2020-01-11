@@ -34,58 +34,61 @@
             </a>
         </div>
 
-        <form id="filters" action="{% url 'songs:all_songs' %}" method="post">
-            {% csrf_token %}
-            <div class="row form-group">
-                <!-- Search (input) -->
-                <div class="col-lg-3">
-                    <label class="invisible">Søk</label>
-                    <div class="input-group">
-                        {{ form.search }}
-                        <button id="btn-search" class="btn btn-dark" type="button" name="button">Søk</button>
-                    </div>
-                </div> <!-- End: Search (input) -->
-
-                <!-- xxx -->
-                <!-- Tag (select) -->
-                <div class="col-lg-3">
-                    {{ form.tag.label_tag }}
-                    {{ form.tag }}
-                </div> <!-- End: Tag (select) -->
-
-                <!-- BPM interval -->
-                <div class="col-lg-4">
-                    <label for="bpm-interval">BPM intervall</label>
-                    <div class="input-group">
-                        <!-- BPM min -->
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                {{ form.check_min }}
-                            </div>
+        <div class="">
+            <form id="filters" method="post">
+                {% csrf_token %}
+                <div class="row m-0">
+                    <!-- Search (input) -->
+                    <div class="col-lg-3">
+                        <label class="invisible">Søk</label>
+                        <div class="input-group">
+                            {{ form.search }}
+                            <button id="btn-search" class="btn btn-dark" type="button" name="button">Søk</button>
                         </div>
-                        {{ form.min_bpm }}
-                        <!-- End: BPM min -->
+                    </div> <!-- End: Search (input) -->
 
-                        <!-- BPM max -->
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                {{ form.check_max }}
+                    <!-- xxx -->
+                    <!-- Tag (select) -->
+                    <div class="col-lg-3">
+                        {{ form.tag.label_tag }}
+                        {{ form.tag }}
+                    </div> <!-- End: Tag (select) -->
+
+                    <!-- BPM interval -->
+                    <div class="col-lg-4">
+                        <label for="bpm-interval">BPM intervall</label>
+                        <div class="input-group">
+                            <!-- BPM min -->
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ form.check_min }}
+                                </div>
                             </div>
+                            {{ form.min_bpm }}
+                            <!-- End: BPM min -->
+
+                            <!-- BPM max -->
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    {{ form.check_max }}
+                                </div>
+                            </div>
+                            {{ form.max_bpm }}
+                            <!-- End: BPM max -->
                         </div>
-                        {{ form.max_bpm }}
-                        <!-- End: BPM max -->
-                    </div>
-                </div> <!-- End: BPM interval -->
-                <div class="col-lg-2">
-                    <label class="invisible">Reset</label>
-                    <div class="input-group">
-                        <a class="btn btn-secondary" href="{% url 'songs:all_songs' %}">Reset</a>
+                    </div> <!-- End: BPM interval -->
+                    <div class="col-lg-2">
+                        <label class="invisible">Reset</label>
+                        <div class="input-group">
+                            <a class="btn btn-secondary" href="{% url 'songs:all_songs' %}">Reset</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
-        <div id="table-songs" class="default-theme user-theme">
+
+        <div id="table-songs" class="default-theme user-theme mt-3">
             <div class="text-right">
                 Antall: {{ songs.count }}
             </div>
