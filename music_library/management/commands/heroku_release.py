@@ -35,6 +35,9 @@ class Command(BaseCommand):
             f.write(newdata)
             f.close()
 
+            import time
+            time.sleep(5)
+
             management.call_command('myseed')
         except Exception as e:
             print(e)
