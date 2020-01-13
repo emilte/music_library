@@ -43,6 +43,7 @@ class CourseForm(forms.ModelForm):
     start = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Start")
     end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Slutt")
 
+    required_css_class = 'required font-bold'
     # instructors = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=select2_forms.Select2MultipleWidget)
 
     class Media:
@@ -91,6 +92,7 @@ class CourseForm(forms.ModelForm):
 
 class SectionForm(forms.ModelForm):
     # duration = forms.TimeField(input_formats=MIN_FORMATS, required=False)
+    required_css_class = 'required font-bold'
 
     class Meta:
         model = course_models.Section
@@ -115,10 +117,17 @@ class CourseFilterForm(forms.Form):
     tag = forms.ChoiceField(required=False)
     lead = forms.ChoiceField(required=False, label="Instruktør (lead)")
     follow = forms.ChoiceField(required=False, label="Instruktør (follow)")
+    bulk = forms.IntegerField(required=False, label="Bolk")
+    day = forms.IntegerField(required=False, label="Dag")
+    semester_char = forms.CharField(required=False, label="Semester")
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
-        self.fields['search'].widget.attrs.update({'class': 'course-filter form-control', 'placeholder': 'Søk på tittel...', 'autofocus': True})
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'course-filter form-control'})
+
+        self.fields['search'].widget.attrs.update({'placeholder': 'Søk på tittel...', 'autofocus': True})
+        self.fields['semester_char'].widget.attrs.update({'placeholder': 'Eks: H2019, V2020',})
 
         self.fields['tag'].choices = [(-1, '-----')]
         self.fields['tag'].choices += [(tag.id, tag.title) for tag in song_models.Tag.getQueryset(["course"])]

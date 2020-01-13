@@ -9,7 +9,7 @@
 
 {% block wiki_page %}
 
-    {% if page.private %}
+    {% if page.private or page.folder.private %}
 
         {% if perms.page.view_private_page %}
             <div class="">

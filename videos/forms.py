@@ -27,6 +27,8 @@ class VideoForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(queryset=song_models.Tag.getQueryset(["video"]), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
     #difficulty = forms.ChoiceField(choices=())
 
+    required_css_class = 'required font-bold'
+
     class Meta:
         model = video_models.Video
         exclude = []

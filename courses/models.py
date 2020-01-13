@@ -4,6 +4,12 @@ from django.conf import settings
 from django.utils import timezone
 
 # End: imports -----------------------------------------------------------------
+semesters = ['------']
+v = [f"V{year}" for year in range(2000, 2100)]
+h = [f"H{year}" for year in range(2000, 2100)]
+semesters.extend(v)
+semesters.extend(h)
+SEMESTER_CHOICES = [(i, semesters[i]) for i in range(len(semesters))]
 
 class Course(models.Model):
     title = models.CharField(max_length=140, null=True, blank=False, verbose_name="Tittel")
@@ -26,6 +32,9 @@ class Course(models.Model):
     bulk = models.PositiveIntegerField(null=True, blank=True, verbose_name="Bolk")
     day = models.PositiveIntegerField(null=True, blank=True, verbose_name="Dag")
 
+    semester_choice = models.IntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
+    semester_char = models.CharField(max_length=5, null=True, blank=True)
+
 
     class Meta:
         ordering = ['date', 'title']
@@ -35,7 +44,7 @@ class Course(models.Model):
     def __str__(self):
         return "{} ({})".format(self.getTitle(), self.getDate())
 
-    def semester(self):
+    def getSemester(self):
         semesters = ['Vår', 'Høst']
         if self.date:
             i = (self.date.month-1) // 6 # Calculates first (0) or second (1) half of year
@@ -65,6 +74,12 @@ class Course(models.Model):
         if not self.id:
             self.created = timezone.now()
         self.last_edited = timezone.now()
+
+        if self.date:
+            semesters = ['V', 'H']
+            i = (self.date.month-1) // 6 # Calculates first (0) or second (1) half of year
+            self.semester_char = f"{semesters[i]}{self.date.year}"
+
 
         return super(type(self), self).save(*args, **kwargs)
 

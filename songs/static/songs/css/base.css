@@ -18,6 +18,14 @@ body {
     background-color: #0d0d0d;
 }
 
+.font-bold {
+    font-weight: bold;
+}
+
+.required:after {
+    content:" *";
+}
+
 /* Scrollbar */
 body::-webkit-scrollbar {
     width: 0.4em;

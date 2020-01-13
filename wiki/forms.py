@@ -7,6 +7,8 @@ from wiki import models as wiki_models
 
 class PageForm(forms.ModelForm):
 
+    required_css_class = 'required font-bold'
+
     class Meta:
         model = wiki_models.Page
         exclude = []
@@ -20,6 +22,8 @@ class PageForm(forms.ModelForm):
 
 
 class FolderForm(forms.ModelForm):
+
+    required_css_class = 'required font-bold'
 
     class Meta:
         model = wiki_models.Folder

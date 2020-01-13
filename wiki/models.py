@@ -13,6 +13,7 @@ class Folder(models.Model):
 
     last_editor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="editor_folderset", verbose_name="Sist redigert av")
     last_edited = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Sist redigert")
+    private = models.BooleanField(default=True, blank=True, verbose_name="Privat mappe")
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="creator_folderset", verbose_name="Opprettet av")
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")

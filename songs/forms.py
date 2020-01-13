@@ -27,6 +27,8 @@ class SongSearchForm(forms.Form):
 class SongForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(queryset=song_models.Tag.getQueryset(["song"]), widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
 
+    required_css_class = 'required font-bold'
+
     class Meta:
         model = song_models.Song
         exclude = []
@@ -44,6 +46,8 @@ class SongForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
 
 class TagForm(forms.ModelForm):
+
+    required_css_class = 'required font-bold'
 
     class Meta:
         model = song_models.Tag

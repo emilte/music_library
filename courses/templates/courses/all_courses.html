@@ -49,8 +49,9 @@
         <h1>Alle kurs</h1>
 
         <div id="btn-add-course" class="">
-            <a  class="btn btn-secondary" href="{% url 'courses:add_course' %}">
-                <img src="https://img.icons8.com/material-rounded/25/FFAA00/plus-math.png">
+            <a class="btn btn-secondary" href="{% url 'courses:add_course' %}">
+                {# <img src="https://img.icons8.com/material-rounded/25/FFAA00/plus-math.png"> #}
+                <i class="lni-plus"></i>
                 Legg til kurs
             </a>
         </div>
@@ -65,7 +66,7 @@
                     </div>
                     <div class="input-group">
                         {{ form.search }}
-                        <button id="btn-search" class="btn btn-dark" type="submit" name="button">Søk</button>
+                        <button class="btn btn-dark" type="submit" name="button">Søk</button>
                     </div>
                 </div> <!-- End: Search (input) -->
 
@@ -88,13 +89,52 @@
                     {{ form.follow }}
                 </div> <!-- End: Tag (select) -->
 
-                <div class="col">
-                    <label class="invisible">Reset</label>
-                    <div class="input-group">
-                        <a class="btn btn-secondary" href="{% url 'courses:all_courses' %}">Reset</a>
-                    </div>
-                </div>
             </div>
+
+            <div class="row m-0 mt-3">
+                <!-- Search (input) -->
+                <div class="col-md-4 mb-2">
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.semester_char.label }}</span>
+                        </div>
+                        {{ form.semester_char }}
+                        <div class="input-group-append">
+                            <button class="btn btn-dark" type="submit" name="button">Søk</button>
+                        </div>
+                    </div>
+                </div> <!-- End: Search (input) -->
+
+                <!-- xxx -->
+                <!-- Tag (select) -->
+                <div class="col-sm mb-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.bulk.label }}</span>
+                        </div>
+                        {{ form.bulk }}
+                    </div>
+
+                </div> <!-- End: Tag (select) -->
+
+                <!-- Tag (select) -->
+                <div class="col-sm mb-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ form.day.label }}</span>
+                        </div>
+                        {{ form.day }}
+                    </div>
+
+                </div> <!-- End: Tag (select) -->
+
+                <div class="col-sm-4 mb-2">
+                    <a class="btn btn-secondary" href="{% url 'courses:all_courses' %}">Reset</a>
+                </div>
+
+            </div>
+
         </form>
 
         <div class="">
@@ -126,13 +166,13 @@
                                         <div class="float-right">
                                             <a class="btn btn-sm btn-dark" href="{% url 'courses:edit_course' course.id %}">Rediger</a>
                                         </div>
-                                        <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester }} Bolk: {{ course.bulk }} Dag: {{ course.day }}</a>
+                                        <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester_char }} Bolk: {{ course.bulk }} Dag: {{ course.day }}</a>
                                     </div>
 
-                                    <div class="card-body">
+                                    <div class="card-body small">
+                                        <div class="">Tittel: {{ course.title }}</div>
                                         <div class="">Instruktør (lead): {{ course.lead }}</div>
                                         <div class="">Instruktør (follow): {{ course.follow }}</div>
-                                        <div class="">Tema: {{ course.title }}</div>
                                         <div class="float-right">
                                             {% for tag in course.tags.all %}
                                                 <span class="badge badge-dark">{{ tag.title }}</span>

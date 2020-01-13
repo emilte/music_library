@@ -25,6 +25,7 @@ class GenericAddModel(View):
     success_msg = "Lagringen var vellykket!"
     error_msg = "Lagringen var misslykket!"
     redirect_name = None
+    obj_field = None # get attribute
 
     def get(self, request):
         form = self.form_class(initial={'creator': request.user})
