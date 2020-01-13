@@ -18,26 +18,6 @@ class Command(BaseCommand):
         management.call_command('migrate')
 
         try:
-            filename = "/app/.heroku/python/lib/python3.8/site-packages/django_seed/__init__.py"
-            origin = "cls.fakers[code].seed(random.randint(1, 10000))"
-            replacement = "cls.fakers[code].seed_instance(random.randint(1, 10000))"
-            print("REPLACING")
-
-            f = open(filename,'r')
-            filedata = f.read()
-            f.close()
-
-            newdata = filedata.replace(origin, replacement)
-
-            print(newdata)
-
-            f = open(filename,'w')
-            f.write(newdata)
-            f.close()
-
-            import time
-            time.sleep(5)
-
             management.call_command('myseed')
         except Exception as e:
             print(e)
