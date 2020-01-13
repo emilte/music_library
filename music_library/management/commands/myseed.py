@@ -77,7 +77,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        management.call_command('flush')
+        management.call_command('flush', interactive=False)
         management.call_command('create_users')
         self.f()
         # End of handle

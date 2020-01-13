@@ -14,7 +14,13 @@ USER_PW = "Django123"
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+        management.call_command('makemigrations')
         management.call_command('migrate')
-        management.call_command('import_videos')
+
+        try:
+            management.call_command('myseed')
+        except Exception as e:
+            print(e)
+
 
         # End of handle
