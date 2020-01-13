@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_extensions', # Extended CLI commands
     'tinymce', # For HTMLField (obsolete, tinyMCE is used another way)
     'django_select2', # For improved ChoiceField widgets
+    'django_seed', # Seed database easily
 
     # Own apps
     'accounts',
