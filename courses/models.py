@@ -35,6 +35,14 @@ class Course(models.Model):
     def __str__(self):
         return "{} ({})".format(self.getTitle(), self.getDate())
 
+    def semester(self):
+        semesters = ['Vår', 'Høst']
+        if self.date:
+            i = (self.date.month-1) // 6 # Calculates first (0) or second (1) half of year
+            return f"{semesters[i]} {self.date.year}"
+        else:
+            return None
+
     def getTitle(self):
         return self.title or None
 

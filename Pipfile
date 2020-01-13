@@ -21,6 +21,7 @@ django-heroku = "*"
 whitenoise = "*"
 django-allauth = "*"
 "django-select2" = "*"
+django-seed = "*"
 
 [dev-packages]
 

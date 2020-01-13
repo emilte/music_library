@@ -13,11 +13,28 @@
             border-radius: 1em;
             padding: 1em;
         }
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
         #btn-add-course {
             position: sticky;
             top: 3.6em;
             z-index: 5;
         }
+
+        .zoom {
+            transition: transform .2s; /* Animation */
+        }
+
+        .zoom:hover {
+            transform: scale(1.03); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .card-header-link {
+
+        }
+
         {{ request.user.settings.course_theme.as_css | safe }}
     </style>
 {% endblock %}
@@ -80,56 +97,119 @@
             </div>
         </form>
 
+        <div class="">
 
-        <div class="default-theme user-theme">
-            <div class="text-right">
-                Antall: {{ courses.count }}
-            </div>
-            <ol id="all-courses">
-                {% for course in courses %}
-                    <li>
-                        <a class="default-theme-link user-theme-link" href="{% url 'courses:course_view' course.id %}">{{ course.title }} ({{ course.date | default:'Ingen dato' }})</a>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Ny versjon</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Gammel versjon</a>
+                </li>
+            </ul>
 
-                        <span class="dropdown">
-                            <i class="lni-chevron-down cursor-pointer default-theme-link ml-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                            {# <img src="https://img.icons8.com/metro/20/FFFFFF/chevron-down.png" class="course-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> #}
+            <div class="tab-content">
 
-                            <div class="dropdown-menu">
+                <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+                    <div class="default-theme user-theme">
+                        <div class="text-right">
+                            Antall: {{ courses.count }}
+                        </div>
+                        <div class="row">
+                            {% for course in courses %}
 
-                                <a class="dropdown-item" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
+                            <div class="col-sm-6 col-lg-4 d-flex align-items-stretch">
 
-                                <!-- Delete Course (button) -->
-                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#delete-course"><img src="https://img.icons8.com/material/14/000000/delete-sign--v1.png"> Slett kurs</a>
+                                <div class="card border-0 flex-fill mb-4 zoom text-dark">
 
-                            </div> <!-- END: dropdown-menu -->
-                        </span>
-                    </li>
-                    <!-- Delete Course (modal) -->
-                    <div class="modal fade text-dark" id="delete-course" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
+                                    <div class="card-header">
+                                        <div class="float-right">
+                                            <a class="btn btn-sm btn-dark" href="{% url 'courses:edit_course' course.id %}">Rediger</a>
+                                        </div>
+                                        <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester }} Bolk: {{ course.bulk }} Dag: {{ course.day }}</a>
+                                    </div>
 
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                                    <div class="card-body">
+                                        <div class="">Instruktør (lead): {{ course.lead }}</div>
+                                        <div class="">Instruktør (follow): {{ course.follow }}</div>
+                                        <div class="">Tema: {{ course.title }}</div>
+                                        <div class="float-right">
+                                            {% for tag in course.tags.all %}
+                                                <span class="badge badge-dark">{{ tag.title }}</span>
+                                            {% endfor %}
+                                        </div>
 
-                                <div class="modal-body"><p>Du vil miste all data!</p></div>
-
-                                <div class="modal-footer">
-                                    <!-- Delete Course confirmed (button) -->
-                                    <a class="btn btn-danger" href="{% url 'courses:delete_course' course.id %}">Slett kurs</a>
-                                    <!-- Cancel (button) -->
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
+                                    </div>
                                 </div>
                             </div>
+
+                            {% endfor %}
                         </div>
-                    </div> <!-- End: Delete Course (modal) -->
-                {% endfor %}
-            </ol>
+
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                    <div class="default-theme user-theme">
+                        <div class="text-right">
+                            Antall: {{ courses.count }}
+                        </div>
+                        <ol id="all-courses">
+                            {% for course in courses %}
+                                <li>
+                                    <a class="default-theme-link user-theme-link" href="{% url 'courses:course_view' course.id %}">{{ course.title }} ({{ course.date | default:'Ingen dato' }})</a>
+
+                                    <span class="dropdown">
+                                        <i class="lni-chevron-down cursor-pointer default-theme-link ml-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                        {# <img src="https://img.icons8.com/metro/20/FFFFFF/chevron-down.png" class="course-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> #}
+
+                                        <div class="dropdown-menu">
+
+                                            <a class="dropdown-item" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
+
+                                            <!-- Delete Course (button) -->
+                                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#delete-course"><img src="https://img.icons8.com/material/14/000000/delete-sign--v1.png"> Slett kurs</a>
+
+                                        </div> <!-- END: dropdown-menu -->
+                                    </span>
+                                </li>
+                                <!-- Delete Course (modal) -->
+                                <div class="modal fade text-dark" id="delete-course" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-body"><p>Du vil miste all data!</p></div>
+
+                                            <div class="modal-footer">
+                                                <!-- Delete Course confirmed (button) -->
+                                                <a class="btn btn-danger" href="{% url 'courses:delete_course' course.id %}">Slett kurs</a>
+                                                <!-- Cancel (button) -->
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- End: Delete Course (modal) -->
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
         </div>
+
+
+
+
+
+
+
 
     </div>
 {% endblock %}
