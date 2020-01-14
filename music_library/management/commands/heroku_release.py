@@ -18,6 +18,7 @@ class Command(BaseCommand):
         management.call_command('migrate')
         management.call_command('create_admin')
 
+        print("TRY")
         try:
             management.call_command('flush', interactive=False)
             management.call_command('myseed')
