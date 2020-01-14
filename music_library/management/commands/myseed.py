@@ -25,6 +25,13 @@ User = get_user_model()
 
 class Command(BaseCommand):
 
+    def i(self, x, y):
+        return random.randint(x, y)
+
+    def fake_rgba(self, x=0, y=255):
+        r, g, b, a = self.i(x,y), self.i(x,y), self.i(x,y), random.choice([0.6, 0.7, 0.8, 0.9, 1])
+        return f"rgba({r},{g},{b},{a})"
+
     def f(self):
         seeder = Seed.seeder()
 
@@ -32,6 +39,14 @@ class Command(BaseCommand):
 
         seeder.add_entity(User, 10, {
 
+        })
+        seeder.add_entity(account_models.Theme, 10, {
+            'user': lambda x: None,
+            'name': lambda x: seeder.faker.safe_color_name(),
+            'background_color': lambda x: self.fake_rgba(),
+            'text_color': lambda x: seeder.faker.safe_color_name(),
+            'link_color': lambda x: seeder.faker.safe_color_name(),
+            'link_hover_color': lambda x: seeder.faker.safe_color_name(),
         })
         seeder.add_entity(video_models.Video, 5, {
 
@@ -59,7 +74,7 @@ class Command(BaseCommand):
         seeder.add_entity(course_models.Course, 25, {
             'title': lambda x: seeder.faker.sentence(nb_words=2),
             'comments': lambda x: seeder.faker.sentence(nb_words=4),
-            'date': lambda x: seeder.faker.date_this_year(),
+            'date': lambda x: seeder.faker.date_this_year(after_today=True),
             'day': lambda x: random.randint(1, 3),
             'bulk': lambda x: random.randint(1, 10),
             'comments': lambda x: seeder.faker.paragraphs(nb=2),
@@ -69,7 +84,6 @@ class Command(BaseCommand):
             'title': lambda x: seeder.faker.sentence(nb_words=2),
             'description': lambda x: seeder.faker.sentence(nb_words=50),
             'duration': lambda x: random.choice([5, 7.5, 7.5, 7.5, 10, 12, 15]),
-
         })
 
         seeder.execute()
@@ -77,7 +91,5 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        management.call_command('flush', interactive=False)
-        management.call_command('create_users')
         self.f()
         # End of handle

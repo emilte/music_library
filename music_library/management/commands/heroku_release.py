@@ -16,8 +16,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         management.call_command('makemigrations')
         management.call_command('migrate')
+        management.call_command('create_admin')
 
         try:
+            management.call_command('flush', interactive=False)
             management.call_command('myseed')
         except Exception as e:
             print(e)
