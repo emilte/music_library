@@ -26,7 +26,7 @@ MEDIA_URL = '/media/'
 # URLs
 LOGIN_REDIRECT_URL = 'accounts:profile'
 LOGIN_URL = 'accounts:login'
-LOGOUT_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'accounts:login'
 
 # Custom User model
 AUTH_USER_MODEL = 'accounts.User'
