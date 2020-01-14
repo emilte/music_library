@@ -12,10 +12,10 @@ from django.db.models import Q
 from django.conf import settings
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from django.contrib.auth import get_user_model
 
 from songs import models as song_models
 from videos import models as video_models
@@ -60,10 +60,10 @@ class AddCourseView(View):
 
         sectionForms = []
 
-        if courseForm.is_valid():
-            prefixes = request.POST.getlist("prefix")
+        prefixes = request.POST.getlist("prefix")
+        sectionForms = [self.sectionForm_class( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
 
-            sectionForms = [self.sectionForm_class( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
+        if courseForm.is_valid():
 
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
                 course = courseForm.save()
@@ -121,10 +121,11 @@ class EditCourseView(View):
         courseForm = self.courseForm_class(request.POST, instance=course)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
-        if courseForm.is_valid():
-            prefixes = request.POST.getlist("prefix")
+        prefixes = request.POST.getlist("prefix")
+        sectionForms = [self.sectionForm_class( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
 
-            sectionForms = [self.sectionForm_class( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
+        if courseForm.is_valid():
+
 
             if all(sectionForm.is_valid() for sectionForm in sectionForms):
                 course = courseForm.save()
@@ -180,6 +181,11 @@ class AllCoursesView(View):
         tag = form.cleaned_data['tag']
         lead = form.cleaned_data['lead']
         follow = form.cleaned_data['follow']
+        bulk = form.cleaned_data['bulk']
+        day = form.cleaned_data['day']
+        semester_char = form.cleaned_data['semester_char']
+
+        print(semester_char)
 
         if search != "":
             queryset = queryset.filter(title__icontains=search)
@@ -189,6 +195,14 @@ class AllCoursesView(View):
             queryset = queryset.filter(lead=lead)
         if follow != '-1':
             queryset = queryset.filter(follow=follow)
+        if bulk:
+            queryset = queryset.filter(bulk=bulk)
+        if day:
+            queryset = queryset.filter(day=day)
+        if semester_char:
+            queryset = queryset.filter(semester_char=semester_char)
+
+
 
         return queryset
 

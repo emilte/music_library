@@ -69,6 +69,11 @@
             bottom: 16px;
             right: 5px;
         }
+        .section-btn-duplicate {
+            position: absolute;
+            bottom: 56px;
+            right: 5px;
+        }
         {{ request.user.settings.course_theme.as_css | safe }}
 
     </style>
@@ -382,6 +387,23 @@
                 tinymce.remove();
                 var s = $(this).closest("#section");
                 s.insertAfter( s.next() );
+                sleep(10).then(() => tinymce.init(tinymceConfig) );
+            });
+
+            $('body').on("click", ".section-btn-duplicate", function() {
+                tinymce.remove();
+                var s = $(this).closest("#section");
+                var c = s.clone();
+                $("#sectionCount").val( +$("#sectionCount").val() + 1)
+                // console.log(s);
+                // console.log(c);
+
+                c.find("input[name=prefix]").val( $("#sectionCount").val() );
+                console.log(c.find("input[name=prefix]").val( ));
+                c.insertAfter( s );
+                $("#dynamic-sections").append( sectionFormTemplate.replace(/template/g, $("#sectionCount").val()) )
+
+                console.log($("#sectionCount").val());
                 sleep(10).then(() => tinymce.init(tinymceConfig) );
             });
 
