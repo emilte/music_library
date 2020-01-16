@@ -151,8 +151,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-SITE_ID = 3
-
 # Custom settings that overwrite this.
 try:
     from .local_settings import *
