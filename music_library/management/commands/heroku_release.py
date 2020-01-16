@@ -18,9 +18,8 @@ class Command(BaseCommand):
         management.call_command('migrate')
         management.call_command('create_admin')
         management.call_command('site_heroku')
-        management.call_command('show_sites')
+        management.call_command('SITE_ID')
 
-        print("TRY")
         try:
             management.call_command('flush', interactive=False)
             management.call_command('myseed')
