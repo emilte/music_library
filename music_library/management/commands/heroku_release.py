@@ -21,7 +21,7 @@ class Command(BaseCommand):
         management.call_command('SITE_ID')
 
         try:
-            management.call_command('flush', interactive=False)
+            # management.call_command('flush', interactive=False)
             management.call_command('myseed')
         except Exception as e:
             print(e)
