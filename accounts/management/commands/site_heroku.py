@@ -15,9 +15,8 @@ class Command(BaseCommand):
     def f(self):
         domain = "swingkurs.herokuapp.com"
         site, created = site_models.Site.objects.get_or_create(name=domain, domain=domain)
-        print(f"site created: {created}")
-        print(f"Site: {site.domain} ({site.id})")
-
+        site.save()
+        
         try:
             from django.conf import settings
 
