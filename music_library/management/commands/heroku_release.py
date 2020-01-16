@@ -17,6 +17,8 @@ class Command(BaseCommand):
         management.call_command('makemigrations')
         management.call_command('migrate')
         management.call_command('create_admin')
+        management.call_command('site_heroku')
+        management.call_command('show_sites')
 
         print("TRY")
         try:
