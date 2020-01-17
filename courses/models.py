@@ -35,6 +35,8 @@ class Course(models.Model):
     semester_choice = models.IntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
     semester_char = models.CharField(max_length=5, null=True, blank=True)
 
+    external = models.BooleanField(default=False, verbose_name="Eksternkurs")
+
 
     class Meta:
         ordering = ['date', 'title']
