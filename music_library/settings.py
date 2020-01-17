@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'songs',
     'courses',
     'wiki',
+    'events',
 ]
 
 MIDDLEWARE = [

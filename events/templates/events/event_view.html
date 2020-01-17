@@ -1,0 +1,130 @@
+{% extends 'songs/base.html' %}
+{% block title %}{{ course.title }}{% endblock %}
+{% load static %}
+
+{% block head %}
+
+    <script type="text/javascript" src="{% url 'songs:javascript-catalog' %}"></script>
+
+    <style media="screen">
+        .course-wrapper {
+            color: black;
+        }
+        .shadow-left-inset {
+            -webkit-box-shadow: inset 10px 0px 10px -10px rgba(0,0,0, 0.5);
+            -moz-box-shadow: inset 10px 0px 10px -10px rgba(0,0,0, 0.5);
+            box-shadow: inset 10px 0px 10px -10px rgba(0,0,0, 0.5);
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'courses:all_courses' %}">Alle kurs</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'courses:course_view' course.id  %}">{{ course.title }}</a></li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="course-wrapper jumbotron p-4 print-style">
+
+        <div class="row">
+
+            <div class="col">
+                <h1 class="d-inline">{{ course.title }}</h1>
+
+                <span class="dropdown no-print">
+
+                    <i class="lni-chevron-down cursor-pointer default-theme-link ml-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
+                        <a class="dropdown-item" href="{% url 'courses:create_playlist' course.id %}"><i class="lni-spotify-original"></i> Lag spotify liste</a>
+                        <div class="dropdown-item cursor-pointer" onclick="window.print()"><i class="lni-download"></i> Eksporter (pdf)</div>
+                        <a class="dropdown-item" href="{% url 'courses:export_course' course.id %}"><i class="lni-download"></i> Eksporter (docx)</a>
+                    </div>
+                </span>
+
+                <hr class="no-print">
+
+                <div class="">
+                    <div class=""><b>Instuktør (lead)</b>: {{ course.lead | default:'Ingen valgt' }}</div>
+                    <div class=""><b>Instruktør (follow)</b>: {{ course.follow | default:'Ingen valgt'}}</div>
+                    <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
+                    <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
+                    <div class=""><b>Dato</b>: {{ course.date | date:'d. M Y (D)' | default:'TBA' }}</div>
+                    <div class=""><b>Når</b>: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.end | date:'H:i' | default:'TBA' }}</div>
+                    <div class=""><b>Hvor</b>: {{ course.place | default:'TBA' }}</div>
+                    <div class=""><b>Tags</b>:
+                        {% for tag in course.tags.all %}
+                        <span class="badge badge-info">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col d-none d-lg-block">
+                <div class="float-right">
+                    <a class="btn btn-dark btn-sm" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
+                    <a class="btn btn-success btn-sm" href="{% url 'courses:create_playlist' course.id %}"><i class="lni-spotify-original"></i> Lag spotify liste</a>
+                    <div class="btn btn-dark btn-sm" onclick="window.print()"><i class="lni-download"></i> Eksporter (pdf)</div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="mt-5">
+            {% for section in course.sections.all %}
+                <div class="mt-4">
+                    <h5>{{ section.title }} ({{ section.duration | default:'??' }} min) - {{ section.start | date:'H:i' | default:'hh:mm' }}</h5>
+
+                    {% if section.song %}
+                        <div class="font-italic small mb-2">
+                            Sang: <a target="_blank" href="{{ section.song.spotify_URL }}">{{ section.song }}</a>
+                        </div>
+                    {% endif %}
+
+                    {% if section.song2 %}
+                        <div class="font-italic small mb-2">
+                            Sang: <a target="_blank" href="{{ section.song2.spotify_URL }}">{{ section.song2 }}</a>
+                        </div>
+                    {% endif %}
+
+                    <div class="pl-4 border-left border-secondary">
+                        {{ section.description | safe }}
+                    </div>
+
+
+                    {% if section.video %}
+                        <span class="font-italic small no-print">
+                            Video: <a target="_blank" href="{{ section.video.youtube_URL }}">{{ section.video }}</a>
+                        </span>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+
+            {% if course.comments %}
+                <div class="text-muted mt-5 font-italic no-print">
+                    <hr>
+                    <div class="">Kommentarer:</div>
+                    <div class="">{{ course.comments | safe | linebreaks }}</div>
+                    <hr>
+                </div>
+            {% endif %}
+
+            <div class="float-right font-italic small no-print">
+                Sist redigert av: {{ course.last_editor | default:'Ukjent' }} {{ course.last_edited | date:'(d. M Y - H:i)' }}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("footer, #breadcrumb").addClass("no-print");
+        })
+    </script>
+{% endblock script %}
