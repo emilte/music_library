@@ -8,6 +8,8 @@
 
     {{ courseForm.media }}
 
+    {{ sectionFormTemplate.media.css }}
+
     <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
 
     <style media="screen">
@@ -48,6 +50,9 @@
             padding-bottom: 0.2em;
             margin-bottom: 0.5em;
             position: relative;
+        }
+        .select2-container {
+            color: black !important;
         }
 
         .body-wrapper {
@@ -331,6 +336,7 @@
 
 {% block script %}
 
+    {{ sectionFormTemplate.media.js }}
 
     <script type="text/javascript">
 
@@ -351,12 +357,12 @@
             toolbar_items_size: "small",
         }
 
-        var sectionFormTemplate = $("#sectionFormTemplate").html();
-        $("#sectionFormTemplate").remove();
 
         tinymce.init(tinymceConfig);
 
         $(document).ready(function() {
+            var sectionFormTemplate = $("#sectionFormTemplate").html();
+            $("#sectionFormTemplate").remove();
 
             function sleep(time) {
                 return new Promise((resolve) => setTimeout(resolve, time));

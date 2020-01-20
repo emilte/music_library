@@ -12,6 +12,7 @@ from django.core.management.base import BaseCommand
 from wiki import models as wiki_models
 from songs import models as song_models
 from videos import models as video_models
+from events import models as event_models
 from courses import models as course_models
 from accounts import models as account_models
 
@@ -78,12 +79,17 @@ class Command(BaseCommand):
             'day': lambda x: random.randint(1, 3),
             'bulk': lambda x: random.randint(1, 10),
             'comments': lambda x: seeder.faker.paragraphs(nb=2),
-
+            'place': lambda x: seeder.faker.sentence(nb_words=3),
         })
         seeder.add_entity(course_models.Section, 100, {
             'title': lambda x: seeder.faker.sentence(nb_words=2),
             'description': lambda x: seeder.faker.sentence(nb_words=50),
             'duration': lambda x: random.choice([5, 7.5, 7.5, 7.5, 10, 12, 15]),
+        })
+        seeder.add_entity(event_models.Event, 4, {
+            'title': lambda x: seeder.faker.sentence(nb_words=2),
+            'description': lambda x: seeder.faker.sentence(nb_words=50),
+            'place': lambda x: seeder.faker.sentence(nb_words=3),
         })
 
         seeder.execute()

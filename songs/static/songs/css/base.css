@@ -18,6 +18,10 @@ body {
     background-color: #0d0d0d;
 }
 
+span {
+    display: inline;
+}
+
 .font-bold {
     font-weight: bold;
 }

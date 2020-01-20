@@ -1,5 +1,6 @@
 # imports
 import json
+import flatpickr
 
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
@@ -38,34 +39,19 @@ MIN_FORMATS = [
 ]
 
 class EventForm(forms.ModelForm):
-    q = song_models.Tag.getQueryset(["event"])
-
-    tags = forms.ModelMultipleChoiceField(queryset=q, widget=FilteredSelectMultiple(verbose_name="tags", is_stacked=False), required=False)
-    date = forms.DateField(input_formats=DATE_FORMATS, required=False, label="Dato")
-    start = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Start")
-    end = forms.DateTimeField(input_formats=TIME_FORMATS, required=False, label="Slutt")
 
     required_css_class = 'required font-bold'
-    # instructors = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=select2_forms.Select2MultipleWidget)
-
-    class Media:
-        css = {
-            'all': ['admin/css/widgets.css'], # 'css/uid-manage-form.css'
-        }
-        # Adding this javascript is crucial
-        js = ['/admin/jsi18n/']
 
     class Meta:
         model = event_models.Event
         fields = [
             'title',
             'place',
-            'date',
             'start',
             'end',
-            'comments',
-            'tags',
-            # 'instructors',
+            'description',
+            'facebook_url',
+            'image_url',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -73,18 +59,19 @@ class EventForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
-        self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
+        # self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
 
-        self.fields['start'].widget.attrs.update({'placeholder': 'hh:mm'})
-        self.fields['start'].widget.format = "%H:%M"
+        self.fields['start'].widget.attrs.update({'class': 'flatpickr form-control'})
+        self.fields['end'].widget.attrs.update({'class': 'flatpickr form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'tinymce form-control'})
+        # self.fields['start'].widget.format = "%H:%M"
+        #
+        # self.fields['date'].widget.attrs.update({'placeholder': 'dd.mm.yy'})
+        # self.fields['date'].widget.format = "%d.%m.%y"
+        #
+        # self.fields['end'].widget.attrs.update({'placeholder': 'hh:mm'})
+        # self.fields['end'].widget.format = "%H:%M"
 
-        self.fields['date'].widget.attrs.update({'placeholder': 'dd.mm.yy'})
-        self.fields['date'].widget.format = "%d.%m.%y"
-
-        self.fields['end'].widget.attrs.update({'placeholder': 'hh:mm'})
-        self.fields['end'].widget.format = "%H:%M"
-
-        self.fields['comments'].widget.attrs.update({'rows': '7'})
 
 
 

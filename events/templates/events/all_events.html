@@ -5,32 +5,21 @@
 {% block head %}
     <link rel="stylesheet" href="{% static "events/event_styles.css" %}">
 
-    {{ form.media.css }}
-
     <style media="screen">
-        span {
-            display: inline;
-        }
-        .event-caret:hover {
-            cursor: pointer;
-        }
-        .card {
-            background-color: rgba(255, 255, 255, 0.8);
-        }
         #btn-add-event {
             position: sticky;
             top: 3.6em;
             z-index: 5;
         }
-        .select2-container {
-            color: black !important;
+        .event-banner-wrapper {
+            max-height: 200px;
+            overflow-y: hidden;
         }
-
         .zoom {
-            transition: transform .2s; /* Animation */
+            transition: transform .3s; /* Animation */
         }
         .zoom:hover {
-            transform: scale(1.03); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            transform: scale(1.01); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
             background-color: rgba(255, 255, 255, 0.9);
         }
 
@@ -45,209 +34,43 @@
 {% block body %}
     <div class="">
 
-        <h1>Alle events</h1>
+        <div class="h1">
+            Alle events
+        </div>
 
         <div id="btn-add-event" class="">
             <a class="btn btn-secondary" href="{% url 'events:add_event' %}">
-                {# <img src="https://img.icons8.com/material-rounded/25/FFAA00/plus-math.png"> #}
                 <i class="lni-plus"></i>
                 Legg til events
             </a>
         </div>
 
-        <form id="filter" class="pb-3" action="{% url 'events:all_events' %}" method="post">
-            {% csrf_token %}
-            <div class="row m-0">
-                <!-- Search (input) -->
-                <div class="col-md">
-                    <div class="invisible">
-                        {{ form.search.label_tag }}
-                    </div>
-                    <div class="input-group">
-                        {{ form.search }}
-                        <button class="btn btn-dark" type="submit" name="button">Søk</button>
-                    </div>
-                </div> <!-- End: Search (input) -->
 
-                <!-- xxx -->
-                <!-- Tag (select) -->
-                <div class="col-md">
-                    {{ form.tag.label_tag }}
-                    {{ form.tag }}
-                </div> <!-- End: Tag (select) -->
+        <div class="mt-2">
 
-                <!-- Tag (select) -->
-                <div class="col-lg">
-                    {{ form.lead.label_tag }}
-                    {{ form.lead }}
-                </div> <!-- End: Tag (select) -->
+            {% for event in events %}
 
-                <!-- Tag (select) -->
-                <div class="col-lg">
-                    {{ form.follow.label_tag }}
-                    {{ form.follow }}
-                </div> <!-- End: Tag (select) -->
+                <div class="d-flex align-items-stretch">
 
-            </div>
+                    <div class="card flex-fill mb-4 zoom text-dark">
 
-            <div class="row m-0 mt-3">
-                <!-- Search (input) -->
-                <div class="col-md-4 mb-3">
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">{{ form.semester_char.label }}</span>
-                        </div>
-                        {{ form.semester_char }}
-                        <div class="input-group-append">
-                            <button class="btn btn-dark" type="submit" name="button">Søk</button>
-                        </div>
-                    </div>
-                </div> <!-- End: Search (input) -->
-
-                <!-- xxx -->
-                <!-- Tag (select) -->
-                <div class="col-sm mb-3">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">{{ form.bulk.label }}</span>
-                        </div>
-                        {{ form.bulk }}
-                    </div>
-
-                </div> <!-- End: Tag (select) -->
-
-                <!-- Tag (select) -->
-                <div class="col-sm mb-3">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">{{ form.day.label }}</span>
-                        </div>
-                        {{ form.day }}
-                    </div>
-
-                </div> <!-- End: Tag (select) -->
-
-                <div class="col-sm-4 text-right mb-2">
-                    <a class="btn btn-secondary" href="{% url 'events:all_events' %}">Reset</a>
-                </div>
-
-            </div>
-
-        </form>
-
-        <div class="">
-
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Ny versjon</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Gammel versjon</a>
-                </li>
-            </ul>
-
-            <div class="tab-content">
-
-                <div class="tab-pane fade" id="tab-1" role="tabpanel">
-                    <div class="default-theme user-theme">
-                        <div class="text-right">
-                            Antall: {{ events.count }}
-                        </div>
-                        <div class="row">
-                            {% for event in events %}
-
-                            <div class="col-sm-6 col-lg-4 d-flex align-items-stretch">
-
-                                <div class="card border-0 flex-fill mb-4 zoom text-dark">
-
-                                    <div class="card-header">
-                                        <div class="float-right">
-                                            <a class="btn btn-sm btn-dark text-light" href="{% url 'events:edit_event' event.id %}">Rediger</a>
-                                        </div>
-                                        <a class="text-dark" href="{% url 'events:event_view' event.id %}">{{ event.semester_char }} Bolk: {{ event.bulk }} Dag: {{ event.day }}</a>
-                                    </div>
-
-                                    <div class="card-body small">
-                                        <div class="">Tittel: {{ event.title }}</div>
-                                        <div class="">Instruktør (lead): {{ event.lead }}</div>
-                                        <div class="">Instruktør (follow): {{ event.follow }}</div>
-                                        <div class="float-right">
-                                            {% for tag in event.tags.all %}
-                                                <span class="badge badge-dark">{{ tag.title }}</span>
-                                            {% endfor %}
-                                        </div>
-
-                                    </div>
-                                </div>
+                        <div class="card-header m-0 p-0">
+                            <div class="event-banner-wrapper">
+                                <img class="event-banner w-100" src="{{ event.image_url }}" alt="">
                             </div>
-
-                            {% endfor %}
                         </div>
 
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="tab-2" role="tabpanel">
-                    <div class="default-theme user-theme">
-                        <div class="text-right">
-                            Antall: {{ events.count }}
+                        <div class="card-body small">
+                            <div class="">Tittel: {{ event.title }}</div>
+                            <div class="">Instruktør (lead): {{ event.lead }}</div>
+                            <div class="">Instruktør (follow): {{ event.follow }}</div>
                         </div>
-                        <ol id="all-events">
-                            {% for event in events %}
-                                <li>
-                                    <a class="default-theme-link user-theme-link" href="{% url 'events:event_view' event.id %}">{{ event.title }} ({{ event.date | default:'Ingen dato' }})</a>
-
-                                    <span class="dropdown">
-                                        <i class="lni-chevron-down cursor-pointer default-theme-link ml-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-                                        {# <img src="https://img.icons8.com/metro/20/FFFFFF/chevron-down.png" class="event-caret" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> #}
-
-                                        <div class="dropdown-menu">
-
-                                            <a class="dropdown-item" href="{% url 'events:edit_event' event.id %}"><i class="lni-pencil"></i> Rediger events</a>
-
-                                            <!-- Delete Course (button) -->
-                                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#delete-event"><img src="https://img.icons8.com/material/14/000000/delete-sign--v1.png"> Slett events</a>
-
-                                        </div> <!-- END: dropdown-menu -->
-                                    </span>
-                                </li>
-                                <!-- Delete Course (modal) -->
-                                <div class="modal fade text-dark" id="delete-event" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Er du helt sikker på at du vil slette kurset?</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-
-                                            <div class="modal-body"><p>Du vil miste all data!</p></div>
-
-                                            <div class="modal-footer">
-                                                <!-- Delete Course confirmed (button) -->
-                                                <a class="btn btn-danger" href="{% url 'events:delete_event' event.id %}">Slett events</a>
-                                                <!-- Cancel (button) -->
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Avbryt</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> <!-- End: Delete Course (modal) -->
-                            {% endfor %}
-                        </ol>
                     </div>
                 </div>
 
-                <div class="tab-pane fade show active" id="tab-2" role="tabpanel">
-                    <div class="default-theme user-theme">
-                        new
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+
         </div>
-
 
 
 
@@ -260,14 +83,8 @@
 
 {% block script %}
 
-    {{ form.media.js }}
-
     <script type="text/javascript">
         $(document).ready(function() {
-
-            $('.event-filter').change(function() {
-                $('form').submit();
-            });
 
         });
     </script>

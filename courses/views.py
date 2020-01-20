@@ -178,22 +178,21 @@ class AllCoursesView(View):
 
     def course_filter(self, form, queryset):
         search = form.cleaned_data['search']
-        tag = form.cleaned_data['tag']
-        lead = form.cleaned_data['lead']
-        follow = form.cleaned_data['follow']
+        tag = form.cleaned_data['tag'] or None
+        lead = form.cleaned_data['lead'] or None
+        follow = form.cleaned_data['follow'] or None
         bulk = form.cleaned_data['bulk']
         day = form.cleaned_data['day']
         semester_char = form.cleaned_data['semester_char']
 
-        print(semester_char)
 
         if search != "":
             queryset = queryset.filter(title__icontains=search)
-        if tag != '-1':
+        if tag:
             queryset = queryset.filter(tags__id=tag)
-        if lead != '-1':
+        if lead:
             queryset = queryset.filter(lead=lead)
-        if follow != '-1':
+        if follow:
             queryset = queryset.filter(follow=follow)
         if bulk:
             queryset = queryset.filter(bulk=bulk)

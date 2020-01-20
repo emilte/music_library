@@ -97,6 +97,10 @@ class SectionForm(forms.ModelForm):
     class Meta:
         model = course_models.Section
         exclude = ['nr']
+        widgets = {
+            'song': select2_forms.Select2Widget(),
+            'song2': select2_forms.Select2Widget(),
+        }
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
@@ -114,9 +118,11 @@ class SectionForm(forms.ModelForm):
 
 class CourseFilterForm(forms.Form):
     search = forms.CharField(required=False, label="Søk")
-    tag = forms.ChoiceField(required=False)
-    lead = forms.ChoiceField(required=False, label="Instruktør (lead)")
-    follow = forms.ChoiceField(required=False, label="Instruktør (follow)")
+    tag = forms.ChoiceField(required=False, widget=select2_forms.Select2Widget())
+    # tag = forms.ChoiceField(required=False)
+    lead = forms.ChoiceField(required=False, widget=select2_forms.Select2Widget(), label="Instruktør (lead)")
+    # lead = forms.ChoiceField(required=False, label="Instruktør (lead)")
+    follow = forms.ChoiceField(required=False, widget=select2_forms.Select2Widget(), label="Instruktør (follow)")
     bulk = forms.IntegerField(required=False, label="Bolk")
     day = forms.IntegerField(required=False, label="Dag")
     semester_char = forms.CharField(required=False, label="Semester")
@@ -124,19 +130,18 @@ class CourseFilterForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields:
+            # pass
             self.fields[field].widget.attrs.update({'class': 'course-filter form-control'})
 
         self.fields['search'].widget.attrs.update({'placeholder': 'Søk på tittel...', 'autofocus': True})
         self.fields['semester_char'].widget.attrs.update({'placeholder': 'Eks: H2019, V2020',})
 
-        self.fields['tag'].choices = [(-1, '-----')]
+        # self.fields['tag'].choices = [(-1, '-----')]
         self.fields['tag'].choices += [(tag.id, tag.title) for tag in song_models.Tag.getQueryset(["course"])]
-        self.fields['tag'].widget.attrs.update({'class': 'course-filter form-control'})
+        self.fields['tag'].widget.attrs.update({'class': 'form-control course-filter'})
 
-        self.fields['lead'].choices = [(-1, '-----')]
+        # self.fields['lead'].choices = [(-1, '-----')]
         self.fields['lead'].choices += [(lead.id, lead) for lead in User.objects.all()]
-        self.fields['lead'].widget.attrs.update({'class': 'course-filter form-control'})
 
-        self.fields['follow'].choices = [(-1, '-----')]
+        # self.fields['follow'].choices = [(-1, '-----')]
         self.fields['follow'].choices += [(follow.id, follow) for follow in User.objects.all()]
-        self.fields['follow'].widget.attrs.update({'class': 'course-filter form-control'})

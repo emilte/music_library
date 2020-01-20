@@ -5,13 +5,14 @@
 {% block head %}
     <link rel="stylesheet" href="{% static "courses/course_styles.css" %}">
 
+    {{ form.media.css }}
+
     <style media="screen">
+        span {
+            display: inline;
+        }
         .course-caret:hover {
             cursor: pointer;
-        }
-        .default-theme {
-            border-radius: 1em;
-            padding: 1em;
         }
         .card {
             background-color: rgba(255, 255, 255, 0.8);
@@ -21,18 +22,16 @@
             top: 3.6em;
             z-index: 5;
         }
+        .select2-container {
+            color: black !important;
+        }
 
         .zoom {
             transition: transform .2s; /* Animation */
         }
-
         .zoom:hover {
             transform: scale(1.03); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
             background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        .card-header-link {
-
         }
 
         {{ request.user.settings.course_theme.as_css | safe }}
@@ -93,7 +92,7 @@
 
             <div class="row m-0 mt-3">
                 <!-- Search (input) -->
-                <div class="col-md-4 mb-2">
+                <div class="col-md-4 mb-3">
 
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -108,7 +107,7 @@
 
                 <!-- xxx -->
                 <!-- Tag (select) -->
-                <div class="col-sm mb-2">
+                <div class="col-sm mb-3">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{ form.bulk.label }}</span>
@@ -119,7 +118,7 @@
                 </div> <!-- End: Tag (select) -->
 
                 <!-- Tag (select) -->
-                <div class="col-sm mb-2">
+                <div class="col-sm mb-3">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{ form.day.label }}</span>
@@ -129,7 +128,7 @@
 
                 </div> <!-- End: Tag (select) -->
 
-                <div class="col-sm-4 mb-2">
+                <div class="col-sm-4 text-right mb-2">
                     <a class="btn btn-secondary" href="{% url 'courses:all_courses' %}">Reset</a>
                 </div>
 
@@ -255,6 +254,9 @@
 {% endblock %}
 
 {% block script %}
+
+    {{ form.media.js }}
+
     <script type="text/javascript">
         $(document).ready(function() {
 

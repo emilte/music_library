@@ -26,8 +26,12 @@ User = get_user_model()
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        management.call_command('flush', interactive=False)
+        # management.call_command('flush', interactive=False)
         management.call_command('create_admin')
-        management.call_command('create_site')
-        management.call_command('myseed')
+        # management.call_command('create_site')
+
+        try:
+            management.call_command('myseed')
+        except Exception as e:
+            print(e)
         # End of handle
