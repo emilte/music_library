@@ -37,6 +37,7 @@ urlpatterns = [
     path('videos/', include('videos.urls')),
     path('info/', include('info.urls')),
     path('wiki/', include('wiki.urls')),
+    path('events/', include('events.urls')),
 
     path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     path('tinymce/', include('tinymce.urls')),

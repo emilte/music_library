@@ -23,6 +23,7 @@ django-allauth = "*"
 "django-select2" = "*"
 django-seed = "*"
 faker = "==2.0.5"
+django-flatpickr = "*"
 
 [dev-packages]
 

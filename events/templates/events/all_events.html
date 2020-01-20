@@ -1,0 +1,91 @@
+{% extends 'songs/base.html' %}
+{% load static %}
+{% block title %}Alle events{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "events/event_styles.css" %}">
+
+    <style media="screen">
+        #btn-add-event {
+            position: sticky;
+            top: 3.6em;
+            z-index: 5;
+        }
+        .event-banner-wrapper {
+            max-height: 200px;
+            overflow-y: hidden;
+        }
+        .zoom {
+            transition: transform .3s; /* Animation */
+        }
+        .zoom:hover {
+            transform: scale(1.01); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        {{ request.user.settings.event_theme.as_css | safe }}
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'events:all_events' %}">Alle events</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="">
+
+        <div class="h1">
+            Alle events
+        </div>
+
+        <div id="btn-add-event" class="">
+            <a class="btn btn-secondary" href="{% url 'events:add_event' %}">
+                <i class="lni-plus"></i>
+                Legg til events
+            </a>
+        </div>
+
+
+        <div class="mt-2">
+
+            {% for event in events %}
+
+                <div class="d-flex align-items-stretch">
+
+                    <div class="card flex-fill mb-4 zoom text-dark">
+
+                        <div class="card-header m-0 p-0">
+                            <div class="event-banner-wrapper">
+                                <img class="event-banner w-100" src="{{ event.image_url }}" alt="">
+                            </div>
+                        </div>
+
+                        <div class="card-body small">
+                            <div class="">Tittel: {{ event.title }}</div>
+                            <div class="">Instruktør (lead): {{ event.lead }}</div>
+                            <div class="">Instruktør (follow): {{ event.follow }}</div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        });
+    </script>
+{% endblock %}

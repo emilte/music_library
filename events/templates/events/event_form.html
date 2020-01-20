@@ -1,0 +1,176 @@
+{% extends 'songs/base.html' %}
+{% block title %}Event{% endblock %}
+
+{% load static %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{% static "events/event_styles.css" %}">
+
+    <style media="screen">
+
+        {{ request.user.settings.event_theme.as_css | safe }}
+
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{% url 'events:all_events' %}">Alle events</a></li>
+    {% if eventID %}
+        <li class="breadcrumb-item"><a href="{% url 'events:edit_event' eventID %}">Rediger event</a></li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'events:add_event' %}">Opprett event</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="body-wrapper">
+
+        <div class="default-theme user-theme">
+
+            {% if eventID %}
+                <div class="h2">
+                    Rediger event:
+                </div>
+            {% else %}
+                <div class="h2">
+                    Opprett event:
+                </div>
+            {% endif %}
+
+            {{ eventForm.non_field_errors }}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row m-0">
+                    <div class="col-md mx-1 p-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ eventForm.title.label }}</span>
+                            </div>
+                            {{ eventForm.title }}
+                        </div>
+                    </div>
+                    <div class="col-md mx-1 p-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ eventForm.place.label }}</span>
+                            </div>
+                            {{ eventForm.place }}
+                        </div>
+                    </div>
+                    <div class="text-danger">
+                        {{ eventForm.title.errors }}
+                        {{ eventForm.place.errors }}
+                    </div>
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-md-3 mx-1 p-0 mt-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">{{ eventForm.start.label }}</div>
+                            </div>
+                            {{ eventForm.start }}
+                            <div class="input-group-append">
+                                <div class="btn btn-dark clear-datetime" data-target="{{ eventForm.start.auto_id }}">
+                                    <i class="lni-close"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mx-1 p-0 mt-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ eventForm.end.label }}</span>
+                            </div>
+                            {{ eventForm.end }}
+                            <div class="input-group-append" >
+                                <div class="btn btn-dark clear-datetime" data-target="{{ eventForm.end.auto_id }}">
+                                    <i class="lni-close"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md mx-1 p-0 mt-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ eventForm.facebook_url.label }}</span>
+                            </div>
+                            {{ eventForm.facebook_url }}
+                        </div>
+                    </div>
+                    <div class="text-danger">
+                        {{ eventForm.start.errors }}
+                        {{ eventForm.end.errors }}
+                        {{ eventForm.end.facebook_url }}
+                    </div>
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-md mx-1 p-0 mt-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">{{ eventForm.image_url.label }}</span>
+                            </div>
+                            {{ eventForm.image_url }}
+                        </div>
+                    </div>
+                    <div class="text-danger">
+                        {{ eventForm.end.image_url }}
+                    </div>
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-md-4 mt-4">
+                        <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                    </div>
+                    <div class="col mt-4">
+                        <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div> <!-- END: body-wrapper -->
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+
+    var tinymceConfig = {
+        selector: "textarea.tinymce",
+        plugins: 'advlist autoresize autosave codesample emoticons help lists print searchreplace tabfocus textpattern',
+        menubar: 'file edit insert view format tools table help',
+        toolbar: 'undo redo | fontselect | fontsizeselect | bold italic underline | forecolor | backcolor | removeformat | numlist bullist',
+        min_height: 50,
+        max_height: 600,
+        toolbar_sticky: false,
+        autosave_ask_before_unload: true,
+        autosave_interval: "30s",
+        autosave_prefix: "{path}{query}-{id}-",
+        autosave_restore_when_empty: false,
+        autosave_retention: "2m",
+        tabfocus_elements: ":prev,:next",
+        toolbar_items_size: "small",
+    }
+
+    tinymce.init(tinymceConfig);
+
+    $(document).ready(function() {
+
+        flatpickr(".flatpickr", {
+            "locale": "no",
+        });
+
+        $('.clear-datetime').click(function() {
+            var id = $(this).attr('data-target');
+            $(`#${id}`).val("");
+        })
+
+    })
+</script>
+{% endblock script %}
