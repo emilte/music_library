@@ -12,7 +12,7 @@
             z-index: 5;
         }
         .event-banner-wrapper {
-            max-height: 200px;
+            max-height: 18vw;
             overflow-y: hidden;
         }
         .zoom {
@@ -49,25 +49,34 @@
         <div class="mt-2">
 
             {% for event in events %}
+                    <div class="bg-light rounded event-card cursor-pointer p-3 mb-4 zoom text-dark">
 
-                <div class="d-flex align-items-stretch">
+                        <input type="hidden" name="event-url" value="{% url 'events:event_view' event.id %}">
 
-                    <div class="card flex-fill mb-4 zoom text-dark">
-
-                        <div class="card-header m-0 p-0">
+                        {% if image.url %}
                             <div class="event-banner-wrapper">
                                 <img class="event-banner w-100" src="{{ event.image_url }}" alt="">
                             </div>
-                        </div>
+                            <hr>
+                        {% endif %}
 
-                        <div class="card-body small">
-                            <div class="">Tittel: {{ event.title }}</div>
-                            <div class="">Instruktør (lead): {{ event.lead }}</div>
-                            <div class="">Instruktør (follow): {{ event.follow }}</div>
-                        </div>
+
+                            <div class="row m-0 p-0">
+                                <div class="col-md m-0 p-0">
+                                    <div class="h2">{{ event.title }}</div>
+                                    <div class=""><b>Dato</b>: {{ event.start | date:'l d. M Y' | default:'TBA' }}</div>
+                                    <div class="">
+                                        <b>Når</b>:
+                                        {{ event.start | date:'H:i' | default:'TBA' }}
+                                        {% if event.end %}
+                                            - {{ event.end | date:'H:i' | default:'TBA' }}
+                                        {% endif %}
+                                    </div>
+                                    <div class=""><b>Hvor</b>: {{ event.place }}</div>
+                                </div>
+                            </div>
+
                     </div>
-                </div>
-
             {% endfor %}
 
         </div>
@@ -85,7 +94,10 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-
+            $('.event-card').click(function() {
+                var url = $(this).find('input[name=event-url]').val();
+                window.location.href = url;
+            })
         });
     </script>
 {% endblock %}

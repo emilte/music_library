@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
         seeder.faker.seed_instance(1234)
 
-        seeder.add_entity(User, 10, {
+        seeder.add_entity(User, 8, {
 
         })
         seeder.add_entity(account_models.Theme, 10, {
@@ -54,7 +54,8 @@ class Command(BaseCommand):
         })
         seeder.add_entity(wiki_models.Folder, 5, {
             'title': lambda x: seeder.faker.word(),
-
+            'root_folder': lambda x: None,
+            'perm': lambda x: None,
         })
         seeder.add_entity(wiki_models.Page, 20, {
             'title': lambda x: seeder.faker.sentence(nb_words=2),

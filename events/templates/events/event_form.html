@@ -16,8 +16,8 @@
 
 {% block breadcrumbs %}
         <li class="breadcrumb-item"><a href="{% url 'events:all_events' %}">Alle events</a></li>
-    {% if eventID %}
-        <li class="breadcrumb-item"><a href="{% url 'events:edit_event' eventID %}">Rediger event</a></li>
+    {% if modelID %}
+        <li class="breadcrumb-item"><a href="{% url 'events:edit_event' modelID %}">Rediger event</a></li>
     {% else %}
         <li class="breadcrumb-item"><a href="{% url 'events:add_event' %}">Opprett event</a></li>
     {% endif %}
@@ -29,7 +29,7 @@
 
         <div class="default-theme user-theme">
 
-            {% if eventID %}
+            {% if modelID %}
                 <div class="h2">
                     Rediger event:
                 </div>
@@ -39,7 +39,7 @@
                 </div>
             {% endif %}
 
-            {{ eventForm.non_field_errors }}
+            {{ form.non_field_errors }}
 
             <form method="post">
                 {% csrf_token %}
@@ -48,22 +48,22 @@
                     <div class="col-md mx-1 p-0">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">{{ eventForm.title.label }}</span>
+                                <span class="input-group-text">{{ form.title.label }}</span>
                             </div>
-                            {{ eventForm.title }}
+                            {{ form.title }}
                         </div>
                     </div>
                     <div class="col-md mx-1 p-0">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">{{ eventForm.place.label }}</span>
+                                <span class="input-group-text">{{ form.place.label }}</span>
                             </div>
-                            {{ eventForm.place }}
+                            {{ form.place }}
                         </div>
                     </div>
                     <div class="text-danger">
-                        {{ eventForm.title.errors }}
-                        {{ eventForm.place.errors }}
+                        {{ form.title.errors }}
+                        {{ form.place.errors }}
                     </div>
                 </div>
 
@@ -71,11 +71,11 @@
                     <div class="col-md-3 mx-1 p-0 mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">{{ eventForm.start.label }}</div>
+                                <div class="input-group-text">{{ form.start.label }}</div>
                             </div>
-                            {{ eventForm.start }}
+                            {{ form.start }}
                             <div class="input-group-append">
-                                <div class="btn btn-dark clear-datetime" data-target="{{ eventForm.start.auto_id }}">
+                                <div class="btn btn-dark clear-datetime" data-target="{{ form.start.auto_id }}">
                                     <i class="lni-close"></i>
                                 </div>
                             </div>
@@ -84,11 +84,11 @@
                     <div class="col-md-3 mx-1 p-0 mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">{{ eventForm.end.label }}</span>
+                                <span class="input-group-text">{{ form.end.label }}</span>
                             </div>
-                            {{ eventForm.end }}
+                            {{ form.end }}
                             <div class="input-group-append" >
-                                <div class="btn btn-dark clear-datetime" data-target="{{ eventForm.end.auto_id }}">
+                                <div class="btn btn-dark clear-datetime" data-target="{{ form.end.auto_id }}">
                                     <i class="lni-close"></i>
                                 </div>
                             </div>
@@ -97,15 +97,15 @@
                     <div class="col-md mx-1 p-0 mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">{{ eventForm.facebook_url.label }}</span>
+                                <span class="input-group-text">{{ form.facebook_url.label }}</span>
                             </div>
-                            {{ eventForm.facebook_url }}
+                            {{ form.facebook_url }}
                         </div>
                     </div>
                     <div class="text-danger">
-                        {{ eventForm.start.errors }}
-                        {{ eventForm.end.errors }}
-                        {{ eventForm.end.facebook_url }}
+                        {{ form.start.errors }}
+                        {{ form.end.errors }}
+                        {{ form.end.facebook_url }}
                     </div>
                 </div>
 
@@ -113,13 +113,13 @@
                     <div class="col-md mx-1 p-0 mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">{{ eventForm.image_url.label }}</span>
+                                <span class="input-group-text">{{ form.image_url.label }}</span>
                             </div>
-                            {{ eventForm.image_url }}
+                            {{ form.image_url }}
                         </div>
                     </div>
                     <div class="text-danger">
-                        {{ eventForm.end.image_url }}
+                        {{ form.end.image_url }}
                     </div>
                 </div>
 

@@ -1,0 +1,30 @@
+
+{# Show only folder if folder and user perms match #}
+{% if folder.perm and folder.perm in request.user.user_permissions.all or not folder.perm or request.user.is_superuser %}
+
+    <div class="">
+        <div class="cursor-default" data-toggle="collapse" data-target="#{{ folder.title}}-collapsible">
+            <b>{{ folder.title }}</b>:
+        </div>
+
+        <div id="{{ folder.title}}-collapsible" class="border-left border-info pl-3 collapse show">
+            {%for ch in folder.children.all %}
+                {%with folder=ch template_name="wiki/tree_structure.html" %}
+
+                    {%include template_name %}
+
+                {%endwith%}
+            {%endfor%}
+
+            <div class="">
+                {% for page in folder.pages.all %}
+                    <div class="">
+                        <a href="{% url 'wiki:page_view' page.path %}">{{ page.title | truncatechars:30 }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endif %}

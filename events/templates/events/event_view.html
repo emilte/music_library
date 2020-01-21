@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'events:all_events' %}">Alle event</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'events:all_events' %}">Alle events</a></li>
     <li class="breadcrumb-item"><a href="{% url 'events:event_view' event.id  %}">{{ event.title }}</a></li>
 {% endblock %}
 

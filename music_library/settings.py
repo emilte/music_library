@@ -177,7 +177,7 @@ if "allauth_settings" in CUSTOM_SETTINGS:
 
 checklist = {
     'DEBUG': DEBUG,
-    'SITE_ID': SITE_ID,
+    # 'SITE_ID': SITE_ID,
     # 'DATABASES': DATABASES,
     # 'SECRET_KEY': SECRET_KEY,
     # 'SPOTIFY_CLIENT_ID': SPOTIFY_CLIENT_ID,

@@ -22,6 +22,7 @@ from videos import models as video_models
 from events import forms as event_forms
 from events import models as event_models
 from accounts import models as account_models
+from wiki import views as wiki_views
 
 User = get_user_model()
 
@@ -38,29 +39,11 @@ addEvent_dec = [
     permission_required('events.add_event', login_url='forbidden')
 ]
 @method_decorator(addEvent_dec, name='dispatch')
-class AddEventView(View):
+class AddEventView(wiki_views.GenericAddModel):
     template = 'events/event_form.html'
-    eventForm_class = event_forms.EventForm
-
-    def get(self, request):
-        eventForm = self.eventForm_class()
-        return render(request, 'events/event_form.html', {
-            'eventForm': eventForm,
-        })
-
-    def post(self, request):
-        eventForm = self.eventForm_class(data=request.POST)
-
-        if eventForm.is_valid():
-            event = eventForm.save()
-            event.last_editor = request.user
-            event.save()
-
-            return redirect('events:event_view', eventID=event.id)
-
-        return render(request, 'events/event_form.html', {
-            'eventForm': eventForm,
-        })
+    form_class = event_forms.EventForm
+    redirect_name = 'events:event_view'
+    redirect_id = 'id'
 
 
 
@@ -68,34 +51,12 @@ editEvent_dec = [
     login_required,
     permission_required('events.change_event', login_url='forbidden')
 ]
-@method_decorator(editEvent_dec, name='dispatch')
-class EditEventView(View):
+class EditEventView(wiki_views.GenericEditModel):
     template = 'events/event_form.html'
-    eventForm_class = event_forms.EventForm
-
-    def get(self, request, eventID):
-        event = event_models.Event.objects.get(id=eventID)
-        eventForm = self.eventForm_class(instance=event)
-
-        return render(request, self.template, {
-            'eventForm': eventForm,
-            'eventID': event.id,
-        })
-
-    def post(self, request, eventID):
-        event = event_models.Event.objects.get(id=eventID)
-        eventForm = self.eventForm_class(request.POST, instance=event)
-
-        if eventForm.is_valid():
-            event = eventForm.save()
-            event.last_editor = request.user
-            event.save()
-            return redirect('events:event_view', eventID=eventID)
-
-        return render(request, self.template, {
-            'eventForm': eventForm,
-            'eventID': event.id,
-        })
+    form_class = event_forms.EventForm
+    redirect_name = 'events:event_view'
+    redirect_id = 'id'
+    model = event_models.Event
 
 
 

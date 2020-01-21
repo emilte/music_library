@@ -39,7 +39,7 @@ class Course(models.Model):
 
 
     class Meta:
-        ordering = ['date', 'title']
+        ordering = ['date', 'bulk', 'day', 'title']
         verbose_name = "Kurs"
         verbose_name_plural = "Kurs"
 

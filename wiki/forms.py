@@ -27,7 +27,11 @@ class FolderForm(forms.ModelForm):
 
     class Meta:
         model = wiki_models.Folder
-        exclude = []
+        fields = [
+            'title',
+            'root_folder',
+            'perm',
+        ]
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)

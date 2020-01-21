@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.contrib.auth import models as auth_models
 
 User = get_user_model()
 
@@ -10,6 +11,7 @@ User = get_user_model()
 
 class Folder(models.Model):
     title = models.CharField(null=True, blank=False, max_length=100, unique=True, verbose_name="Tittel")
+    root_folder = models.ForeignKey('wiki.Folder', on_delete=models.SET_NULL, null=True, blank=True, related_name="children", verbose_name="Hovedmappe")
 
     last_editor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="editor_folderset", verbose_name="Sist redigert av")
     last_edited = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Sist redigert")
@@ -18,18 +20,21 @@ class Folder(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="creator_folderset", verbose_name="Opprettet av")
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
 
+    perm = models.ForeignKey(auth_models.Permission, on_delete=models.SET_NULL, null=True, blank=True, related_name="folderset", verbose_name="Rettighet")
+
     class Meta:
+        ordering = ['title']
         verbose_name = "Mappe"
         verbose_name_plural = "Mapper"
 
     def __str__(self):
         return self.title
 
-    def getPath(self):
-        if self.path.endswith('/'):
-            return self.path
-        else:
-            return self.path + '/'
+    def root_path(self, path=[]):
+        path.append(self)
+        if self.root_folder:
+            return self.root_folder.root_path(path)
+        return path
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -58,6 +63,11 @@ class Page(models.Model):
     class Meta:
         verbose_name = "Side"
         verbose_name_plural = "Sider"
+
+    def root_path(self):
+        if self.folder:
+            return self.folder.root_path()
+        return None
 
     def __str__(self):
         return self.title

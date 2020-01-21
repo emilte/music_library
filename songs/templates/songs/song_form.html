@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="{% static "songs/css/song_styles.css" %}">
 
     <style media="screen">
-
-    <style media="screen">
         .selector select::-webkit-scrollbar {
             width: 0.4em;
         }
@@ -66,7 +64,11 @@
 {% block body %}
     <div class="">
 
-        <h1>Sang:</h1>
+        <div class="h1">
+            Sang:
+        </div>
+
+
 
         <div class="default-theme user-theme">
 
@@ -83,10 +85,12 @@
                         {{ form.artist }}
                         {{ form.artist.errors }}
                     </div>
-                    <div class="col-md-2 mb-5">
+                    <div class="col-md-2 mb-3">
                         {{ form.bpm.label_tag }}
                         <i class="lni-question-circle cursor-pointer custom-tooltip" data-toggle="tooltip" title="{{ form.bpm.help_text }}"></i>
+                        <span class="ml-2" id="bmp"></span>
                         {{ form.bpm }}
+                        <span class="text-muted small">Klikk for å beregne</span>
                         {{ form.bpm.errors }}
                     </div>
                 </div>
@@ -129,9 +133,41 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
+            var count = 0;
+            var msecsFirst = 0;
+            var msecsPrevious = 0;
+            var timeout = 2000;
+
+            function TapForBPM(e) {
+                timeSeconds = new Date;
+                msecs = timeSeconds.getTime();
+                if ((msecs - msecsPrevious) > timeout) {
+                    count = 0;
+                }
+
+                if (count == 0) {
+                    $('#bmp').html("First Beat")
+                    msecsFirst = msecs;
+                    count = 1;
+                }
+                else {
+                    bpmAvg = 60000 * count / (msecs - msecsFirst);
+                    $('#bmp').html(Math.round(bpmAvg))
+                    count++;
+                }
+                msecsPrevious = msecs;
+                return true;
+            }
+
+
             // Initialize tooltip from bootstrap
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
+            })
+
+            $(document).ready(function() {
+                document.onkeypress = TapForBPM;
+                $(window).click(TapForBPM);
             })
         })
 

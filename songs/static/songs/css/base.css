@@ -53,6 +53,10 @@ a:hover {
     cursor: pointer;
 }
 
+.cursor-default {
+    cursor: default;
+}
+
 /* override styles when printing */
 @media print {
     .no-print {

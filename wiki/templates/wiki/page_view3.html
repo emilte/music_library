@@ -1,0 +1,33 @@
+{% extends 'wiki/dashboard2.html' %}
+{% load static %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block wiki_breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'wiki:page_view' page.path %}">{{ page.title }}</a></li>
+{% endblock %}
+
+{% block wiki_page %}
+    <div class="body-wrapper">
+
+        <div class="d-flex">
+            <div class="h2 border-bottom border-secondary">{{ page.title }}</div>
+            <div class="ml-auto"><a class="btn btn-dark btn-sm text-light" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
+        </div>
+
+        {{ page.content | safe }}
+
+        <div class="text-right font-italic small">
+            Sist redigert av: {{ page.last_editor | default:'Ukjent' }} {{ page.last_edited | date:'(d. M Y - H:i)' }}
+        </div>
+
+    </div>
+{% endblock wiki_page %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        });
+    </script>
+{% endblock %}

@@ -28,7 +28,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # management.call_command('flush', interactive=False)
         management.call_command('create_admin')
-        # management.call_command('create_site')
+        management.call_command('site_localhost')
 
         try:
             management.call_command('myseed')
