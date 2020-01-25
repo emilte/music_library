@@ -62,7 +62,7 @@ class EditEventView(wiki_views.GenericEditModel):
 
 allEvents_dec = [
     login_required,
-    permission_required('events.view_event', login_url='forbidden')
+    # permission_required('events.view_event', login_url='forbidden')
 ]
 @method_decorator(allEvents_dec, name='dispatch')
 class AllEventsView(View):
@@ -111,7 +111,7 @@ class AllEventsView(View):
 
 event_dec = [
     login_required,
-    permission_required('events.view_event', login_url='forbidden')
+    # permission_required('events.view_event', login_url='forbidden')
 ]
 @method_decorator(event_dec, name='dispatch')
 class EventView(View):
