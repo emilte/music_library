@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "101195aa69b2abff2f10f1d674b71ef31287857bdbadec5d7c23e165e7963a48"
+            "sha256": "a164967b492b7e157470f76b465a594975bfa400122b0f5baee624f4e824715d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -284,6 +284,13 @@
             "index": "pypi",
             "version": "==1.59"
         },
+        "python-slugify": {
+            "hashes": [
+                "sha256:a8fc3433821140e8f409a9831d13ae5deccd0b033d4744d94b31fea141bdd84c"
+            ],
+            "index": "pypi",
+            "version": "==4.0.0"
+        },
         "python3-openid": {
             "hashes": [
                 "sha256:0086da6b6ef3161cfe50fb1ee5cceaf2cda1700019fda03c2c5c440ca6abe4fa",
@@ -344,12 +351,11 @@
         },
         "spotipy": {
             "hashes": [
-                "sha256:2bea15d2f828bef348a0155e3a897e954edd6eb59a9281bf46c5304be2ed3e9d",
-                "sha256:5d34c6f6c98de5ea137dbb7bccb2600836403bcd3f497af27bdfe54f54d63549",
-                "sha256:8b7eb79d12a3f869064e2a24e374423d32b4ed42fcc323de62ea5ed009270f44"
+                "sha256:79db6916b2e7592b66e21fe4b8406ebe915a6d1bcbf1197e7708982977bd8fc4",
+                "sha256:ac39bd909a6d51ea92184748178cb127ee0506799caef22857efa0681fc11005"
             ],
             "index": "pypi",
-            "version": "==2.6.3"
+            "version": "==2.7.1"
         },
         "sqlparse": {
             "hashes": [
@@ -381,10 +387,10 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:a8a318824cc77d1fd4b2bec2ded92646630d7fe8619497b142c84a9e6f5a7293",
-                "sha256:f3c5fd51747d450d4dcf6f923c81f78f811aab8205fda64b0aba34a4e48b0745"
+                "sha256:2f3db8b19923a873b3e5256dc9c2dedfa883e33d87c690d9c7913e1f40673cdc",
+                "sha256:87716c2d2a7121198ebcb7ce7cccf6ce5e9ba539041cfbaeecfb641dc0bf6acc"
             ],
-            "version": "==1.25.7"
+            "version": "==1.25.8"
         },
         "user-agents": {
             "hashes": [

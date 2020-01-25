@@ -24,6 +24,7 @@ django-allauth = "*"
 django-seed = "*"
 faker = "==2.0.5"
 django-flatpickr = "*"
+python-slugify = "*"
 
 [dev-packages]
 
