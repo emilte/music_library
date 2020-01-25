@@ -115,11 +115,7 @@
 
                 <div class="row">
                     <div class="col-md-4 mt-4">
-                        {% if form.instance %}
-                            <a class="btn btn-dark btn-block text-light" href="{% url 'songs:song_view' form.instance.id %}">Avbryt</a>
-                        {% else %}
-                            <a class="btn btn-dark btn-block text-light" href="{% url 'songs:song_view' form.instance.id %}">Avbryt</a>
-                        {% endif %}
+                        <a class="btn btn-dark btn-block text-light" href="{% url 'songs:all_songs' %}">Avbryt</a>
                     </div>
                     <div class="col mt-4">
                         <button type="submit" class="btn btn-secondary btn-block text-light">Lagre</button>
