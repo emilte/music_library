@@ -30,7 +30,13 @@
         <div class="row">
 
             <div class="col">
-                <h1 class="d-inline">{{ course.title }}</h1>
+
+                {% if course.external %}
+                    <h2 class="d-inline">Eksternkurs: {{ course.title }}</h2>
+                {% else %}
+                    <h2 class="d-inline">Dag {{ course.day }} Bolk {{ course.bulk }}</h2>
+                {% endif %}
+
 
                 <span class="dropdown no-print">
 
@@ -47,16 +53,19 @@
                 <hr class="no-print">
 
                 <div class="">
+                    {% if not course.external %}
+                        <div class=""><b>Tittel</b>: {{ course.title }}</div>
+                    {% endif %}
                     <div class=""><b>Instuktør (lead)</b>: {{ course.lead | default:'Ingen valgt' }}</div>
                     <div class=""><b>Instruktør (follow)</b>: {{ course.follow | default:'Ingen valgt'}}</div>
                     <!-- https://ourcodeworld.com/articles/read/555/how-to-format-datetime-objects-in-the-view-and-template-in-django -->
                     <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date -->
-                    <div class=""><b>Dato</b>: {{ course.date | date:'d. M Y (D)' | default:'TBA' }}</div>
+                    <div class=""><b>Dato</b>: {{ course.date | date:'d. M Y (D) ' | default:'TBA' }} (Uke {{ course.date | date:'W' }})</div>
                     <div class=""><b>Når</b>: {{ course.start | date:'H:i' | default:'TBA' }} - {{ course.end | date:'H:i' | default:'TBA' }}</div>
                     <div class=""><b>Hvor</b>: {{ course.place | default:'TBA' }}</div>
                     <div class=""><b>Tags</b>:
                         {% for tag in course.tags.all %}
-                        <span class="badge badge-info">{{ tag }}</span>
+                            <span class="badge badge-info">{{ tag }}</span>
                         {% endfor %}
                     </div>
                 </div>

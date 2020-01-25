@@ -169,21 +169,30 @@
 
                                         <input type="hidden" name="course_url" value="{% url 'courses:course_view' course.id %}">
 
-                                        <div class="card-header">
+                                        <div class="card-header p-2">
                                             <div class="float-right">
-                                                <a class="btn btn-sm btn-dark text-light" href="{% url 'courses:edit_course' course.id %}">Rediger</a>
+                                                <a class="btn btn-sm p-1 btn-dark text-light" href="{% url 'courses:edit_course' course.id %}">Rediger</a>
                                             </div>
-                                            <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester_char }} Bolk: {{ course.bulk }} Dag: {{ course.day }}</a>
+                                            {% if course.external %}
+                                                <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester_char }} {{ course.title }}</a>
+                                            {% else %}
+                                                <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester_char }} Bolk: {{ course.bulk }} Dag: {{ course.day }}</a>
+                                            {% endif %}
+
                                         </div>
 
-                                        <div class="card-body small">
-                                            <div class="">Tittel: {{ course.title }}</div>
-                                            <div class="">Instruktør (lead): {{ course.lead }}</div>
-                                            <div class="">Instruktør (follow): {{ course.follow }}</div>
+                                        <div class="card-body small p-1 px-2">
+                                            <div class=""><b>Tittel</b>: {{ course.title }}</div>
+                                            <div class=""><b>Instruktør (lead)</b>: {{ course.lead }}</div>
+                                            <div class=""><b>Instruktør (follow)</b>: {{ course.follow }}</div>
                                             <div class="float-right">
                                                 {% for tag in course.tags.all %}
-                                                    <span class="badge badge-dark">{{ tag.title }}</span>
+                                                    <span class="badge badge-primary p-1">{{ tag.title }}</span>
                                                 {% endfor %}
+                                                {% if course.external %}
+                                                    <span class="badge badge-danger p-1">eksternkurs</span>
+                                                {% endif %}
+
                                             </div>
 
                                         </div>
@@ -266,7 +275,7 @@
     {{ form.media.js }}
 
     <script type="text/javascript">
-    
+
         $("#btn-external").each(function() {
             if ( $("#id_external").prop("checked") ) {
                 $(this).addClass("btn-dark")
