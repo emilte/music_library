@@ -13,6 +13,7 @@ urlpatterns = [
     path('<int:courseID>/', views.CourseView.as_view(), name="course_view"),
     path('delete/<int:courseID>/', views.DeleteCourseView.as_view(), name="delete_course"),
     path('edit/<int:courseID>/', views.EditCourseView.as_view(), name="edit_course"),
+    path('duplicate/<int:courseID>/', views.DuplicateCourse.as_view(), name="duplicate_course"),
     path('export/<int:courseID>/', views.ExportView.as_view(), name="export_course"),
     path('spotify/create_playlist/<int:courseID>/', views.CreatePlaylistView.as_view(), name="create_playlist"),
 ]

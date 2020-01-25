@@ -47,6 +47,12 @@
                         <a class="dropdown-item" href="{% url 'courses:create_playlist' course.id %}"><i class="lni-spotify-original"></i> Lag spotify liste</a>
                         <div class="dropdown-item cursor-pointer" onclick="window.print()"><i class="lni-download"></i> Eksporter (pdf)</div>
                         <a class="dropdown-item" href="{% url 'courses:export_course' course.id %}"><i class="lni-download"></i> Eksporter (docx)</a>
+                        <form id="btn-duplicate" class="" onclick="submit()" action="{% url 'courses:duplicate_course' course.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="dropdown-item cursor-pointer">
+                                Dupliser
+                            </div>
+                        </form>
                     </div>
                 </span>
 
@@ -73,9 +79,9 @@
 
             <div class="col d-none d-lg-block">
                 <div class="float-right">
-                    <a class="btn btn-dark btn-sm" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
-                    <a class="btn btn-success btn-sm" href="{% url 'courses:create_playlist' course.id %}"><i class="lni-spotify-original"></i> Lag spotify liste</a>
-                    <div class="btn btn-dark btn-sm" onclick="window.print()"><i class="lni-download"></i> Eksporter (pdf)</div>
+                    <a class="btn btn-dark btn-sm text-light" href="{% url 'courses:edit_course' course.id %}"><i class="lni-pencil"></i> Rediger kurs</a>
+                    <a class="btn btn-success btn-sm text-light" href="{% url 'courses:create_playlist' course.id %}"><i class="lni-spotify-original"></i> Lag spotify liste</a>
+                    <div class="btn btn-dark btn-sm text-light" onclick="window.print()"><i class="lni-download"></i> Eksporter (pdf)</div>
                 </div>
             </div>
 

@@ -237,6 +237,23 @@ class DeleteCourseView(View):
 
 
 
+duplicate_dec = [
+    login_required,
+    permission_required('courses.create_course', login_url='forbidden')
+]
+@method_decorator(duplicate_dec, name='dispatch')
+class DuplicateCourse(View):
+
+    def post(self, request, courseID):
+        duplicate = course_models.Course.objects.get(id=courseID)
+        duplicate.pk = None
+        duplicate.title = duplicate.title + " (kopi)"
+        duplicate.save()
+        messages.success(request, 'Kurset har blitt duplisert')
+        return redirect('courses:course_view', duplicate.id)
+
+
+
 genPlaylist_dec = [
     login_required,
     permission_required('courses.view_course', login_url='forbidden')
