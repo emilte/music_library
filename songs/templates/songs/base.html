@@ -28,6 +28,38 @@
     <!-- Title -->
     <title>{% block title %}Hjem{% endblock %}</title>
 
+    {% if request.user.settings.background %}
+        <style media="screen">
+            body {
+                background-size: 100% auto;
+                background-position: top left;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background-image: url("{{ request.user.settings.background }}");
+            }
+
+        </style>
+    {% endif %}
+
+    {% if request.user.settings.footer %}
+        <style media="screen">
+            #footer {
+                background-color: {{ request.user.settings.footer }};
+            }
+        </style>
+    {% endif %}
+
+    {% if request.user.settings.color %}
+        <style media="screen">
+            body {
+                color: {{ request.user.settings.color }};
+            }
+        </style>
+    {% endif %}
+
+
+
+
     {% block head %}{% endblock %}
 </head>
 
@@ -108,7 +140,7 @@
                 $(this).parent().remove();
             })
 
-            $("form [required]").addClass("border-danger");
+            $("form [required]").addClass("border-primary");
         })
     </script>
 

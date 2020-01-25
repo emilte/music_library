@@ -47,36 +47,45 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'songs:all_songs' %}">
-                    {# <img src="https://img.icons8.com/ios/24/FFFFFF/music.png"> #}
-                    <i class="lni-spotify-original"></i>
-                    Musikk
-                </a>
-            </li>
+            {% if perms.songs.view_songs %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'songs:all_songs' %}">
+                        {# <img src="https://img.icons8.com/ios/24/FFFFFF/music.png"> #}
+                        <i class="lni-spotify-original"></i>
+                        Musikk
+                    </a>
+                </li>
+            {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'videos:all_videos' %}">
-                    <i class="lni-youtube"></i>
-                    Turbibliotek
-                </a>
-            </li>
+            {% if perms.video.view_video %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'videos:all_videos' %}">
+                        <i class="lni-youtube"></i>
+                        Turbibliotek
+                    </a>
+                </li>
+            {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'courses:all_courses' %}">
-                    {# <img src="https://img.icons8.com/wired/24/FFFFFF/planner.png"> #}
-                    <i class="lni-control-panel"></i>
-                    Kurs
-                </a>
-            </li>
+            {% if perms.course.view_course %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'courses:all_courses' %}">
+                        {# <img src="https://img.icons8.com/wired/24/FFFFFF/planner.png"> #}
+                        <i class="lni-control-panel"></i>
+                        Kurs
+                    </a>
+                </li>
+            {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'admin:index' %}">
-                    {# <img src="https://img.icons8.com/ios-filled/24/FFFFFF/microsoft-admin.png"> #}
-                    <i class="lni-protection"></i>
-                    Admin
-                </a>
-            </li>
+            {% if request.user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:index' %}">
+                        {# <img src="https://img.icons8.com/ios-filled/24/FFFFFF/microsoft-admin.png"> #}
+                        <i class="lni-protection"></i>
+                        Admin
+                    </a>
+                </li>
+            {% endif %}
+
         </ul>
         {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto">

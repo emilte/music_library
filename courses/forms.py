@@ -68,12 +68,15 @@ class CourseForm(forms.ModelForm):
             # 'instructors',
             'bulk',
             'day',
+            'external',
         ]
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+        # self.fields['external'].widget.attrs.update({'class': ''})
 
         self.fields['title'].widget.attrs.update({'placeholder': 'Tittel'})
 
@@ -126,12 +129,15 @@ class CourseFilterForm(forms.Form):
     bulk = forms.IntegerField(required=False, label="Bolk")
     day = forms.IntegerField(required=False, label="Dag")
     semester_char = forms.CharField(required=False, label="Semester")
+    external = forms.BooleanField(initial=False, required=False, label="Eksternkurs")
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields:
             # pass
             self.fields[field].widget.attrs.update({'class': 'course-filter form-control'})
+
+        self.fields['external'].widget.attrs.update({'class': 'invisible'})    
 
         self.fields['search'].widget.attrs.update({'placeholder': 'Søk på tittel...', 'autofocus': True})
         self.fields['semester_char'].widget.attrs.update({'placeholder': 'Eks: H2019, V2020',})

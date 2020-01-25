@@ -53,11 +53,10 @@
 
                         <input type="hidden" name="event-url" value="{% url 'events:event_view' event.id %}">
 
-                        {% if image.url %}
+                        {% if event.image_url %}
                             <div class="event-banner-wrapper">
                                 <img class="event-banner w-100" src="{{ event.image_url }}" alt="">
                             </div>
-                            <hr>
                         {% endif %}
 
 

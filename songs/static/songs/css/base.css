@@ -6,7 +6,10 @@ html {
 
 body {
     background-image: url('/static/songs/images/background2.png');
-    background-size: cover auto;
+    background-size: 100% auto;
+    background-position: top left;
+    background-repeat: repeat-y;
+    background-color: #0d0d0d;
 
     /* Needed for natural element flow */
     position: relative;
@@ -15,11 +18,12 @@ body {
     padding-top: 4.5em !important;
 
     color: white;
-    background-color: #0d0d0d;
 }
 
+
 [required] {
-    background-color: rgba(255, 220, 220, 1);
+    /* background-color: rgba(255, 220, 220, 1); */
+    background-color: rgba(200, 240, 255, 1);
 }
 
 span {

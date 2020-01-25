@@ -65,8 +65,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         else:
             return self.first_name + " " + self.last_name
 
+    def get_username(self):
+        return self.email
+
     def get_short_name(self):
         return self.first_name
+
+
 
 class Theme(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="themes", verbose_name="Eier", help_text="Dersom eier er satt, vil temaet være privat")
@@ -105,20 +110,6 @@ class Theme(models.Model):
         """.format(self.background_color or 'sd', self.text_color, self.link_color, self.link_hover_color)
         return css
 
-    def as_css_backup(self):
-        css = """.user-theme {{
-            background-color: {0};
-        }}
-        .user-theme-link {{
-            color: {1};
-        }}
-        .user-theme-link:hover {{
-            cursor: pointer;
-            color: {2};
-        }}
-        """.format(self.background_color, self.link_color, self.link_hover_color)
-        return css
-
     def save(self, *args, **kwargs):
         if not self.id:
             self.created = timezone.now()
@@ -128,6 +119,10 @@ class Theme(models.Model):
 class Settings(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="settings", verbose_name="Tilhører")
 
+
+    background = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="Bakgrunnsfarge", help_text="background-image-url")
+    color = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="Tekstfarge", help_text="color")
+    footer = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="footer-color", help_text="background-color")
     account_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_account", verbose_name="Bruker-tema")
     video_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_video", verbose_name="Turbibliotek-tema")
     course_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_course", verbose_name="Kurs-tema")

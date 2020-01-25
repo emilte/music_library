@@ -128,7 +128,14 @@
 
                 </div> <!-- End: Tag (select) -->
 
-                <div class="col-sm-4 text-right mb-2">
+                <!-- Tag (select) -->
+                <div class="col-sm mb-3">
+                    <button id="btn-external" class="btn" type="button" name="button">{{ form.external.label }}</button>
+                    {{ form.external }}
+                </div> <!-- End: Tag (select) -->
+
+                <div class="col-sm-3 text-right mb-2">
+                    <button class="btn btn-dark" type="submit" name="button">Søk</button>
                     <a class="btn btn-secondary" href="{% url 'courses:all_courses' %}">Reset</a>
                 </div>
 
@@ -259,7 +266,18 @@
     {{ form.media.js }}
 
     <script type="text/javascript">
+    
+        $("#btn-external").each(function() {
+            if ( $("#id_external").prop("checked") ) {
+                $(this).addClass("btn-dark")
+            }
+            else {
+                $(this).addClass("btn-outline-dark")
+            }
+        })
+
         $(document).ready(function() {
+
 
             $('.course-filter').change(function() {
                 $('form').submit();
@@ -268,6 +286,12 @@
             $('.course-card').click(function() {
                 var url = $(this).find('input').val();
                 window.location.href = url;
+            })
+
+            $("#btn-external").click(function() {
+                $("#id_external").prop("checked", !$("#id_external").prop("checked") );
+                $(this).toggleClass("btn-dark btn-outline-dark");
+                $("form").submit();
             })
 
         });

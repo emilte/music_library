@@ -95,8 +95,8 @@ class GenericEditModel(GenericAddModel):
 
             messages.success(request, self.success_msg)
 
-            if redirect_id:
-                return redirect(self.redirect_name, getattr(instance, redirect_id))
+            if self.redirect_id:
+                return redirect(self.redirect_name, getattr(instance, self.redirect_id))
             else:
                 return redirect(self.redirect_name)
         else:

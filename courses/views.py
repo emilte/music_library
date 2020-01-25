@@ -184,6 +184,7 @@ class AllCoursesView(View):
         bulk = form.cleaned_data['bulk']
         day = form.cleaned_data['day']
         semester_char = form.cleaned_data['semester_char']
+        external = form.cleaned_data['external']
 
 
         if search != "":
@@ -200,6 +201,8 @@ class AllCoursesView(View):
             queryset = queryset.filter(day=day)
         if semester_char:
             queryset = queryset.filter(semester_char=semester_char)
+
+        queryset = queryset.filter(external=external)
 
 
 
