@@ -79,7 +79,7 @@
             bottom: 56px;
             right: 5px;
         }
-        {{ request.user.settings.course_theme.as_css | safe }}
+        {{ request.user.settings.course_theme.as_css }}
 
     </style>
 {% endblock %}
@@ -267,10 +267,10 @@
 
             <div class="row">
                 <div class="col-md-4 mt-4">
-                    <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                    <button type="button" class="btn btn-dark btn-block text-light" onclick="window.history.back()">Avbryt</button>
                 </div>
                 <div class="col mt-4">
-                    <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                    <button type="submit" class="btn btn-secondary btn-block text-light">Lagre</button>
                 </div>
             </div>
         </form>

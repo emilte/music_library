@@ -77,10 +77,10 @@ class Theme(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name="themes", verbose_name="Eier", help_text="Dersom eier er satt, vil temaet være privat")
     name = models.CharField(max_length=140, null=True, blank=False, verbose_name="Navn")
 
-    css_help_text = "CSS: blue, rgba(0,0,255, 0.5)"
-    background_color = models.CharField(max_length=140, null=True, blank=True, verbose_name="Bakgrunnsfarge", help_text=css_help_text)
-    text_color = models.CharField(max_length=140, null=True, verbose_name="Tekst farge", help_text=css_help_text)
-    link_color = models.CharField(max_length=140, null=True, verbose_name="Link farge", help_text=css_help_text)
+    css_help_text = "CSS eg: blue, rgba(0,0,255, 0.5)"
+    background_color = models.CharField(max_length=1000, null=True, blank=True, verbose_name="Bakgrunnsfarge", help_text=css_help_text)
+    text_color = models.CharField(max_length=140, null=True, verbose_name="Tekstfarge", help_text=css_help_text)
+    link_color = models.CharField(max_length=140, null=True, verbose_name="Linkfarge", help_text=css_help_text)
     link_hover_color = models.CharField(max_length=140, null=True, verbose_name="Link hover farge", help_text=css_help_text)
 
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
@@ -119,15 +119,18 @@ class Theme(models.Model):
 class Settings(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, related_name="settings", verbose_name="Tilhører")
 
-
-    background = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="Bakgrunnsfarge", help_text="background-image-url")
-    color = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="Tekstfarge", help_text="color")
-    footer = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="footer-color", help_text="background-color")
     account_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_account", verbose_name="Bruker-tema")
     video_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_video", verbose_name="Turbibliotek-tema")
+    event_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_event", verbose_name="Event-tema")
     course_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_course", verbose_name="Kurs-tema")
     song_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_song", verbose_name="Musikk-tema")
     wiki_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_wiki", verbose_name="Wiki-tema")
+
+    # Advanced
+    background = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="Bakgrunn URL", help_text="Bildeaddresse")
+    main_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_main", verbose_name="Hoved-tema")
+    input_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_input", verbose_name="Input-tema")
+    footer_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_footer", verbose_name="Footer-tema")
 
     class Meta:
         verbose_name = "Instilling"

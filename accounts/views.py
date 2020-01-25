@@ -1,21 +1,23 @@
 # imports
 import spotipy.oauth2 as oauth2
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.views import View
 from django.db.models import Q
 from django.urls import reverse
-from django.utils.decorators import method_decorator
-from django.views import View
 from django.conf import settings
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required, user_passes_test
 from django.contrib.auth import get_user_model
+from django.contrib.auth import views as auth_views
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.admin.views.decorators import staff_member_required, user_passes_test
 
 from accounts import models as account_models
 from accounts import forms as account_forms
+from wiki import views as wiki_views
 
 User = get_user_model()
 # End: imports -----------------------------------------------------------------
@@ -96,17 +98,57 @@ class SettingsView(View):
     def get(self, request, *args, **kwargs):
         settings, created = account_models.Settings.objects.get_or_create(user=request.user)
         form = self.form_class(instance=settings, user=request.user)
+        themes = form.fields["main_theme"].queryset
 
-        return render(request, self.template, {'form': form})
+        return render(request, self.template, {'form': form, 'themes': themes})
 
     def post(self, request, *args, **kwargs):
         settings, created = account_models.Settings.objects.get_or_create(user=request.user)
         form = self.form_class(request.POST, instance=settings, user=request.user)
+        themes = form.fields["main_theme"].queryset
+
         if form.is_valid():
             settings = form.save()
             return redirect("accounts:profile")
         else:
-            return render(request, self.template, {'form': form})
+            return render(request, self.template, {'form': form, 'themes': themes})
+
+
+
+addTheme_dec = [
+    login_required,
+    permission_required('accounts.add_theme', login_url='forbidden')
+]
+@method_decorator(addTheme_dec, name='dispatch')
+class AddTheme(wiki_views.GenericAddModel):
+    template = 'accounts/theme_form.html'
+    form_class = account_forms.ThemeForm
+    redirect_name = 'accounts:settings'
+
+
+
+editTheme_dec = [
+    login_required,
+    permission_required('accounts.change_theme', login_url='forbidden')
+]
+class EditTheme(wiki_views.GenericEditModel):
+    template = 'accounts/theme_form.html'
+    form_class = account_forms.ThemeForm
+    redirect_name = 'accounts:settings'
+    model = account_models.Theme
+
+    def get(self, request, modelID, *args, **kwargs):
+        if request.user != self.model.objects.get(id=modelID).user:
+            return redirect('forbidden')
+        return super(type(self), self).get(request, modelID, *args, **kwargs)
+
+    def post(self, request, modelID, *args, **kwargs):
+        if request.user != self.model.objects.get(id=modelID).user:
+            return redirect('forbidden')
+        return super(type(self), self).post(request, modelID, *args, **kwargs)
+
+
+
 
 @method_decorator(profile_dec, name='dispatch')
 class ChangePasswordView(View):
@@ -124,6 +166,8 @@ class ChangePasswordView(View):
             update_session_auth_hash(request, user)  # Important!
             return redirect("accounts:profile")
         return render(request, self.template, {'form': form})
+
+
 
 class SpotifyConnectView(View):
     template = "accounts/spotify_connect.html"

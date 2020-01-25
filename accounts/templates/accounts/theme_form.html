@@ -1,0 +1,56 @@
+{% extends 'songs/base.html' %}
+{% block title %}{{ request.user }}{% endblock %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "accounts/account_styles.css" %}">
+
+    <style media="screen">
+        {{ request.user.settings.account_theme.as_css }}
+    </style>
+{% endblock head %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'accounts:profile' %}">Min profil</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:settings' %}">Innstillinger</a></li>
+    {% if modelID %}
+        <li class="breadcrumb-item"><a href="{% url 'accounts:edit_theme' form.instance.id %}">{{form.instance}}</a></li>
+    {% else %}
+        <li class="breadcrumb-item"><a href="{% url 'accounts:add_theme' %}">Opprett tema</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="body-wrapper">
+
+        <div class="default-theme user-theme">
+            <div class="h1">
+                Tema:
+            </div>
+
+            <form class="" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <div class="small text-muted font-italic">
+                        {{ field.help_text }}
+                    </div>
+                    <div class="text-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+
+                <div class="row m-0">
+                    <div class="col-md-4 p-0 mt-4">
+                        <a class="btn btn-secondary btn-block text-light" href="{% url 'accounts:settings' %}">Avbryt</a>
+                    </div>
+                    <div class="col mt-4">
+                        <button type="submit" class="btn btn-primary btn-block text-light">Lagre</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

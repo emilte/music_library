@@ -30,6 +30,15 @@ span {
     display: inline;
 }
 
+.select2-container .select2-selection--single {
+    height: calc(1.5em + .75rem + 2px) !important;
+}
+
+.input-group-text {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
 .font-bold {
     font-weight: bold;
 }

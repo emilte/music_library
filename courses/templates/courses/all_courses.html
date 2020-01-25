@@ -34,7 +34,7 @@
             background-color: rgba(255, 255, 255, 0.9);
         }
 
-        {{ request.user.settings.course_theme.as_css | safe }}
+        {{ request.user.settings.course_theme.as_css }}
     </style>
 {% endblock %}
 
@@ -65,7 +65,7 @@
                     </div>
                     <div class="input-group">
                         {{ form.search }}
-                        <button class="btn btn-dark" type="submit" name="button">Søk</button>
+                        <button class="btn btn-dark text-light" type="submit" name="button">Søk</button>
                     </div>
                 </div> <!-- End: Search (input) -->
 
@@ -100,7 +100,7 @@
                         </div>
                         {{ form.semester_char }}
                         <div class="input-group-append">
-                            <button class="btn btn-dark" type="submit" name="button">Søk</button>
+                            <button class="btn btn-dark text-light" type="submit" name="button">Søk</button>
                         </div>
                     </div>
                 </div> <!-- End: Search (input) -->
@@ -130,13 +130,13 @@
 
                 <!-- Tag (select) -->
                 <div class="col-sm mb-3">
-                    <button id="btn-external" class="btn" type="button" name="button">{{ form.external.label }}</button>
+                    <button id="btn-external" class="btn text-light" type="button" name="button">{{ form.external.label }}</button>
                     {{ form.external }}
                 </div> <!-- End: Tag (select) -->
 
                 <div class="col-sm-3 text-right mb-2">
-                    <button class="btn btn-dark" type="submit" name="button">Søk</button>
-                    <a class="btn btn-secondary" href="{% url 'courses:all_courses' %}">Reset</a>
+                    <button class="btn btn-dark text-light" type="submit" name="button">Søk</button>
+                    <a class="btn btn-secondary text-light" href="{% url 'courses:all_courses' %}">Reset</a>
                 </div>
 
             </div>
@@ -176,7 +176,7 @@
                                             {% if course.external %}
                                                 <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester_char }} {{ course.title }}</a>
                                             {% else %}
-                                                <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester_char }} Bolk: {{ course.bulk }} Dag: {{ course.day }}</a>
+                                                <a class="text-dark" href="{% url 'courses:course_view' course.id %}">{{ course.semester_char }}, Bolk {{ course.bulk }}, Dag {{ course.day }}</a>
                                             {% endif %}
 
                                         </div>
@@ -278,10 +278,10 @@
 
         $("#btn-external").each(function() {
             if ( $("#id_external").prop("checked") ) {
-                $(this).addClass("btn-dark")
+                $(this).addClass("btn-success")
             }
             else {
-                $(this).addClass("btn-outline-dark")
+                $(this).addClass("btn-dark")
             }
         })
 

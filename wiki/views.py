@@ -56,11 +56,14 @@ class GenericAddModel(View):
             except Exception as e:
                 print(e)
 
+            # Save
             obj.save()
             try:
                 obj.save_m2m()
             except Exception as e:
                 print(e)
+
+
             messages.success(request, self.success_msg)
 
             if self.redirect_id:
@@ -134,9 +137,9 @@ page_view_dec = [
 class PageView(View):
     template = 'wiki/page_view3.html'
 
-    def get(self, request, page_path):
+    def get(self, request, modelID):
 
-        page = wiki_models.Page.objects.get(path=page_path)
+        page = wiki_models.Page.objects.get(id=modelID)
 
         for folder in page.root_path():
             if folder.perm:
@@ -166,15 +169,7 @@ class AddPage(GenericAddModel):
     template = 'wiki/page_form.html'
     form_class = wiki_forms.PageForm
     redirect_name = 'wiki:page_view'
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     print(args)
-    #     print(kwargs)
-    #     modelID = kwargs.get('modelID')
-    #     if modelID and not self.redirect_name:
-    #         self.redirect_name =
-    #
-    #     return super(GenericAddModel, self).dispatch(request, *args, **kwargs)
+    redirect_id = "id"
 
 
 
@@ -186,7 +181,8 @@ edit_page_dec = [
 class EditPage(GenericEditModel):
     template = 'wiki/page_form.html'
     form_class = wiki_forms.PageForm
-    redirect_name = 'wiki:dashboard'
+    redirect_name = 'wiki:page_view'
+    redirect_id = 'id'
     model = wiki_models.Page
 
 

@@ -11,7 +11,7 @@
             max-height: 200px;
         }
 
-        {{ request.user.settings.account_theme.as_css | safe }}
+        {{ request.user.settings.account_theme.as_css }}
 
     </style>
 {% endblock head %}
@@ -43,7 +43,7 @@
 
             <div class="col-md mt-2">
 
-                <div class="btn btn-dark btn-block btn-sm" data-toggle="collapse" data-target="#my-courses" aria-expanded="false" aria-controls="my-courses">
+                <div class="btn btn-dark btn-block btn-sm text-light" data-toggle="collapse" data-target="#my-courses" aria-expanded="false" aria-controls="my-courses">
                     Mine kurs ({{ courses.count }})
                     <i class="lni-chevron-down cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                 </div>
@@ -63,9 +63,9 @@
 
 
         <div class="text-right mt-4">
-            <a class="btn btn-secondary" href="{% url 'accounts:settings' %}">Innstillinger</a>
-            <a class="btn btn-secondary" href="{% url 'accounts:edit_profile' %}">Rediger profil</a>
-            <a class="btn btn-danger" href="/accounts/logout">Logg ut</a>
+            <a class="btn btn-secondary text-light" href="{% url 'accounts:settings' %}">Innstillinger</a>
+            <a class="btn btn-secondary text-light" href="{% url 'accounts:edit_profile' %}">Rediger profil</a>
+            <a class="btn btn-danger text-light" href="/accounts/logout">Logg ut</a>
         </div>
 
     </div>

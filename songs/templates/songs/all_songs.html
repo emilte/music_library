@@ -15,7 +15,7 @@
             z-index: 5;
         }
 
-        {{ request.user.settings.song_theme.as_css | safe }}
+        {{ request.user.settings.song_theme.as_css }}
     </style>
 {% endblock %}
 
@@ -24,15 +24,18 @@
 {% endblock %}
 
 {% block body %}
+    <div class="body-wrapper">
 
-        <h1>Alle sanger</h1>
+        <div class="h1">
+            Alle sanger
+        </div>
 
-        <div id="btn-song-div">
+        <span id="btn-song-div">
             <a class="btn btn-secondary" href="{% url 'songs:add_song' %}">
                 <img src="https://img.icons8.com/material-rounded/25/22BB30/plus-math.png">
                 Legg til sang
             </a>
-        </div>
+        </span>
 
         <div class="">
             <form id="filters" method="post">
@@ -43,7 +46,7 @@
                         <label class="invisible">Søk</label>
                         <div class="input-group">
                             {{ form.search }}
-                            <button id="btn-search" class="btn btn-dark" type="button" name="button">Søk</button>
+                            <button id="btn-search" class="btn btn-dark text-light" type="button" name="button">Søk</button>
                         </div>
                     </div> <!-- End: Search (input) -->
 
@@ -78,9 +81,12 @@
                         </div>
                     </div> <!-- End: BPM interval -->
                     <div class="col-lg-2">
-                        <label class="invisible">Reset</label>
-                        <div class="input-group">
-                            <a class="btn btn-secondary" href="{% url 'songs:all_songs' %}">Reset</a>
+                        <div class="invisible">
+                            {{ form.search.label_tag }}
+                        </div>
+                        <div class="float-right">
+                            <a class="btn btn-secondary text-light" href="{% url 'songs:all_songs' %}">Reset</a>
+
                         </div>
                     </div>
                 </div>
@@ -101,6 +107,9 @@
                 {% endfor %}
             </ol>
         </div>
+
+
+    </div>
 {% endblock %}
 
 {% block script %}

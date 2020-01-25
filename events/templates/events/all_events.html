@@ -23,7 +23,7 @@
             background-color: rgba(255, 255, 255, 0.9);
         }
 
-        {{ request.user.settings.event_theme.as_css | safe }}
+        {{ request.user.settings.event_theme.as_css }}
     </style>
 {% endblock %}
 

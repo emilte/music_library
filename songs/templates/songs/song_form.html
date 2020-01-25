@@ -115,10 +115,14 @@
 
                 <div class="row">
                     <div class="col-md-4 mt-4">
-                        <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                        {% if form.instance %}
+                            <a class="btn btn-dark btn-block text-light" href="{% url 'songs:song_view' form.instance.id %}">Avbryt</a>
+                        {% else %}
+                            <a class="btn btn-dark btn-block text-light" href="{% url 'songs:song_view' form.instance.id %}">Avbryt</a>
+                        {% endif %}
                     </div>
                     <div class="col mt-4">
-                        <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                        <button type="submit" class="btn btn-secondary btn-block text-light">Lagre</button>
                     </div>
                 </div>
 

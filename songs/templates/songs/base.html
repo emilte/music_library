@@ -28,6 +28,21 @@
     <!-- Title -->
     <title>{% block title %}Hjem{% endblock %}</title>
 
+    {% if request.user.settings.main_theme %}
+        <style media="screen">
+            body {
+                background-color: {{ request.user.settings.main_theme.background_color }};
+                color: {{ request.user.settings.main_theme.text_color }};
+            }
+            a {
+                color: {{ request.user.settings.main_theme.link_color }};
+            }
+            a:hover {
+                color: {{ request.user.settings.main_theme.link_hover_color }};
+            }
+        </style>
+    {% endif %}
+
     {% if request.user.settings.background %}
         <style media="screen">
             body {
@@ -41,22 +56,35 @@
         </style>
     {% endif %}
 
-    {% if request.user.settings.footer %}
+    {% if request.user.settings.footer_theme %}
         <style media="screen">
             #footer {
-                background-color: {{ request.user.settings.footer }};
+                background-color: {{ request.user.settings.footer_theme.background_color }};
+                color: {{ request.user.settings.footer_theme.text_color }};
+            }
+            #footer a {
+                color: {{ request.user.settings.footer_theme.link_color }};
+            }
+            #footer a:hover {
+                color: {{ request.user.settings.footer_theme.link_hover_color }};
             }
         </style>
     {% endif %}
 
-    {% if request.user.settings.color %}
+    {% if request.user.settings.input_theme %}
         <style media="screen">
-            body {
-                color: {{ request.user.settings.color }};
+            input[required=false] {
+                background-color: {{ request.user.settings.input_theme.background_color }};
+            }
+            .input-group-text {
+                background-color: {{ request.user.settings.input_theme.background_color }};
+                color: {{ request.user.settings.input_theme.text_color }};
+            }
+            .btn, .btn:hover, .btn:active {
+                color: {{ request.user.settings.input_theme.text_color }};
             }
         </style>
     {% endif %}
-
 
 
 

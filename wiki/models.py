@@ -1,4 +1,6 @@
 # imports
+from slugify import slugify
+
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
@@ -30,8 +32,11 @@ class Folder(models.Model):
         return self.title
 
     def root_path(self, path=[]):
+
+        print(f"1: {path}")
         path.append(self)
         if self.root_folder:
+            print(2)
             return self.root_folder.root_path(path)
         return path
 
@@ -51,7 +56,7 @@ class Page(models.Model):
 
     private = models.BooleanField(default=True, blank=True, verbose_name="Privat side")
 
-    folder = models.ForeignKey('wiki.Folder', on_delete=models.SET_NULL, null=True, blank=True, related_name="pages", verbose_name="Mappe")
+    folder = models.ForeignKey('wiki.Folder', on_delete=models.SET_NULL, null=True, blank=False, related_name="pages", verbose_name="Mappe")
 
     last_editor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="editor_pageset", verbose_name="Sist redigert av")
     last_edited = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Sist redigert")
@@ -63,9 +68,9 @@ class Page(models.Model):
         verbose_name = "Side"
         verbose_name_plural = "Sider"
 
-    def root_path(self):
+    def root_path(self, path=[]):
         if self.folder:
-            return self.folder.root_path()
+            return self.folder.root_path(path)
         return None
 
     def __str__(self):
@@ -75,5 +80,10 @@ class Page(models.Model):
         if not self.id:
             self.created = timezone.now()
         self.last_edited = timezone.now()
+
+        root_path = self.root_path(path=[self])
+        path = [ slugify(folder.title) for folder in root_path]
+        path = "/".join(path)
+        self.path = path
 
         return super(type(self), self).save(*args, **kwargs)

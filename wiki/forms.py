@@ -11,14 +11,19 @@ class PageForm(forms.ModelForm):
 
     class Meta:
         model = wiki_models.Page
-        exclude = []
+        fields = [
+            'title',
+            'folder',
+            'content',
+
+        ]
 
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
         self.fields['content'].widget.attrs.update({'class': 'tinymce'})
-        self.fields['private'].widget.attrs.update({'id': 'private-toggle'})
+        # self.fields['private'].widget.attrs.update({'id': 'private-toggle'})
 
 
 class FolderForm(forms.ModelForm):

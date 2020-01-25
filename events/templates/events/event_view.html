@@ -10,6 +10,8 @@
         .body-wrapper {
             color: black;
         }
+
+        {{ request.user.settings.event_theme.as_css }}
     </style>
 {% endblock %}
 
@@ -20,7 +22,7 @@
 
 {% block body %}
 
-    <div class="body-wrapper jumbotron m-0 p-2">
+    <div class="body-wrapper jumbotron m-0 p-2 default-theme user-theme">
 
         <div class="row m-0 p-0">
             <div class="col m-0 p-0">
@@ -29,7 +31,7 @@
                 </div>
             </div>
             <div class="col m-0 p-0">
-                <a class="btn btn-dark btn-sm float-right" href="{% url 'events:edit_event' event.id %}"><i class="lni-pencil"></i> Rediger</a>
+                <a class="btn btn-dark text-light btn-sm float-right" href="{% url 'events:edit_event' event.id %}"><i class="lni-pencil"></i> Rediger</a>
             </div>
         </div>
 
@@ -45,7 +47,7 @@
                         <b>Facebook event</b>:
                         {% if event.facebook_url %}
                             <a href="{{event.facebook_url }}">
-                                {{ event.facebook_url }}
+                                {{ event.facebook_url | default:'TBA' }}
                             </a>
                         {% else %}
                             TBA
@@ -63,7 +65,6 @@
             <div class="text-right font-italic small">
                 <div class="">
                     Sist redigert av: {{ event.last_editor | default:'Ukjent' }} {{ event.last_edited | date:'(d. M Y - H:i)' }}
-
                 </div>
                 Opprettet av: {{ event.creator | default:'Ukjent' }} {{ event.created | date:'(d. M Y - H:i)' }}
             </div>

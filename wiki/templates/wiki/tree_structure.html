@@ -19,7 +19,7 @@
             <div class="">
                 {% for page in folder.pages.all %}
                     <div class="">
-                        <a href="{% url 'wiki:page_view' page.path %}">{{ page.title | truncatechars:30 }}</a>
+                        <a href="{% url 'wiki:page_view' page.id %}">{{ page.title | truncatechars:30 }}</a>
                     </div>
                 {% endfor %}
             </div>

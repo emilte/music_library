@@ -18,7 +18,9 @@ urlpatterns = [
 
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('profile/edit/', views.EditProfileView.as_view(), name='edit_profile'),
-    path('profile/settings', views.SettingsView.as_view(), name='settings'),
+    path('profile/settings/', views.SettingsView.as_view(), name='settings'),
+    path('profile/settings/theme/edit/<int:modelID>/', views.EditTheme.as_view(), name='edit_theme'),
+    path('profile/settings/theme/add/', views.AddTheme.as_view(), name='add_theme'),
 
     #path('delete_user/', views.DeleteUserView.as_view(), name="delete_user"),
 

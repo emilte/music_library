@@ -32,6 +32,8 @@ class SignUpForm(UserCreationForm):
 
 class EditUserForm(forms.ModelForm):
 
+    required_css_class = "required font-bold"
+
     class Meta:
         model = User
         fields = [
@@ -53,6 +55,8 @@ class EditUserForm(forms.ModelForm):
 
 class SettingsForm(forms.ModelForm):
 
+    required_css_class = "required font-bold"
+
     class Meta:
         model = account_models.Settings
         exclude = ['user']
@@ -69,6 +73,30 @@ class SettingsForm(forms.ModelForm):
         self.fields['video_theme'].queryset = themes
         self.fields['course_theme'].queryset = themes
         self.fields['song_theme'].queryset = themes
+        self.fields['wiki_theme'].queryset = themes
+        self.fields['event_theme'].queryset = themes
+        self.fields['main_theme'].queryset = themes
+        self.fields['input_theme'].queryset = themes
+        self.fields['footer_theme'].queryset = themes
+
+class ThemeForm(forms.ModelForm):
+
+    required_css_class = "required font-bold"
+
+    class Meta:
+        model = account_models.Theme
+        fields = [
+            'name',
+            'background_color',
+            'text_color',
+            'link_color',
+            'link_hover_color',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(type(self), self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
 
 
 # Possible to customise login:

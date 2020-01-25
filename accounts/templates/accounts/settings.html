@@ -10,7 +10,7 @@
             min-width: 200px;
             max-width: 500px;
         }
-        {{ request.user.settings.account_theme.as_css | safe }}
+        {{ request.user.settings.account_theme.as_css }}
     </style>
 {% endblock head %}
 
@@ -23,9 +23,9 @@
 
     <div class="">
 
-        <div class="row">
+        <div class="row m-0">
 
-            <div class="col">
+            <div class="col-md p-0">
                 <div class="default-theme user-theme">
                     <h1>Innstillinger:</h1>
 
@@ -42,21 +42,48 @@
                             </div>
                         {% endfor %}
 
-                        <div class="row">
-                            <div class="col-md-4 mt-4">
-                                <button type="button" class="btn btn-secondary btn-block" onclick="window.history.back()">Avbryt</button>
+                        <div class="row m-0">
+                            <div class="col-md-4 p-0 mt-4">
+                                <a class="btn btn-secondary btn-block text-light" href="{% url 'accounts:profile' %}">Avbrut</a>
                             </div>
                             <div class="col mt-4">
-                                <button type="submit" class="btn btn-primary btn-block">Lagre</button>
+                                <button type="submit" class="btn btn-primary btn-block text-light">Lagre</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <div class="col">
-                Ingen temaer å velge mellom? -->
-                <a class="btn btn-dark" target="_blank" href="{% url 'admin:accounts_theme_add' %}">Lag nytt tema</a>
+            <div class="col-md p-0">
+                <div class="">
+                    <div class="h2">
+                        Temaer:
+                    </div>
+
+
+                    <div class="">
+                        {% for theme in themes %}
+                            <div id="theme-{{theme.id}}" class="p-1 m-1 rounded" style="background-color:{{theme.background_color}};color:{{theme.text_color}}">
+                                {{theme}}
+                                <a href="#" style="color:{{theme.link_color}};" onmouseover="this.style.color='{{theme.link_hover_color}}';" onmouseout="this.style.color='{{theme.link_color}}'">
+                                    Link
+                                </a>
+                                {% if theme.user == request.user %}
+                                    <a class="bg-light text-dark rounded px-1 float-right" href="{% url 'accounts:edit_theme' theme.id %}">Rediger</a>
+                                {% endif %}
+
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="">
+                        Ingen temaer du liker? -->
+                        <a class="btn btn-dark btn-sm text-light" target="_blank" href="{% url 'accounts:add_theme' %}">Lag nytt tema</a>
+
+                    </div>
+
+                </div>
             </div>
 
 

@@ -9,7 +9,7 @@
 
     <style media="screen">
 
-        {{ request.user.settings.event_theme.as_css | safe }}
+        {{ request.user.settings.event_theme.as_css }}
 
     </style>
 {% endblock %}
@@ -68,32 +68,40 @@
                 </div>
 
                 <div class="row m-0">
-                    <div class="col-md-3 mx-1 p-0 mt-3">
+                    <div class="col-md-4 mx-1 p-0 mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">{{ form.start.label }}</div>
                             </div>
                             {{ form.start }}
                             <div class="input-group-append">
-                                <div class="btn btn-dark clear-datetime" data-target="{{ form.start.auto_id }}">
-                                    <i class="lni-close"></i>
+                                <div class="btn btn-dark text-light clear-datetime" data-target="{{ form.start.auto_id }}">
+                                    <i class="lni-close small"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mx-1 p-0 mt-3">
+                    <div class="col-md-4 mx-1 p-0 mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">{{ form.end.label }}</span>
                             </div>
                             {{ form.end }}
                             <div class="input-group-append" >
-                                <div class="btn btn-dark clear-datetime" data-target="{{ form.end.auto_id }}">
-                                    <i class="lni-close"></i>
+                                <div class="btn btn-dark text-light clear-datetime" data-target="{{ form.end.auto_id }}">
+                                    <i class="lni-close small"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="text-danger">
+                        {{ form.start.errors }}
+                        {{ form.end.errors }}
+                    </div>
+                </div>
+
+                <div class="row m-0">
                     <div class="col-md mx-1 p-0 mt-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -103,8 +111,6 @@
                         </div>
                     </div>
                     <div class="text-danger">
-                        {{ form.start.errors }}
-                        {{ form.end.errors }}
                         {{ form.end.facebook_url }}
                     </div>
                 </div>
@@ -125,10 +131,14 @@
 
                 <div class="row m-0">
                     <div class="col-md-4 mt-4">
-                        <button type="button" class="btn btn-dark btn-block" onclick="window.history.back()">Avbryt</button>
+                        {% if form.instance %}
+                            <a class="btn btn-dark btn-block text-light" href="{% url 'events:event_view' form.instance.id %}">Avbryt</a>
+                        {% else %}
+                            <a class="btn btn-dark btn-block text-light" href="{% url 'events:all_events' %}">Avbryt</a>
+                        {% endif %}
                     </div>
                     <div class="col mt-4">
-                        <button type="submit" class="btn btn-secondary btn-block">Lagre</button>
+                        <button type="submit" class="btn btn-secondary btn-block text-light">Lagre</button>
                     </div>
                 </div>
             </form>
@@ -163,7 +173,11 @@
     $(document).ready(function() {
 
         flatpickr(".flatpickr", {
-            "locale": "no",
+            locale: "no",
+            // altInput: true,
+            // altFormat: "j F, Y  H:i",
+            enableTime: true,
+            dateFormat: "d.m.Y  H:i"
         });
 
         $('.clear-datetime').click(function() {
