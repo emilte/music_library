@@ -21,21 +21,20 @@ class Course(models.Model):
     follow = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="follow_courses", verbose_name="Instruktør (follow)")
     comments = models.TextField(null=True, blank=True, verbose_name="Kommentarer")
     tags = models.ManyToManyField('songs.Tag', blank=True)
+    semester_char = models.CharField(max_length=5, null=True, blank=True)
+    external = models.BooleanField(default=False, verbose_name="Eksternkurs")
+    bulk = models.PositiveIntegerField(null=True, blank=True, verbose_name="Bolk")
+    day = models.PositiveIntegerField(null=True, blank=True, verbose_name="Dag")
 
     last_edited = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Sist redigert")
     last_editor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="last_edited_courses", verbose_name="Sist redigert av")
     created = models.DateTimeField(null=True, blank=True, editable=False, verbose_name="Opprettet")
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="created_courses", verbose_name="Opprettet av")
 
     # NOTE: Under development
     # instructors = models.ManyToManyField(settings.AUTH_USER_MODEL)
     instructors = models.ManyToManyField('accounts.Instructor', blank=True)
-    bulk = models.PositiveIntegerField(null=True, blank=True, verbose_name="Bolk")
-    day = models.PositiveIntegerField(null=True, blank=True, verbose_name="Dag")
-
     semester_choice = models.IntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
-    semester_char = models.CharField(max_length=5, null=True, blank=True)
-
-    external = models.BooleanField(default=False, verbose_name="Eksternkurs")
 
 
     class Meta:
