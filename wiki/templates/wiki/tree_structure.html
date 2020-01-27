@@ -3,11 +3,11 @@
 {% if folder.perm and folder.perm in request.user.user_permissions.all or not folder.perm or request.user.is_superuser %}
 
     <div class="">
-        <div class="cursor-default" data-toggle="collapse" data-target="#{{ folder.title}}-collapsible">
-            <b>{{ folder.title }}</b>:
+        <div class="h5 m-1 cursor-default" data-toggle="collapse" data-target="#{{ folder.title}}-collapsible">
+            {{ folder.title }}:
         </div>
 
-        <div id="{{ folder.title}}-collapsible" class="border-left border-info pl-3 collapse show">
+        <div id="{{ folder.title}}-collapsible" class="border-left border-info pl-2 ml-2 collapse show">
             {% for ch in folder.children.all %}
                 {% with folder=ch template_name="wiki/tree_structure.html" %}
 
