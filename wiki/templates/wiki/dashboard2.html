@@ -16,7 +16,7 @@
 {% endblock head %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{% url 'wiki:dashboard' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'wiki:dashboard' %}">Wiki</a></li>
     {% block wiki_breadcrumbs %}{% endblock wiki_breadcrumbs %}
 {% endblock breadcrumbs %}
 
@@ -44,9 +44,15 @@
                                 {% endfor %}
                             </div>
 
-                            <div class="d-flex mt-2">
-                                <a href="{% url 'wiki:add_folder' %}">+ Mappe</a>
-                                <a class="ml-auto" href="{% url 'wiki:add_page' %}">+ Side</a>
+                            <hr>
+
+                            <div class="d-flex">
+                                {% if perms.wiki.add_folder %}
+                                    <a class="text-underline" href="{% url 'wiki:add_folder' %}">+ Mappe</a>
+                                {% endif %}
+                                {% if perms.wiki.add_page %}
+                                    <a class="ml-auto text-underline" href="{% url 'wiki:add_page' %}">+ Side</a>
+                                {% endif %}
                             </div>
 
                         </div>
@@ -60,7 +66,10 @@
                     {% block wiki_page %}
                         <div class="d-flex">
                             <div class="h2">Dashboard</div>
-                            <div class="ml-auto"><a class="btn btn-dark btn-sm text-light" href="{% url 'wiki:add_page' %}">Legg til ny side</a></div>
+                            {% if perms.wiki.add_page %}
+                                <div class="ml-auto"><a class="btn btn-dark btn-sm text-light" href="{% url 'wiki:add_page' %}">Legg til ny side</a></div>
+                            {% endif %}
+
                         </div>
                     {% endblock wiki_page %}
                 </div>

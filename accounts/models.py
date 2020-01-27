@@ -128,6 +128,7 @@ class Settings(models.Model):
 
     # Advanced
     background = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="Bakgrunn URL", help_text="Bildeaddresse")
+    scrollbar = models.CharField(max_length=1000, default=None, null=True, blank=True, verbose_name="Scrollbar farge")
     main_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_main", verbose_name="Hoved-tema")
     input_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_input", verbose_name="Input-tema")
     footer_theme = models.ForeignKey(Theme, on_delete=models.SET_NULL, null=True, blank=True, related_name="settings_as_footer", verbose_name="Footer-tema")
@@ -157,6 +158,7 @@ class Instructor(models.Model):
 
     def __str__(self):
         return f"{self.user} ({self.get_type_display()})"
+
 
 
 class SpotifyToken(models.Model):

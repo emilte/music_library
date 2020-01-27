@@ -8,13 +8,13 @@
         </div>
 
         <div id="{{ folder.title}}-collapsible" class="border-left border-info pl-3 collapse show">
-            {%for ch in folder.children.all %}
-                {%with folder=ch template_name="wiki/tree_structure.html" %}
+            {% for ch in folder.children.all %}
+                {% with folder=ch template_name="wiki/tree_structure.html" %}
 
-                    {%include template_name %}
+                    {% include template_name %}
 
-                {%endwith%}
-            {%endfor%}
+                {% endwith %}
+            {% endfor %}
 
             <div class="">
                 {% for page in folder.pages.all %}

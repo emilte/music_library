@@ -12,7 +12,10 @@
 
         <div class="d-flex">
             <div class="h2 border-bottom border-secondary">{{ page.title }}</div>
-            <div class="ml-auto"><a class="btn btn-dark btn-sm text-light" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
+            {% if perms.wiki.change_page %}
+                <div class="ml-auto"><a class="btn btn-dark btn-sm text-light" href="{% url 'wiki:edit_page' page.id %}"><i class="lni-pencil"></i> Rediger side</a></div>
+            {% endif %}
+
         </div>
 
         {{ page.content | safe }}

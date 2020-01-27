@@ -12,4 +12,5 @@ urlpatterns = [
     path('add/', views.AddEventView.as_view(), name="add_event"),
     path('<int:eventID>/', views.EventView.as_view(), name="event_view"),
     path('edit/<int:modelID>/', views.EditEventView.as_view(), name="edit_event"),
+    path('signup/<int:modelID>/', views.EventSignup.as_view(), name="event_signup"),
 ]

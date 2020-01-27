@@ -20,6 +20,10 @@ body {
     color: white;
 }
 
+.text-underline {
+    text-decoration: underline;
+}
+
 
 [required] {
     /* background-color: rgba(255, 220, 220, 1); */
@@ -48,10 +52,10 @@ span {
 }
 
 /* Scrollbar */
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 0.4em;
 }
-body::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: rgba(120,0,120,1);
     border-radius: 10px;
 }

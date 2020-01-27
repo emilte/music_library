@@ -120,3 +120,28 @@ class EventView(View):
     def get(self, request, eventID):
         event = event_models.Event.objects.get(id=eventID)
         return render(request, self.template, {'event': event})
+
+
+
+signup_dec = [
+    login_required,
+    # permission_required('events.view_event', login_url='forbidden')
+]
+@method_decorator(signup_dec, name='dispatch')
+class EventSignup(View):
+
+    def post(self, request, modelID):
+        event = event_models.Event.objects.get(id=modelID)
+        p, created = event_models.Participant.objects.get_or_create(
+            user=request.user,
+            event=event,
+        )
+
+        if created:
+            if event.participants.all().count() <= event.earlybirds:
+                p.is_earlybird = True
+                p.save()
+
+
+
+        return redirect("events:event_view", modelID)

@@ -16,11 +16,12 @@
             overflow-y: hidden;
         }
         .zoom {
-            transition: transform .3s; /* Animation */
+            transition: transform .09s;
         }
         .zoom:hover {
             transform: scale(1.01); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-            background-color: rgba(255, 255, 255, 0.9);
+            /* background-color: rgba(255, 255, 255, 0.9); */
+            filter: brightness(150%);
         }
 
         {{ request.user.settings.event_theme.as_css }}
@@ -32,24 +33,27 @@
 {% endblock %}
 
 {% block body %}
-    <div class="">
+    <div class="body-wrapper">
 
         <div class="h1">
             Alle events
         </div>
 
-        <div id="btn-add-event" class="">
-            <a class="btn btn-secondary" href="{% url 'events:add_event' %}">
-                <i class="lni-plus"></i>
-                Legg til events
-            </a>
-        </div>
+        {% if perms.events.add_event %}
+            <div id="btn-add-event" class="">
+                <a class="btn btn-secondary text-light" href="{% url 'events:add_event' %}">
+                    <i class="lni-plus"></i>
+                    Legg til events
+                </a>
+            </div>
+        {% endif %}
 
 
-        <div class="mt-2">
+
+        <div class=" mt-2">
 
             {% for event in events %}
-                    <div class="bg-light rounded event-card cursor-pointer p-3 mb-4 zoom text-dark">
+                    <div class="default-theme user-theme event-card cursor-pointer p-3 mb-4 zoom">
 
                         <input type="hidden" name="event-url" value="{% url 'events:event_view' event.id %}">
 

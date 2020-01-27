@@ -52,6 +52,9 @@ class EventForm(forms.ModelForm):
             'description',
             'facebook_url',
             'image_url',
+            'earlybirds',
+            'price',
+            'earlybird_price',
         ]
 
     def __init__(self, *args, **kwargs):

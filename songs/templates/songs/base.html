@@ -86,6 +86,15 @@
         </style>
     {% endif %}
 
+    {% if request.user.settings.scrollbar %}
+        <style media="screen">
+            ::-webkit-scrollbar-thumb {
+                background-color: {{ request.user.settings.scrollbar }};
+            }
+        </style>
+    {% endif %}
+
+
 
 
     {% block head %}{% endblock %}

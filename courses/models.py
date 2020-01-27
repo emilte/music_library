@@ -43,7 +43,10 @@ class Course(models.Model):
         verbose_name_plural = "Kurs"
 
     def __str__(self):
-        return "{} ({})".format(self.getTitle(), self.getDate())
+        if self.external:
+            return f"{self.semester_char} {self.title}"
+        else:
+            return f"{self.semester_char}, Bolk {self.bulk}, Dag {self.day}"
 
     def getSemester(self):
         semesters = ['Vår', 'Høst']

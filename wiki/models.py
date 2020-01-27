@@ -32,11 +32,8 @@ class Folder(models.Model):
         return self.title
 
     def root_path(self, path=[]):
-
-        print(f"1: {path}")
         path.append(self)
         if self.root_folder:
-            print(2)
             return self.root_folder.root_path(path)
         return path
 

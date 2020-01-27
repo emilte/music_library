@@ -143,7 +143,9 @@ class PageView(View):
 
         for folder in page.root_path():
             if folder.perm:
-                if not request.user.has_perm(folder.perm):
+                key = folder.perm.natural_key()
+                perm_label = f"{key[1]}.{key[0]}" # TODO: this must have an easier solution django....
+                if not request.user.has_perm(perm_label):
                     return redirect("forbidden")
 
         # Needed for dashboard
