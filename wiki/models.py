@@ -13,7 +13,7 @@ User = get_user_model()
 
 class Folder(models.Model):
     title = models.CharField(null=True, blank=False, max_length=100, unique=True, verbose_name="Tittel")
-    root_folder = models.ForeignKey('wiki.Folder', on_delete=models.SET_NULL, null=True, blank=True, related_name="children", verbose_name="Hovedmappe")
+    root_folder = models.ForeignKey('wiki.Folder', on_delete=models.SET_NULL, default=None, null=True, blank=True, related_name="children", verbose_name="Hovedmappe")
     private = models.BooleanField(default=True, blank=True, verbose_name="Privat mappe")
 
     last_editor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, editable=False, related_name="editor_folderset", verbose_name="Sist redigert av")
