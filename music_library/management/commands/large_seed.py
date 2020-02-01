@@ -53,7 +53,7 @@ class Command(BaseCommand):
 
         })
         seeder.add_entity(wiki_models.Folder, 50, {
-            'title': lambda x: f"{seeder.faker.word()}-{random.randint(0, 10000)}"
+            'title': lambda x: f"{seeder.faker.word()}-{random.randint(0, 10000)}",
             'root_folder': lambda x: None,
             'perm': lambda x: None,
         })
