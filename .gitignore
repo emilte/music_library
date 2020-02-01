@@ -4,3 +4,4 @@ sqlite3.db
 credentials.json
 private_files
 .env
+migrations/
