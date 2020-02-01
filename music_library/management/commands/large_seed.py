@@ -1,8 +1,8 @@
 # imports
-from halo import Halo
-from django_seed import Seed
-from faker import Faker
 import random
+from halo import Halo
+from faker import Faker
+from django_seed import Seed
 
 from django.utils import timezone
 from django.core import management
@@ -12,6 +12,7 @@ from django.core.management.base import BaseCommand
 from wiki import models as wiki_models
 from songs import models as song_models
 from videos import models as video_models
+from events import models as event_models
 from courses import models as course_models
 from accounts import models as account_models
 
