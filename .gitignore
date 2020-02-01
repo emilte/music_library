@@ -2,6 +2,7 @@ local_settings.py
 db.sqlite3
 sqlite3.db
 credentials.json
-private_files
+private_files/
 .env
-migrations/
+
+# Migrations is needed for heroku, since files wont create on their stateless environment server
