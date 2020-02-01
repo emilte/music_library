@@ -12,7 +12,7 @@ User = get_user_model()
 # End: imports -----------------------------------------------------------------
 
 class Folder(models.Model):
-    title = models.CharField(null=True, blank=False, max_length=100, unique=True, verbose_name="Tittel")
+    title = models.CharField(null=True, blank=False, max_length=100, verbose_name="Tittel")
     root_folder = models.ForeignKey('wiki.Folder', on_delete=models.SET_NULL, default=None, null=True, blank=True, related_name="children", verbose_name="Hovedmappe")
     private = models.BooleanField(default=True, blank=True, verbose_name="Privat mappe")
 
@@ -47,7 +47,7 @@ class Folder(models.Model):
 
 
 class Page(models.Model):
-    title = models.CharField(null=True, blank=False, max_length=100, unique=True, verbose_name="Tittel")
+    title = models.CharField(null=True, blank=False, max_length=100, verbose_name="Tittel")
     path = models.CharField(null=False, blank=False, unique=True, max_length=100, help_text="URL som brukes i adressefeltet")
     content = models.TextField(null=True, blank=True, verbose_name="Innhold")
 
