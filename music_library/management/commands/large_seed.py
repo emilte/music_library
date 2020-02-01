@@ -1,9 +1,11 @@
 # imports
 import random
+import datetime
 from halo import Halo
 from faker import Faker
 from django_seed import Seed
 
+from django.conf import settings
 from django.utils import timezone
 from django.core import management
 from django.contrib.auth import get_user_model
@@ -73,10 +75,17 @@ class Command(BaseCommand):
             'bpm': lambda x: random.randint(60, 80),
 
         })
+        seeder.add_entity(event_models.Event, 100, {
+            'title': lambda x: seeder.faker.sentence(nb_words=2),
+            'description': lambda x: seeder.faker.sentence(nb_words=50),
+            'place': lambda x: seeder.faker.sentence(nb_words=3),
+        })
         seeder.add_entity(course_models.Course, 1000, {
             'title': lambda x: seeder.faker.sentence(nb_words=2),
             'comments': lambda x: seeder.faker.sentence(nb_words=4),
-            'date': lambda x: seeder.faker.date_this_year(after_today=True),
+            'date': lambda x: seeder.faker.date_this_year(after_today=True, tzinfo=settings.TIME_ZONE),
+            'start': lambda x: seeder.faker.date_time_this_year(after_now=True, tzinfo=settings.TIME_ZONE),
+            'end': lambda x: seeder.faker.date_time_this_year(after_now=True, tzinfo=settings.TIME_ZONE),
             'day': lambda x: random.randint(1, 3),
             'bulk': lambda x: random.randint(1, 10),
             'comments': lambda x: seeder.faker.paragraphs(nb=2),
@@ -84,14 +93,11 @@ class Command(BaseCommand):
         })
         seeder.add_entity(course_models.Section, 6000, {
             'title': lambda x: seeder.faker.sentence(nb_words=2),
+            'start': lambda x: seeder.faker.time(),
             'description': lambda x: seeder.faker.sentence(nb_words=50),
             'duration': lambda x: random.choice([5, 7.5, 7.5, 7.5, 10, 12, 15]),
         })
-        seeder.add_entity(event_models.Event, 100, {
-            'title': lambda x: seeder.faker.sentence(nb_words=2),
-            'description': lambda x: seeder.faker.sentence(nb_words=50),
-            'place': lambda x: seeder.faker.sentence(nb_words=3),
-        })
+
 
         seeder.execute()
 
