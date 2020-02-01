@@ -53,7 +53,8 @@ class Command(BaseCommand):
         })
         seeder.add_entity(wiki_models.Folder, 50, {
             'title': lambda x: seeder.faker.word(),
-
+            'root_folder': lambda x: None,
+            'perm': lambda x: None,
         })
         seeder.add_entity(wiki_models.Page, 200, {
             'title': lambda x: seeder.faker.sentence(nb_words=2),
@@ -84,6 +85,11 @@ class Command(BaseCommand):
             'title': lambda x: seeder.faker.sentence(nb_words=2),
             'description': lambda x: seeder.faker.sentence(nb_words=50),
             'duration': lambda x: random.choice([5, 7.5, 7.5, 7.5, 10, 12, 15]),
+        })
+        seeder.add_entity(event_models.Event, 100, {
+            'title': lambda x: seeder.faker.sentence(nb_words=2),
+            'description': lambda x: seeder.faker.sentence(nb_words=50),
+            'place': lambda x: seeder.faker.sentence(nb_words=3),
         })
 
         seeder.execute()
