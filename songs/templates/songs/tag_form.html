@@ -11,7 +11,7 @@
         .body-wrapper {
             max-width: 500px;
         }
-        {{ request.user.settings.song_theme.as_css | safe }}
+        {{ request.user.settings.song_theme.as_css }}
     </style>
 {% endblock %}
 

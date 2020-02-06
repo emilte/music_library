@@ -13,7 +13,7 @@
             max-width: 500px;
         }
 
-        {{ request.user.settings.wiki_theme.as_css | safe }}
+        {{ request.user.settings.wiki_theme.as_css }}
 
     </style>
 {% endblock head %}

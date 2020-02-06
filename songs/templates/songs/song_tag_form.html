@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static "songs/css/song_styles.css" %}">
 
     <style>
-        {{ request.user.settings.song_theme.as_css | safe }}
+        {{ request.user.settings.song_theme.as_css }}
     </style>
 {% endblock %}
 

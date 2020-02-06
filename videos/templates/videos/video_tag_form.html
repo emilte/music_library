@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static "videos/video_styles.css" %}">
 
     <style>
-        {{ request.user.settings.video_theme.as_css | safe }}
+        {{ request.user.settings.video_theme.as_css }}
     </style>
 {% endblock %}
 
