@@ -83,7 +83,7 @@ class Command(BaseCommand):
         seeder.add_entity(course_models.Course, 1000, {
             'title': lambda x: seeder.faker.sentence(nb_words=2),
             'comments': lambda x: seeder.faker.sentence(nb_words=4),
-            'date': lambda x: seeder.faker.date_this_year(after_today=True, tzinfo=settings.TIME_ZONE),
+            'date': lambda x: seeder.faker.date_this_year(after_today=True),
             'start': lambda x: seeder.faker.date_time_this_year(after_now=True, tzinfo=settings.TIME_ZONE),
             'end': lambda x: seeder.faker.date_time_this_year(after_now=True, tzinfo=settings.TIME_ZONE),
             'day': lambda x: random.randint(1, 3),

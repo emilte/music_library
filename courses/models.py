@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 # End: imports -----------------------------------------------------------------
+
 semesters = ['------']
 v = [f"V{year}" for year in range(2000, 2100)]
 h = [f"H{year}" for year in range(2000, 2100)]
