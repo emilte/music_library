@@ -3,15 +3,15 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['env5.eba-gmx8adrv.eu-north-1.elasticbeanstalk.com']
 
 DEBUG = True
 
 # For whitenoise, heroku
 # Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticroot'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'staticroot'),
+# )
 
 # Values are set in heroku dashboard
 # SITE_ID = os.environ.get('SITE_ID')

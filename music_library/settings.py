@@ -6,6 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 HEROKU = os.environ.get('HEROKU')
+AWS = True
 
 
 DEBUG = False
@@ -157,6 +158,12 @@ if HEROKU:
         print("== IMPORTED: heroku_settings ==")
     except Exception as e:
         print("== heroku_settings was not imported ==")
+elif AWS:
+    try:
+        from .aws_settings import *
+        print("== IMPORTED: dev_settings ==")
+    except Exception as e:
+        print("== dev_settings was not imported ==")
 else:
     try:
         from .dev_settings import *
