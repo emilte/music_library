@@ -6,3 +6,8 @@ private_files/
 .env
 
 # Migrations is needed for heroku, since files wont create on their stateless environment server
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

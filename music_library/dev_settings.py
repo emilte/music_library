@@ -22,3 +22,5 @@ DATABASES = {
         'NAME': 'db.sqlite3',
     }
 }
+
+SITE_ID = 10

@@ -20,3 +20,5 @@ settings.INSTALLED_APPS.extend(
         'allauth.socialaccount.providers.google',
     ]
 )
+
+# SITE_ID is retrieved from dev_settings or heroku_settings

@@ -1,4 +1,3 @@
-
 import os
 import django_heroku
 
@@ -6,11 +5,8 @@ import django_heroku
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
+HEROKU = os.environ.get('HEROKU')
 
-CUSTOM_SETTINGS = ["heroku_settings", "allauth_settings"] # heroku_settings
-# CUSTOM_SETTINGS = ["dev_settings", "allauth_settings", "local_settings"] # local_settings
 
 DEBUG = False
 ALLOWED_HOSTS = []
@@ -143,36 +139,36 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'nb'
-
 TIME_ZONE = 'Europe/Oslo'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 # Custom settings that overwrite this.
 try:
     from .local_settings import *
+    print("== IMPORTED: local_settings ==")
 except:
     print("== local_settings was not imported ==")
 
-if "heroku_settings" in CUSTOM_SETTINGS:
-    from .heroku_settings import *
-    print("== IMPORTED: heroku_settings ==")
-    # print("== heroku_settings was not imported ==")
+if HEROKU:
+    try:
+        from .heroku_settings import *
+        print("== IMPORTED: heroku_settings ==")
+    except Exception as e:
+        print("== heroku_settings was not imported ==")
+else:
+    try:
+        from .dev_settings import *
+        print("== IMPORTED: dev_settings ==")
+    except Exception as e:
+        print("== dev_settings was not imported ==")
 
-if "dev_settings" in CUSTOM_SETTINGS:
-    from .dev_settings import *
-    print("== IMPORTED: dev_settings ==")
-    # print("== dev_settings was not imported ==")
-
-if "allauth_settings" in CUSTOM_SETTINGS:
+try:
     from .allauth_settings import *
     print("== IMPORTED: allauth_settings ==")
-
-
+except Exception as e:
+    print("== allauth_settings was not imported ==")
 
 
 checklist = {
