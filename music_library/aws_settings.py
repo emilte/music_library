@@ -3,7 +3,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-ALLOWED_HOSTS = ['env5.eba-gmx8adrv.eu-north-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['ntnuisf.eu-north-1.elasticbeanstalk.com']
 
 DEBUG = True
 
