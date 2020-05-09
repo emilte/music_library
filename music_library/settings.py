@@ -5,8 +5,8 @@ import django_heroku
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-HEROKU = os.environ.get('HEROKU')
-AWS = True
+HEROKU = os.environ.get('HEROKU') or False
+# AWS = True
 
 
 DEBUG = False
