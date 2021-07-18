@@ -53,6 +53,24 @@ class EditUserForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
+class InstructorForm(forms.ModelForm):
+
+    required_css_class = "required font-bold"
+
+    class Meta:
+        model = account_models.Instructor
+        fields = [
+            'user',
+            'type',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(InstructorForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+
 class SettingsForm(forms.ModelForm):
 
     required_css_class = "required font-bold"

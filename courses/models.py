@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 
+
 # End: imports -----------------------------------------------------------------
 semesters = ['------']
 v = [f"V{year}" for year in range(2000, 2100)]
@@ -33,7 +34,7 @@ class Course(models.Model):
 
     # NOTE: Under development
     # instructors = models.ManyToManyField(settings.AUTH_USER_MODEL)
-    instructors = models.ManyToManyField('accounts.Instructor', blank=True)
+    instructors = models.ManyToManyField(settings.AUTH_USER_MODEL, through='accounts.Instructor', blank=True)
     semester_choice = models.IntegerField(choices=SEMESTER_CHOICES, null=True, blank=True)
 
 

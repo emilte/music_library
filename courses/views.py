@@ -14,6 +14,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.utils.decorators import method_decorator
+from django.forms.models import inlineformset_factory
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 
@@ -21,6 +22,7 @@ from songs import models as song_models
 from videos import models as video_models
 from courses import forms as course_forms
 from courses import models as course_models
+from accounts import forms as account_forms
 from accounts import models as account_models
 
 User = get_user_model()
@@ -47,10 +49,14 @@ class AddCourseView(View):
         courseForm = self.courseForm_class()
         sectionForm = self.sectionForm_class()
         sectionFormTemplate = self.sectionForm_class(prefix="template")
+        formset = inlineformset_factory(
+            course_models.Course, account_models.Instructor, form=account_forms.InstructorForm, extra=1, can_delete=True
+        )
         return render(request, 'courses/course_form.html', {
             'courseForm': courseForm,
             'sectionForms': [],
             'sectionFormTemplate': sectionFormTemplate,
+            'formset': formset,
         })
 
     def post(self, request):
@@ -58,34 +64,43 @@ class AddCourseView(View):
         courseForm = self.courseForm_class(data=request.POST)
         sectionCount = int(request.POST.get("sectionCount", "0"))
 
-        sectionForms = []
-
         prefixes = request.POST.getlist("prefix")
         sectionForms = [self.sectionForm_class( prefix=prefixes[i], data=request.POST) for i in range(sectionCount)]
 
-        if courseForm.is_valid():
+        formset = inlineformset_factory(
+            course_models.Course, account_models.Instructor, form=account_forms.InstructorForm, extra=1, can_delete=True
+        )
+        formset = formset(request.POST, prefix="fs1")
 
-            if all(sectionForm.is_valid() for sectionForm in sectionForms):
-                course = courseForm.save()
-                course.last_editor = request.user
-                course.save()
-                duration = 0
-                # Add current sections
-                for i in range(len(sectionForms)):
-                    section = sectionForms[i].save()
-                    section.nr = i+1
-                    section.course = course
-                    if course.start:
-                        section.start = course.start + datetime.timedelta(minutes=duration)
-                        duration += section.duration
-                    section.save()
 
-                return redirect('courses:course_view', courseID=course.id)
+        a = courseForm.is_valid()
+        b = all(sectionForm.is_valid() for sectionForm in sectionForms)
+        c = formset.is_valid()
+
+        if a and b and c:
+            course = courseForm.save()
+            course.last_editor = request.user
+            course.save()
+            formset.save()
+
+            duration = 0
+            # Add current sections
+            for i in range(len(sectionForms)):
+                section = sectionForms[i].save()
+                section.nr = i+1
+                section.course = course
+                if course.start:
+                    section.start = course.start + datetime.timedelta(minutes=duration)
+                    duration += section.duration
+                section.save()
+
+            return redirect('courses:course_view', courseID=course.id)
 
         return render(request, 'courses/course_form.html', {
             'courseForm': courseForm,
             'sectionForms': sectionForms,
             'sectionFormTemplate': self.sectionForm_class(prefix="template"),
+            'formset': formset,
         })
 
 

@@ -65,7 +65,7 @@ class CourseForm(forms.ModelForm):
             'follow',
             'comments',
             'tags',
-            # 'instructors',
+            'instructors',
             'bulk',
             'day',
             'external',
@@ -137,7 +137,7 @@ class CourseFilterForm(forms.Form):
             # pass
             self.fields[field].widget.attrs.update({'class': 'course-filter form-control'})
 
-        self.fields['external'].widget.attrs.update({'class': 'invisible'})    
+        self.fields['external'].widget.attrs.update({'class': 'invisible'})
 
         self.fields['search'].widget.attrs.update({'placeholder': 'Søk på tittel...', 'autofocus': True})
         self.fields['semester_char'].widget.attrs.update({'placeholder': 'Eks: H2019, V2020',})

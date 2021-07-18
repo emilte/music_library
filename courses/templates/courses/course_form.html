@@ -168,23 +168,55 @@
                     {{ courseForm.day.errors }}
                 </div>
 
-                <div class="row mb-1">
-                    <div class="form-group col-md-4">
-                        {{ courseForm.lead.label_tag }}
-                        {{ courseForm.lead }}
-                        {{ courseForm.lead.errors }}
-                    </div>
-                    <div class="form-group col-md-4">
-                        {{ courseForm.follow.label_tag }}
-                        {{ courseForm.follow }}
-                        {{ courseForm.follow.errors }}
-                    </div>
-                </div>
-
                 <div class="row ml-5">
                     {{ courseForm.tags }}
                 </div>
+
                 <a class="btn btn-secondary btn-sm text-light" target="_blank" href="{% url 'songs:add_tag' %}"><i class="lni-tag"></i> Ny tag</a>
+
+
+                <a class="btn btn-dark btn-block border-warning mt-2" data-toggle="collapse" href="#instructors-collapsible" role="button" aria-expanded="false" aria-controls="instructors-collapsible">
+                    Instruktører
+                </a>
+
+                <div id="instructors-collapsible" class="collapse">
+                    <div class="default-theme user-theme rounded-top">
+                        <div class="row m-0 mb-1">
+                            <div class="col-md">
+                                {{ formset.0.user.label_tag }}
+                            </div>
+                            <div class="col-md-4">
+                                {{ formset.0.type.label_tag }}
+                            </div>
+
+                        </div>
+                        {% for form in formset.forms %}
+                            <div class="dynamic-formset">
+                                {{ formset.management_form }}
+
+                                <div class="row m-0 mb-1">
+
+                                    <div class="col-md">
+                                        {{ form.user }}
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        {{ form.type }}
+                                    </div>
+
+                                    {% if form.instance.id %}
+                                        {{ form.DELETE }}
+                                    {% endif %}
+                                    {{ form.errors }}
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
             </div>
 
             <br>
@@ -365,6 +397,13 @@
         tinymce.init(tinymceConfig);
 
         $(document).ready(function() {
+
+            $(function() {
+                $('.dynamic-formset').formset({
+                    prefix: '{{ formset.prefix }}'
+                });
+            })
+
             var sectionFormTemplate = $("#sectionFormTemplate").html();
             $("#sectionFormTemplate").remove();
 

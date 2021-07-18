@@ -148,7 +148,8 @@ class Instructor(models.Model):
         (3, 'hjelpeinstruktør'),
         (4, 'annet'),
     ]
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False, related_name="instructor_set")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False, blank=False, verbose_name="Instruktør")
+    course = models.ForeignKey('courses.Course', on_delete=models.CASCADE, null=False, blank=False, verbose_name="Kurs")
     type = models.IntegerField(choices=TYPES, default=0)
 
     class Meta:

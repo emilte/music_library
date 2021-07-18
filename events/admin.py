@@ -5,7 +5,7 @@ from events.models import *
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ['title', 'start', 'place']
-    ordering = ['start', 'title']
+    ordering = []
     list_filter = []
     readonly_fields = ['creator', 'created', 'last_edited', 'last_editor']
     filter_horizontal = ['participants']
